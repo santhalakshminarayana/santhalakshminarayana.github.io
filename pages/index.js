@@ -12,7 +12,7 @@ import { getAllPostsMetadata } from '../lib/get-all-posts-data.js';
 
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
 
-const header_background = c1, greetings_heading = c6, greetings_statement = c6, quote_color = c5;
+const header_background = c4, greetings_heading = c6, greetings_statement = c6, quote_color = c5;
 
 const home_page_url = 'https://santhalakshminarayana.github.io/';
 const description = "I'm Santha Lakshmi Narayana, a voyager on mission exploring digital universe to understand how it works.";
@@ -43,7 +43,7 @@ export default function Home({ postsMetaData }) {
         <meta name="twitter:image" content={home_page_url + 'images/santha lakshmi narayana logo.png'} />
         <meta name="twitter:creator" content='@santhalakshminarayana' />
 
-        <link rel = 'icon' href = '/images/santha lakshmi narayana logo.png?' />
+        <link rel = 'icon' href = '/images/santha-lakshmi-narayana-logo.png?' />
         <link rel="canonical" href="https://santhalakshminarayana.github.io/" />
         <meta name="google-site-verification" content="3p5W6wHr-TDhnkyuewv0nYJd2S9OuTQlj5__OUyLLcU" />
 
@@ -55,9 +55,9 @@ export default function Home({ postsMetaData }) {
 
         <div className = 'header-info'>
           <div className = 'greetings'>
-            <p className = 'greetings-heading'>Greetings, Programs! in the Matrix called Earth.</p>
+            <p className = 'greetings-heading'>Greetings, Programs! In the Matrix called Earth.</p>
             <p className = 'greetings-statement'>I'm Santha Lakshmi Narayana, a voyager on mission exploring 
-                                                digital universe to understand how it works.</p>
+                                                digital universe.</p>
           </div>
         </div>
 

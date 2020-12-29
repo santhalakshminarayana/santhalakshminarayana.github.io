@@ -36,7 +36,7 @@ export default function Tags({ postsMetaData, tagName }) {
 				<meta name="twitter:image" content={home_page_url + 'images/santha-lakshmi-narayana.png'} />
 				<meta name="twitter:creator" content='@santhalakshminarayana' />
 
-				<link rel = 'icon' href = '/images/santha lakshmi narayana logo.png?' />
+				<link rel = 'icon' href = '/images/santha-lakshmi-narayana-logo.png?' />
 
         <title>{'Santha Lakshmi Narayana'}</title>
 			</Head>

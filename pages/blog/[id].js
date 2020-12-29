@@ -16,27 +16,20 @@ const hr_color = c1 + '80', blockquote_background_color = c3 + '26', blockquote_
 
 const components = {
 	img: props => {
-		const imgSrc = require(`../../images/${props.src}?resize?sizes[]=300,sizes[]=600,sizes[]=1024,sizes[]=2048`);
-		const imgSrcWebp = require(`../../images/${props.src}?resize?sizes[]=480,sizes[]=920,sizes[]=1200&format=webp`);
+		const imgSrc = require(`../../images/${props.src}?resize?sizes[]=480,sizes[]=780,sizes[]=1024`);
+		const imgSrcWebp = require(`../../images/${props.src}?resize?sizes[]=480,sizes[]=780,sizes[]=1024&format=webp`);
 		const imgType = 'image/' + props.src.split('.').pop();
 		return (
 			<picture>
         <source srcSet={imgSrcWebp} type = "image/webp" />
         <source srcSet={imgSrc} type = {imgType} />
-        <img src={imgSrc} alt = {props.alt} loading = {'lazy'} sizes='(min-width: 1024px) 1024px, 100vw'
+        <img src={imgSrc} alt = {props.alt} loading = {'lazy'}
         			style = {{ width: '100%',
-												maxWidth: '100%',
-												height: 'auto', }} />
+								maxWidth: '100%',
+								height: 'auto', }} />
       </picture>
 			)
 	},
-
-	/*
-	img: props => <img style = {{ width: '100%',
-																maxWidth: '100%',
-																height: 'auto', }}
-										{...props} />,
-	*/
 
 	h1: props => <h1 style = {{ fontFamily: "'Ubuntu', sans-serif", 
 															fontSize: 'calc(1rem + 1.5vw)', 
@@ -131,7 +124,7 @@ export default function Blog({ postMetadata, postContent }) {
 				<meta name="twitter:image" content={home_page_url + postMetadata.display_img} />
 				<meta name="twitter:creator" content='@santhalakshminarayana' />
 
-				<link rel = 'icon' href = '/images/santha lakshmi narayana logo.png?' />
+				<link rel = 'icon' href = '/images/santha-lakshmi-narayana-logo.png?' />
 				<link rel="canonical" href={home_page_url + 'blog/' + postMetadata.id} />
 
         <title>{postMetadata.title + '- Santha Lakshmi Narayana'}</title>

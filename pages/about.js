@@ -331,7 +331,7 @@ export default function About_Page(props) {
         <meta name="twitter:image" content={home_page_url + 'images/santha-lakshmi-narayana.png'} />
         <meta name="twitter:creator" content='@santhalakshminarayana' />
 
-        <link rel = 'icon' href = '/images/santha lakshmi narayana logo.png?' />
+        <link rel = 'icon' href = '/images/santha-lakshmi-narayana-logo.png?' />
         <link rel="canonical" href="https://santhalakshminarayana.github.io/about" />
 
         <title>{'About - Santha Lakshmi Narayana'}</title>
@@ -395,7 +395,7 @@ export default function About_Page(props) {
             
             <div className = 'organization-container'>
               <div className = 'organization-info-container'>
-                <img className = 'organization-logo' src = 'images/nouveau-labs-logo.png' 
+                <img className = 'organization-logo' src = '/images/nouveau-labs-logo.png' 
                       alt = 'Nouveau Labs' />
                 <p className = 'organization-name'>Nouveau Labs</p>
               </div>

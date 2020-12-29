@@ -5,7 +5,7 @@ import Tags from './Tags.js';
 
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
 
-const header = c1, header_left_link = c6, header_left_link_hover = c3, header_left_link_active = c5;
+const header = c4, header_left_link = c6, header_left_link_hover = c3, header_left_link_active = c5;
 const header_right_link = c6, header_right_link_hover = c3, header_right_link_active = c5;
 
 export default function Header(props) {
@@ -24,11 +24,7 @@ export default function Header(props) {
 			<div className = 'header-container'>
 	      <div className = 'header-left'>
 	      	<Link href = '/'>
-    				<picture>
-	            <source srcSet={require('../images/santha lakshmi narayana logo.png?webp')} type = "image/webp" />
-	            <source srcSet={require('../images/santha lakshmi narayana logo.png')} type = 'image/png' />
-	            <img src={require('../images/santha lakshmi narayana logo.png')} alt = 'Logo' />
-	          </picture>
+	          <img src = '/images/santha-lakshmi-narayana-logo.png' alt = 'Home' />
 	      	</Link>
 	        <Link href = '/'><a id = 'name'><b>Santha Lakshmi Narayana</b></a></Link>
 	      </div>
