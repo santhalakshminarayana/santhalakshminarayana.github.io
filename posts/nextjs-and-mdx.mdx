@@ -1,0 +1,74 @@
+---
+title: "Blog with Next JS and MDX"
+description: "How to publish and maintain own blog with Next JS and MDX"
+imgName: "img_3.jpg"
+date: "Aug 10, 2020"
+tags: ['react']
+language: "python"
+---
+
+![Blog with Next JS and MDX](img_1.jpg)
+
+# Blog with Next JS and MDX and deploy to Github Pages
+[#react](/tags/react)
+
+## Introduction
+
+Maintaining own blog is very important in a developers career as it strengthens technical knowledge and becomes as a brand for individual.
+
+With personal blog, the advantages are 
+
+- Knowledge Share
+- Personal brand
+- Creativity boosting
+
+Apart from the above mentioned there are so many things one can gain from personal blog.
+
+---
+
+### Requirements
+
+We'll build our website with following tools
+
+1. [Next JS](https://nextjs.org/) A _React_ Wrapper
+2. [MDX](https://mdxjs.com/) Plugin to writed .mdx files.
+
+> Following code is just an example of writing code in Next.js
+
+```jsx:components/HoverableLink.js
+import React, { Component } from 'react';
+
+const non_hover_color = '#ff2a6d';
+const hover_color = '#05d9e8';
+
+export default class HoverableLink extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { 
+			text_color: non_hover_color,
+		};
+	}
+
+	handle_mouse_enter() {
+		this.setState((state) => ({ text_color: hover_color }))
+	}
+
+	handle_mouse_leave() {
+		this.setState((state) => ({ text_color: non_hover_color }))
+	}
+
+	render() {
+		return (
+				<a style = {{ color: this.state.text_color,
+											textDecoration: 'none',
+											cursor: 'pointer',
+											borderBottom: '1px dashed #05d9e8', }}
+						target = '_blank' 
+						onMouseEnter = {() => this.handle_mouse_enter()}
+						onMouseLeave = {() => this.handle_mouse_leave()}
+						{...this.props.link_props} />
+				)
+	}
+
+}
+```
