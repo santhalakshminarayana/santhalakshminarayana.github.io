@@ -16,14 +16,14 @@ const hr_color = c1 + '80', blockquote_background_color = c3 + '26', blockquote_
 
 const components = {
 	img: props => {
-		const imgSrc = require(`../../images/${props.src}`);
-		const imgSrcWebp = require(`../../images/${props.src}?webp`);
+		const imgSrc = require(`../../images/${props.src}?resize?sizes[]=300,sizes[]=600,sizes[]=1024,sizes[]=2048`);
+		const imgSrcWebp = require(`../../images/${props.src}?resize?sizes[]=480,sizes[]=920,sizes[]=1200&format=webp`);
 		const imgType = 'image/' + props.src.split('.').pop();
 		return (
 			<picture>
         <source srcSet={imgSrcWebp} type = "image/webp" />
         <source srcSet={imgSrc} type = {imgType} />
-        <img src={imgSrc} alt = {props.alt} loading = {'lazy'}
+        <img src={imgSrc} alt = {props.alt} loading = {'lazy'} sizes='(min-width: 1024px) 1024px, 100vw'
         			style = {{ width: '100%',
 												maxWidth: '100%',
 												height: 'auto', }} />
