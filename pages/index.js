@@ -157,9 +157,7 @@ export default function Home({ postsMetaData }) {
 }
 
 export async function getStaticProps() {
-  const fs = require('fs');
-
-  const postsMetaData = getAllPostsMetadata(fs);
+  const postsMetaData = getAllPostsMetadata();
   return {
     props: {
       postsMetaData

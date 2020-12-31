@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
-import { getAllPostsPath, getPostMetadata, getPostData } from '../../lib/get-all-posts-data.js';
+import { getAllPostsPath, getPostData } from '../../lib/get-all-posts-data.js';
 
 import Header from '../../components/Header.js';
+import NextOptimizedImage from '../../components/NextOptimizedImage.js';
 import HoverableLink from '../../components/HoverableLink.js';
 import CodeSyntaxHighlighter from '../../components/CodeSyntaxHighlighter.js';
 import Footer from '../../components/Footer.js';
@@ -12,24 +13,11 @@ const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb
 
 const h1_color = c4, h1_text_decoration = c4 + '80', h2_color = c4, h3_color = c4;
 const p_color = c1 + 'f2', ul_color = c1 + 'e6', ol_color = c1 + 'e6', em_background = c5 + '26', em_color = c4 + 'f2';
+const strong_background = c1 + '26', strong_color = c1 + 'f2';
 const hr_color = c1 + '80', blockquote_background_color = c3 + '26', blockquote_border = c3 + 'e6';
 
 const components = {
-	img: props => {
-		const imgSrc = require(`../../images/${props.src}?resize?sizes[]=480,sizes[]=780,sizes[]=1024`);
-		const imgSrcWebp = require(`../../images/${props.src}?resize?sizes[]=480,sizes[]=780,sizes[]=1024&format=webp`);
-		const imgType = 'image/' + props.src.split('.').pop();
-		return (
-			<picture>
-        <source srcSet={imgSrcWebp} type = "image/webp" />
-        <source srcSet={imgSrc} type = {imgType} />
-        <img src={imgSrc} alt = {props.alt} loading = {'lazy'}
-        			style = {{ width: '100%',
-								maxWidth: '100%',
-								height: 'auto', }} />
-      </picture>
-			)
-	},
+	img: props => <NextOptimizedImage img_props = {props} />,
 
 	h1: props => <h1 style = {{ fontFamily: "'Ubuntu', sans-serif", 
 															fontSize: 'calc(1rem + 1.5vw)', 
@@ -81,6 +69,17 @@ const components = {
 													borderRadius: '2px' }} 
 								{...props} />,
 
+	strong: props => <strong style = {{ fontFamily: "'Source Sans Pro', sans-serif", 
+												fontSize: 'calc(1rem + 0.1vw)', 
+												fontStyle: 'normal',
+												fontWeight: 'normal',
+												backgroundColor: strong_background,
+												color: strong_color,
+												margin: '0vh 0 1vh 0',
+												padding: '0 2px 0 2px',
+												borderRadius: '2px' }} 
+							{...props} />,
+
 	hr: _ => <hr style = {{ margin: '2vh 25% 2vh 25%',
     											border: `1px solid ${hr_color}`, }} />,
 
@@ -106,7 +105,7 @@ export default function Blog({ postMetadata, postContent }) {
         <meta name = "viewport" content = "width=device-width, initial-scale=1" />
         <meta name = 'description' content = {postMetadata.description} />
         <meta name="author" content="Santha Lakshmi Narayana" />
-        <meta name="keywords" content={postMetadata.tags.join(',')} />
+        <meta name="keywords" content={postMetadata.keywords.join(',')} />
 
         <meta property="og:title" content={postMetadata.title + '- Santha Lakshmi Narayana'} key="ogtitle" />
         <meta property="og:description" content={postMetadata.description} key="ogdesc" />

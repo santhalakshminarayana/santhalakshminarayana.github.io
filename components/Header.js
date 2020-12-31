@@ -24,7 +24,11 @@ export default function Header(props) {
 			<div className = 'header-container'>
 	      <div className = 'header-left'>
 	      	<Link href = '/'>
-	          <img src = '/images/santha-lakshmi-narayana-logo.png' alt = 'Home' />
+    				<picture>
+	            <source srcSet={require('../images/santha-lakshmi-narayana-logo.png?webp')} type = "image/webp" />
+	            <source srcSet={require('../images/santha-lakshmi-narayana-logo.png')} type = 'image/png' />
+	            <img src={require('../images/santha-lakshmi-narayana-logo.png')} alt = 'Logo' />
+	          </picture>
 	      	</Link>
 	        <Link href = '/'><a id = 'name'><b>Santha Lakshmi Narayana</b></a></Link>
 	      </div>

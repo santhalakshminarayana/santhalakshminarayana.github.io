@@ -1,6 +1,10 @@
 import { Component } from 'react';
 
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import bash from 'react-syntax-highlighter/dist/cjs/languages/prism/bash';
+import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
+import yaml from 'react-syntax-highlighter/dist/cjs/languages/prism/yaml';
+import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
 import python from 'react-syntax-highlighter/dist/cjs/languages/prism/python';
 import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
@@ -9,6 +13,10 @@ import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
 
 import code_style from './code_highlighter_style.js';
 
+SyntaxHighlighter.registerLanguage('bash', bash);
+SyntaxHighlighter.registerLanguage('json', json);
+SyntaxHighlighter.registerLanguage('yaml', yaml);
+SyntaxHighlighter.registerLanguage('markdown', markdown);
 SyntaxHighlighter.registerLanguage('python', python);
 SyntaxHighlighter.registerLanguage('jsx', jsx);
 SyntaxHighlighter.registerLanguage('js', js);
