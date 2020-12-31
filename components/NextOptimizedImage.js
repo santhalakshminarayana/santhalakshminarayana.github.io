@@ -28,7 +28,7 @@ export default function NextOptimizedImage({ img_props }) {
 		<picture>
       <source srcSet={imgSrcWebp} type = "image/webp" />
       <source srcSet={imgSrc} type = {imgType} />
-      <img src={imgSrc} alt = {imgAlt} loading = {'lazy'}
+      <img src={imgSrc} alt = {imgAlt}
       			style = {{ width: imgWidth,
 							maxWidth: imgWidth,
 							height: 'auto',

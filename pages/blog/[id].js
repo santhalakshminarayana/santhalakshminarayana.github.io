@@ -110,7 +110,7 @@ export default function Blog({ postMetadata, postContent }) {
         <meta property="og:title" content={postMetadata.title + '- Santha Lakshmi Narayana'} key="ogtitle" />
         <meta property="og:description" content={postMetadata.description} key="ogdesc" />
         <meta property="og:url" content={home_page_url + 'blog/' + postMetadata.id} key="ogurl" />
-				<meta property="og:image" content={home_page_url + postMetadata.display_img} key="ogimage" />
+				<meta property="og:image" content={home_page_url + 'images/' + postMetadata.imgName} key="ogimage" />
 				<meta property="og:type" content="article" />
 				<meta property='og:article:publisher' content={home_page_url} key='ogaritclepublisher'/>
 				<meta property="og:site_name" content={"Santha Lakshmi Narayana"} key="ogsitename" />
@@ -120,7 +120,7 @@ export default function Blog({ postMetadata, postContent }) {
 				<meta name="twitter:description" content={postMetadata.description} />
 				<meta name="twitter:url" content={home_page_url + 'blog/' + postMetadata.id} />
 				<meta name="twitter:site" content="@santhalakshminarayana" />
-				<meta name="twitter:image" content={home_page_url + postMetadata.display_img} />
+				<meta name="twitter:image" content={home_page_url + 'images/' + postMetadata.imgName} />
 				<meta name="twitter:creator" content='@santhalakshminarayana' />
 
 				<link rel = 'icon' href = '/images/santha-lakshmi-narayana-logo.png?' />
