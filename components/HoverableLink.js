@@ -27,7 +27,8 @@ export default class HoverableLink extends Component {
 											cursor: 'pointer',
 											borderBottom: `1px dashed ${border}`,
 											fontSize: 'calc(1rem + 0.1vw)',
-											fontWeight: 'bold' }}
+											fontWeight: 'bold',
+											overflowWrap: 'break-word', }}
 						target = '_blank' rel = 'noreferrer'
 						onMouseEnter = {() => this.handle_mouse_enter()}
 						onMouseLeave = {() => this.handle_mouse_leave()}

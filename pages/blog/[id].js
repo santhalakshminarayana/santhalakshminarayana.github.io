@@ -22,37 +22,43 @@ const components = {
 	h1: props => <h1 style = {{ fontFamily: "'Ubuntu', sans-serif", 
 															fontSize: 'calc(1rem + 1.5vw)', 
 															color: h1_color,
-															margin: '1vh 0 1vh 0', }} 
+															margin: '1vh 0 1vh 0',
+															overflowWrap: 'break-word', }} 
 									{...props} />,
 
 	h2: props => <h2 style = {{ fontFamily: "'Maven Pro', sans-serif", 
 															fontSize: 'calc(1rem + 1vw)', 
 															color: h2_color,
-															margin: '1vh 0 1vh 0' }} 
+															margin: '1vh 0 1vh 0',
+															overflowWrap: 'break-word', }} 
 										{...props} />,
 
 	h3: props => <h3 style = {{ fontFamily: "'Maven Pro', sans-serif", 
 															fontSize: 'calc(1rem + 0.5vw)', 
 															color: h3_color,
-															margin: '1vh 0 1vh 0', }} 
+															margin: '1vh 0 1vh 0',
+															overflowWrap: 'break-word', }} 
 									{...props} />,
 
 	p: props => <p style = {{ fontFamily: "'Source Sans Pro', sans-serif", 
 														fontSize: 'calc(1rem + 0.1vw)', 
 														color: p_color,
-														margin: '0vh 0 1vh 0' }} 
+														margin: '0vh 0 1vh 0',
+														overflowWrap: 'break-word', }} 
 									{...props} />,
 	
 	ul: props => <ul style = {{ fontFamily: "'Source Sans Pro', sans-serif", 
 														fontSize: 'calc(1rem + 0.1vw)', 
 														color: ul_color,
-														margin: '1vh 0 1vh calc(2vw)', }} 
+														margin: '1vh 0 1vh calc(2vw)',
+														overflowWrap: 'break-word', }} 
 									{...props} />,
 
 	ol: props => <ol style = {{ fontFamily: "'Source Sans Pro', sans-serif", 
 													fontSize: 'calc(1rem + 0.1vw)', 
 													color: ol_color,
-													margin: '1vh 0 1vh calc(2vw)', }} 
+													margin: '1vh 0 1vh calc(2vw)',
+													overflowWrap: 'break-word', }} 
 								{...props} />,
 
 	a: props => <HoverableLink link_props = {props} />,
@@ -77,7 +83,8 @@ const components = {
 												color: strong_color,
 												margin: '0vh 0 1vh 0',
 												padding: '0 2px 0 2px',
-												borderRadius: '2px' }} 
+												borderRadius: '2px',
+												overflowWrap: 'break-word', }} 
 							{...props} />,
 
 	hr: _ => <hr style = {{ margin: '2vh 25% 2vh 25%',
