@@ -1,0 +1,14 @@
+(window["webpackJsonp_N_E"] = window["webpackJsonp_N_E"] || []).push([["react-syntax-highlighter_languages_highlight_bnf"],{
+
+/***/ "./node_modules/highlight.js/lib/languages/bnf.js":
+/*!********************************************************!*\
+  !*** ./node_modules/highlight.js/lib/languages/bnf.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("/*\nLanguage: Backus–Naur Form\nWebsite: https://en.wikipedia.org/wiki/Backus–Naur_form\nAuthor: Oleg Efimov <efimovov@gmail.com>\n*/\n\n/** @type LanguageFn */\nfunction bnf(hljs) {\n  return {\n    name: 'Backus–Naur Form',\n    contains: [\n      // Attribute\n      {\n        className: 'attribute',\n        begin: /</,\n        end: />/\n      },\n      // Specific\n      {\n        begin: /::=/,\n        end: /$/,\n        contains: [\n          {\n            begin: /</,\n            end: />/\n          },\n          // Common\n          hljs.C_LINE_COMMENT_MODE,\n          hljs.C_BLOCK_COMMENT_MODE,\n          hljs.APOS_STRING_MODE,\n          hljs.QUOTE_STRING_MODE\n        ]\n      }\n    ]\n  };\n}\n\nmodule.exports = bnf;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9fTl9FLy4vbm9kZV9tb2R1bGVzL2hpZ2hsaWdodC5qcy9saWIvbGFuZ3VhZ2VzL2JuZi5qcz83NWRhIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxPQUFPO0FBQ1A7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLFdBQVc7QUFDWDtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQSIsImZpbGUiOiIuL25vZGVfbW9kdWxlcy9oaWdobGlnaHQuanMvbGliL2xhbmd1YWdlcy9ibmYuanMuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuTGFuZ3VhZ2U6IEJhY2t1c+KAk05hdXIgRm9ybVxuV2Vic2l0ZTogaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvQmFja3Vz4oCTTmF1cl9mb3JtXG5BdXRob3I6IE9sZWcgRWZpbW92IDxlZmltb3ZvdkBnbWFpbC5jb20+XG4qL1xuXG4vKiogQHR5cGUgTGFuZ3VhZ2VGbiAqL1xuZnVuY3Rpb24gYm5mKGhsanMpIHtcbiAgcmV0dXJuIHtcbiAgICBuYW1lOiAnQmFja3Vz4oCTTmF1ciBGb3JtJyxcbiAgICBjb250YWluczogW1xuICAgICAgLy8gQXR0cmlidXRlXG4gICAgICB7XG4gICAgICAgIGNsYXNzTmFtZTogJ2F0dHJpYnV0ZScsXG4gICAgICAgIGJlZ2luOiAvPC8sXG4gICAgICAgIGVuZDogLz4vXG4gICAgICB9LFxuICAgICAgLy8gU3BlY2lmaWNcbiAgICAgIHtcbiAgICAgICAgYmVnaW46IC86Oj0vLFxuICAgICAgICBlbmQ6IC8kLyxcbiAgICAgICAgY29udGFpbnM6IFtcbiAgICAgICAgICB7XG4gICAgICAgICAgICBiZWdpbjogLzwvLFxuICAgICAgICAgICAgZW5kOiAvPi9cbiAgICAgICAgICB9LFxuICAgICAgICAgIC8vIENvbW1vblxuICAgICAgICAgIGhsanMuQ19MSU5FX0NPTU1FTlRfTU9ERSxcbiAgICAgICAgICBobGpzLkNfQkxPQ0tfQ09NTUVOVF9NT0RFLFxuICAgICAgICAgIGhsanMuQVBPU19TVFJJTkdfTU9ERSxcbiAgICAgICAgICBobGpzLlFVT1RFX1NUUklOR19NT0RFXG4gICAgICAgIF1cbiAgICAgIH1cbiAgICBdXG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYm5mO1xuIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./node_modules/highlight.js/lib/languages/bnf.js\n");
+
+/***/ })
+
+}]);
