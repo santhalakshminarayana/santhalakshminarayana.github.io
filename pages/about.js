@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 
-import { SiGmail, SiCplusplus, SiPython, SiJavascript, SiJava, SiKeras, SiTensorflow, SiPytorch, 
-  SiReact, SiNextDotJs, SiMysql, SiMongodb, SiAmazonaws, SiGooglecloud } from "react-icons/si";
+import { SiCplusplus, SiPython, SiJavascript, SiKeras, SiTensorflow, SiPytorch, 
+  SiReact, SiNextDotJs, SiMysql } from "react-icons/si";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
@@ -369,18 +369,12 @@ export default function About_Page(props) {
               that I have gained over years and hope that will help you that <b>You don't need to re-invent the wheel</b>. 
               If any single person gained anything from me that will give motivation and encourages me to contribute more. This site is a bit technical 
               about <b>Machine Learning, Web & Mobile development, Programming</b>. 
-              I'm also active in <a href = 'https://medium.com/@santhalakshminarayana' target = '_blank' 
-              rel = 'noreferrer' className = 'external-link'>Medium</a> and <a href = 'https://www.quora.com/profile/Lakshmi-Narayana-217' 
-              target = '_blank' rel = 'noreferrer'className = 'external-link'>Quora</a>.
             </p>
 
             <p className = 'about-info-description'>As humans entered into AI world and the prophecies <b>AI RULES THE WORLD</b>, <b>ML IS FUTURE</b> are 
               happening, I decided to understand how this new world works and started exploring AI. I like travelling in 
               Machine Learning, Data Science, Computer Vision regions mostly. I try new methods coming out and read tons of blog posts, watch videos, 
               discuss with experts to keep me update myself about things happening in the digital world so that I won't be thown out from the running wheel.</p>
-
-            <p className = 'about-info-description'>Movies are next big section I spend my leisure time mostly. I'm from a group of people who 
-              watched atleast 1000 movies before entering into their 20's.</p>
 
             <p className = 'about-info-description'>More to come in life...</p>
           </div>
@@ -447,16 +441,6 @@ export default function About_Page(props) {
               </div>
 
               <div className = 'tech-stack-division'>
-                <SiJava className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>Java</p>
-              </div>
-
-              <div className = 'tech-stack-division'>
-                <SiKeras className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>Keras</p>
-              </div>
-
-              <div className = 'tech-stack-division'>
                 <SiTensorflow className = 'tech-stack-icon'/>
                 <p className = 'tech-stack-name'>Tensorflow</p>
               </div>
@@ -473,12 +457,7 @@ export default function About_Page(props) {
 
               <div className = 'tech-stack-division'>
                 <SiReact className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>React</p>
-              </div>
-
-              <div className = 'tech-stack-division'>
-                <SiReact className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>React Native</p>
+                <p className = 'tech-stack-name'>React & Reat Native</p>
               </div>
 
               <div className = 'tech-stack-division'>
@@ -490,35 +469,6 @@ export default function About_Page(props) {
                 <SiMysql className = 'tech-stack-icon'/>
                 <p className = 'tech-stack-name'>SQL</p>
               </div>
-
-              <div className = 'tech-stack-division'>
-                <SiMongodb className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>MongoDb</p>
-              </div>
-            </div>
-
-            <p className = 'tech-stack-group-heading'>Platforms</p>
-            <div className = 'tech-stack-group'>
-                <div className = 'tech-stack-division'>
-                  <SiAmazonaws className = 'tech-stack-icon'/>
-                  <p className = 'tech-stack-name'>AWS</p>
-                </div>
-
-                <div className = 'tech-stack-division'>
-                  <SiGooglecloud className = 'tech-stack-icon'/>
-                  <p className = 'tech-stack-name'>GCP</p>
-                </div>
-            </div>
-
-            <p className = 'tech-stack-group-heading'>Libraries</p>
-            <div className = 'tech-stack-group'>
-                <div className = 'tech-stack-division'>
-                  <p className = 'tech-stack-name'>OpenCV</p>
-                </div>
-
-                <div className = 'tech-stack-division'>
-                  <p className = 'tech-stack-name'>Scikit-Learn</p>
-                </div>
             </div>
 
           </div>
