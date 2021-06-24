@@ -12,8 +12,9 @@ import Footer from '../../components/Footer.js';
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
 
 const h1_color = c4, h1_text_decoration = c4 + '80', h2_color = c4, h3_color = c4;
-const p_color = c1 + 'f2', ul_color = c1 + 'e6', ol_color = c1 + 'e6', em_background = c5 + '26', em_color = c4 + 'f2';
-const strong_background = c1 + '26', strong_color = c1 + 'f2';
+const p_color = c1 + 'f2', ul_color = c1 + 'e6', ol_color = c1 + 'e6';
+const em_background = c1 + '26', em_color = c1 + 'f2';
+const strong_background = c5 + '26', strong_color = c4 + 'f2';
 const hr_color = c1 + '80', blockquote_background_color = c3 + '26', blockquote_border = c3 + 'e6';
 
 const components = {
@@ -78,12 +79,13 @@ const components = {
 	strong: props => <strong style = {{ fontFamily: "'Source Sans Pro', sans-serif", 
 												fontSize: 'calc(1rem + 0.1vw)', 
 												fontStyle: 'normal',
-												fontWeight: 'normal',
-												backgroundColor: strong_background,
+												//fontWeight: 'normal',
+												fontWeight: 'bold',
+												//backgroundColor: strong_background,
 												color: strong_color,
 												margin: '0vh 0 1vh 0',
-												padding: '0 2px 0 2px',
-												borderRadius: '2px',
+												//padding: '0 2px 0 2px',
+												//borderRadius: '2px',
 												overflowWrap: 'break-word', }} 
 							{...props} />,
 

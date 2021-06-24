@@ -41,9 +41,9 @@ yarn create next-app
 
 _create-next-app_ installs everything needed to start with. 
 
-The most important thing in Next.js is the _pages_ directory. Every component exported from _.js_, _.jsx_, _.ts_, or _.tsx_ in the pages folder is treated as a page and each page associates with a route based on its file name. In the pages folder, the **App** component from _\_app.js_ serves as the initialization of pages that can be edited for custom use like global style declaration, CDN's, etc., _index.js_ is the starting point for adding content.
+The most important thing in Next.js is the **pages** directory. Every component exported from **.js**, **.jsx**, **.ts**, or **.tsx** in the pages folder is treated as a page and each page associates with a route based on its file name. In the pages folder, the **App** component from **\_app.js** serves as the initialization of pages that can be edited for custom use like global style declaration, CDN's, etc., **index.js** is the starting point for adding content.
 
-To write content in articles we use MDX, which lets us write JSX in Markdown (_.mdx_ file). Writing in markdown is as beautiful as it is like writing in a text file and can render as HTML tags. Besides easy export and maintenance of articles, we can also reuse these files in another framework/platform which supports MDX without rewriting.
+To write content in articles we use MDX, which lets us write JSX in Markdown (**.mdx** file). Writing in markdown is as beautiful as it is like writing in a text file and can render as HTML tags. Besides easy export and maintenance of articles, we can also reuse these files in another framework/platform which supports MDX without rewriting.
 
 ### Install MDX
 
@@ -53,9 +53,9 @@ Install necessary plugins for MDX
 yarn add @next/mdx gray-matter next-mdx-remote
 ```
 
-We installed _@next/mdx_ to handle _.mdx_ files in pages directory, _gray-matter_ is to parse content from markdown and _next-mdx-remote_ for rendering markdown as HTML.
+We installed _@next/mdx_ to handle **.mdx** files in pages directory, _gray-matter_ is to parse content from markdown and _next-mdx-remote_ for rendering markdown as HTML.
 
-Now create / open _next.config.js_ (configuration file for Next.js) at the project root level and add the following to configure MDX and handle _.mdx_ page extensions in the pages folder.
+Now create / open **next.config.js** (configuration file for Next.js) at the project root level and add the following to configure MDX and handle **.mdx** page extensions in the pages folder.
 
 ```js
 const withMDX = require('@next/mdx')({
@@ -66,11 +66,11 @@ module.exports = withMDX({
   target: 'serverless',
 })
 ``` 
-As Next.js only looks for _.js_ or _.jsx_ files and gives routing to these pages, the above configuration tells Next.js to treat _.md_ or _.mdx_ files as pages and provide routing.
+As Next.js only looks for **.js** or **.jsx** files and gives routing to these pages, the above configuration tells Next.js to treat **.md** or **.mdx** files as pages and provide routing.
 
 As we are creating a static site, **target: 'serverless'** notifies Next.js to generate static files for us.
 
-Open _package.json_ file in the root directory and add **deploy** command to export all static files as a folder as _out_ (can have a different name) at the root level. After installing plugins and adding values _package.json_ might look like this
+Open **package.json** file in the root directory and add **deploy** command to export all static files as a folder as **out** (can have a different name) at the root level. After installing plugins and adding values **package.json** might look like this
 
 ```json
 {
@@ -104,7 +104,7 @@ Let's give some break to configuration and take a turn to add some content.
 
 ## Home Page
 
-As said earlier _index.js_ is the pivot file and also the Home page for our website. So let's edit our Home page and customize it like below.
+As said earlier **index.js** is the pivot file and also the Home page for our website. So let's edit our Home page and customize it like below.
 
 ```js:pages/index.js
 export default function Home() {
@@ -136,9 +136,9 @@ export default function Home() {
 }
 ```
 
-In the above snippet, _CSS_ styles are provided inside the component. This is called **CSS-In-JS**, which is possible as Next.js bundles **styled-jsx**. There are many ways to add [CSS in Next.js](https://nextjs.org/docs/basic-features/built-in-css-support).
+In the above snippet, **CSS** styles are provided inside the component. This is called **CSS-In-JS**, which is possible as Next.js bundles **styled-jsx**. There are many ways to add [CSS in Next.js](https://nextjs.org/docs/basic-features/built-in-css-support).
 
-In the _img_ tag above, **src** is provided with the name of the image only but not relative/absolute path. In Next.js we don't need to provide complete paths if we place any assets (like images, videos) in the _public_ folder. Next.js automatically prepends the path at build time for assets in the public folder.
+In the **img** tag above, **src** is provided with the name of the image only but not relative/absolute path. In Next.js we don't need to provide complete paths if we place any assets (like images, videos) in the **public** folder. Next.js automatically prepends the path at build time for assets in the public folder.
 
 Now to see changes, start localhost (default port is 3000) as a dev server
 ```bash
@@ -161,7 +161,7 @@ Create a directory to store our markdown posts at the root level or any accessib
 mkdir posts
 ```
 
-Write some content in a markdown file and save it as '.mdx' inside the _posts_ directory. I have created two posts and saved them as _batman-vs-superman.mdx_ and _justice-league.mdx_.
+Write some content in a markdown file and save it as '.mdx' inside the **posts** directory. I have created two posts and saved them as **batman-vs-superman.mdx** and **justice-league.mdx**.
 
 ```markdown:posts/batman-vs-superman.mdx
 ---
@@ -191,13 +191,13 @@ Superheroes from the DC universe consisting of Superman, Wonder Woman, The Flash
 It's a very long story of how we met each other and all thanks to Avengers who had inspired me to search for other superheroes.
 ```
 
-In the above snippet content inside **---** is used as metadata to make routing for this _.mdx_ file. We'll discuss this later.
+In the above snippet content inside **---** is used as metadata to make routing for this **.mdx** file. We'll discuss this later.
 
 ## Show blog posts on the Home page
 
 ### Fetch posts data
 
-To show our blog posts on the Home page, we have to fetch the _.mdx_ files and parse content. We can also provide routing from the home page to any blog post. We write the logic to fetch the _.mdx_ files to read the content inside and extract metadata useful to display posts on the Home page. These files should be separated from routing, so at the root level create a folder called _lib_ where we store all program files to extract _.mdx_ content. Inside _lib_ create a file with name _getPostsData.js_ which returns posts data like markdown content, title, path, etc.,
+To show our blog posts on the Home page, we have to fetch the **.mdx** files and parse content. We can also provide routing from the home page to any blog post. We write the logic to fetch the **.mdx** files to read the content inside and extract metadata useful to display posts on the Home page. These files should be separated from routing, so at the root level create a folder called **lib** where we store all program files to extract **.mdx** content. Inside **lib** create a file with name **getPostsData.js** which returns posts data like markdown content, title, path, etc.,
 
 ```js:lib/getPostsData.js
 const fs = require('fs');
@@ -263,9 +263,9 @@ export function getPostData(id) {
 }
 ```
 
-**getAllPostsPath** function returns all _.mdx_ files path names to serve as URLs for dynamic routing of a page.
+**getAllPostsPath** function returns all **.mdx** files path names to serve as URLs for dynamic routing of a page.
 
-**getPostsMetaData** function returns all _.mdx_ files metadata (data inside **---**) which we use to gather information like title, description, etc., and function **getPostsData** returns both metadata and markdown content to render for a particular file we request through argument **id**. **gray-matter** parses the markdown file into metadata (data inside **---**) and markdown content to render.
+**getPostsMetaData** function returns all **.mdx** files metadata (data inside **---**) which we use to gather information like title, description, etc., and function **getPostsData** returns both metadata and markdown content to render for a particular file we request through argument **id**. **gray-matter** parses the markdown file into metadata (data inside **---**) and markdown content to render.
 
 If encountered error while accessing **fs** add the following to _next.config.js_
 
@@ -289,7 +289,7 @@ module.exports = withMDX({
 ```
 ### Provide posts data to Home page
 
-We have to call the **getallPostsData** function to get data. But how can we pass this data to the component in _pages/index.js_? Don't worry we can pass data as **props** to the component before rendering using the [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function. **getStaticProps** allows us to fetch any dynamic data to provide before rendering the component. Change _pages/index.js_ as 
+We have to call the **getallPostsData** function to get data. But how can we pass this data to the component in **pages/index.js**? Don't worry we can pass data as **props** to the component before rendering using the [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function. **getStaticProps** allows us to fetch any dynamic data to provide before rendering the component. Change **pages/index.js** as 
 
 ```js:pages/index.js
 import { getPostsMetaData } from '../lib/getPostsData.js';
@@ -357,11 +357,11 @@ Which displays as
 
 ## Rendering MDX and providing dynamic routing
 
-So far so good until we want to display _.mdx_ files as individual webpages. Right now it is not possible because Next.js only treats components exported inside the _pages_ folder as webpages and provides routing, to provide routing for our posts we must export content from the _posts_ directory to the _pages_ folder. This is where we should spend some time to serve markdown files as webpages. 
+So far so good until we want to display **.mdx** files as individual webpages. Right now it is not possible because Next.js only treats components exported inside the **pages** folder as webpages and provides routing, to provide routing for our posts we must export content from the **posts** directory to the **pages** folder. This is where we should spend some time to serve markdown files as webpages. 
 
-The beauty of Next.js is that we can dynamically serve pages by fetching these _.mdx_ files and provide routing inside the _pages_ directory with having dynamic pages.
+The beauty of Next.js is that we can dynamically serve pages by fetching these **.mdx** files and provide routing inside the **pages** directory with having dynamic pages.
 
-Create _blog_ folder inside the _pages_ folder and inside this _blog_ folder create a file with name _[id].js_. Dynamic routes in Next.js are identified by _[]_ (square brackets) in the filename. We can provide any query parameter to this _[]_ page component which will end up as **http://localhost:8000/blog/post-name** for _post-name.js_. Now add following code to _pages/blog/_[id]_.js_
+Create **blog** folder inside the **pages** folder and inside this **blog** folder create a file with name **[id].js**. Dynamic routes in Next.js are identified by **[]** (square brackets) in the filename. We can provide any query parameter to this **[]** page component which will end up as *http://localhost:8000/blog/post-name* for **post-name.js**. Now add following code to *pages/blog/**[id]**.js*
 
 ```js:pages/blog/[id].js
 import renderToString from 'next-mdx-remote/render-to-string';
@@ -431,13 +431,13 @@ If any page provides dynamic routing we must provide all dynamic paths we want t
 
 With **renderToString** and **hydrate** we parse markdown content to HTML string and render as plain HTML. To style the HTML tags in markdown, we pass custom tags as components to the MDX loader which maps tags automatically. In the above file two tags, **h1** and **p** are customized and combined as components.
 
-Now in the browser hit URL **http://localhost:3000/blog/batman-vs-superman** or **http://localhost:3000/blog/justice-league** to see the post. You might see output similar to below
+Now in the browser hit URL *http://localhost:3000/blog/batman-vs-superman* or *http://localhost:3000/blog/justice-league* to see the post. You might see output similar to below
 
 ![MDX Post Display](mdx-post-display.jpg)
 
 ## Navigation from the Home page
 
-What if we want to navigate from the Home page to blog posts by clicking on the title of the post? For this Next.js provides a [next/link](https://nextjs.org/docs/api-reference/next/link) component that takes care of dynamic routing from any page to another by pre-pending the necessary path before the page to navigate like navigation to **batman-vs-superman** results as **http://localhost:3000/blog/batman-vs-superman**. We must navigate like this only if we are not pre-pending the base URL manually inside the website. Now change _pages/index.js_ to get dynamic navigation
+What if we want to navigate from the Home page to blog posts by clicking on the title of the post? For this Next.js provides a [next/link](https://nextjs.org/docs/api-reference/next/link) component that takes care of dynamic routing from any page to another by pre-pending the necessary path before the page to navigate like navigation to **batman-vs-superman** results as *http://localhost:3000/blog/batman-vs-superman*. We must navigate like this only if we are not pre-pending the base URL manually inside the website. Now change **pages/index.js** to get dynamic navigation
 
 ```js
 import Link from 'next/link';
@@ -500,9 +500,9 @@ module.exports = withNextOptimizedImages(
 )
 ```
 
-In build time **next-optimized-images** exports optimized images to _images_ (custom name) folder inside _out/_next/static_. So create _images_ directory at the root level and move images to this folder which needs optimization and provide relative paths now which were previously not required because of the _public_ folder.
+In build time **next-optimized-images** exports optimized images to **images** (custom name) folder inside _out/_next/static_. So create **images** directory at the root level and move images to this folder which needs optimization and provide relative paths now which were previously not required because of the **public** folder.
 
-Change the **img** tag in _pages/index.js_ to
+Change the **img** tag in **pages/index.js** to
 
 ```jsx
 <picture>
@@ -530,13 +530,13 @@ If you don't want to set meta properties, title, description, and others there a
 
 ### Export static files to deploy
 
-Now our website is ready to move from development to production. To host our site we can use the static-site-generator of Next.js to generate all pre-render pages bundled inside the _out_ directory. Build and generate _out_ directory by typing the below command in the terminal
+Now our website is ready to move from development to production. To host our site we can use the static-site-generator of Next.js to generate all pre-render pages bundled inside the **out** directory. Build and generate **out** directory by typing the below command in the terminal
 
 ```shell
 yarn deploy
 ```
 
-You can find a new directory _out_ at the root level which contains all dynamic pages pre-rendered and ready to serve as HTML pages on the client-side. We will use this folder to host our website on Github pages.
+You can find a new directory **out** at the root level which contains all dynamic pages pre-rendered and ready to serve as HTML pages on the client-side. We will use this folder to host our website on Github pages.
 
 ### Set up Github Pages
 
@@ -546,7 +546,7 @@ To do this we must provide access for Github Actions to this repository to acces
 
 ![Github Repository Secretes Token,80](github-repo-secretes-token.jpg)
 
-It's time to configure GitHub Actions. Create a directory called _.github/workflows_ at the root level locally. Create a file _integrate.yml_ inside _.github/workflows_ and add the following configuration
+It's time to configure GitHub Actions. Create a directory called _.github/workflows_ at the root level locally. Create a file **integrate.yml** inside _.github/workflows_ and add the following configuration
 
 ```yaml:.github/workflows/integrate.yml
 name: Build and Deploy
@@ -590,9 +590,9 @@ jobs:
 You may have to replace **ACCESS_TOKEN** with your custom name. This is what we configured
 
 1. Execute workflow action on every push to the **master** branch.
-2. Run commands **npm install && npm run build && npm run export** to build and export static version of our website.
-3. Deploy contents inside _out_ folder to the **gh-pages** branch.
-4. Added **touch out/.nojekyll** to **gh-pages** because Github pages **Jekyll** to render static sites. **Jekyll** ignores files in the directory starting with **_** and it is an issue for us because all our static assets are created in _\_next_ folder. _.nojekyll_ tells Github Pages not to run published files through **Jekyll**.
+2. Run commands *npm install && npm run build && npm run export* to build and export static version of our website.
+3. Deploy contents inside **out** folder to the **gh-pages** branch.
+4. Added *touch out/.nojekyll* to **gh-pages** because Github pages **Jekyll** to render static sites. **Jekyll** ignores files in the directory starting with **_** and it is an issue for us because all our static assets are created in **\_next** folder. **.nojekyll** tells Github Pages not to run published files through **Jekyll**.
 
 Push all changes to Github repo
 
@@ -602,19 +602,19 @@ git commit -m "initial deployment of the blog"
 git push -u origin master
 ```
 
-This will push all your working source files to the Github repo and Github Actions starts a workflow to deploy static files in the _out_ folder to **gh-pages**.
+This will push all your working source files to the Github repo and Github Actions starts a workflow to deploy static files in the **out** folder to **gh-pages**.
 
 You can monitor the status of the Github Actions workflow after every push to the **master** branch in the **Actions** tab.
 
 Enable Github Pages in the **Settings** section of the repo and for source select the **gh-pages** branch.
 
-If everything worked properly you can have your website hosted at _https://<username\>.github.io/<repo\>_. Here _<repo\>_ name is _blog_. 
+If everything worked properly you can have your website hosted at *https://<username\>.github.io/<repo\>*. Here **<repo\>** name is **blog**. 
 
 ---
 
 ## Manage CSS, assets, and page links to work properly
 
-If you host the website at _https://<username\>.github.io/<repo\>_ you can observe CSS or other static assets and routing not working properly. This is because Next.js assumes _out_ directory hosted at root level as _https://<username\>.github.io/_ and directs all routing, replaces assets and everything to this basepath. But we have hosted the _out_ folder in _blog/out_, so we must add **subpath** _blog_ to the **basepath** to manage assets linking and routing. We can do this by changing the configuration in _next.config.js_
+If you host the website at *https://<username\>.github.io/<repo\>* you can observe CSS or other static assets and routing not working properly. This is because Next.js assumes **out** directory hosted at root level as *https://<username\>.github.io/* and directs all routing, replaces assets and everything to this basepath. But we have hosted the **out** folder in **blog/out**, so we must add **subpath** **blog** to the **basepath** to manage assets linking and routing. We can do this by changing the configuration in **next.config.js**
 
 ```js:next.config.js
 const ghPages = process.env.DEPLOY_TARGET === 'gh-pages';

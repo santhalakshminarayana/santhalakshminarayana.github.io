@@ -8,16 +8,9 @@ const tag_hover = c2, tag_hover_background = c3, tag_hover_border = c2, tag_acti
 export default function Tags(props) {
 	return (
 			<div className = 'tags'>
-        <Link href = '/tags/machine-learning'><a>#machine-learning</a></Link>
-        <Link href = '/tags/deep-learning'><a>#deep-learning</a></Link>
-        <Link href = '/tags/computer-vision'><a>#computer-vision</a></Link>
-        <Link href = '/tags/natural-language-processing'><a>#natural-language-processing</a></Link>
-        <Link href = '/tags/data-science'><a>#data-science</a></Link>
-        <Link href = '/tags/pytorch'><a>#pytorch</a></Link>
-        <Link href = '/tags/keras'><a>#keras</a></Link>
-        <Link href = '/tags/tensorflow'><a>#tensorflow</a></Link>
-        <Link href = '/tags/opencv'><a>#opencv</a></Link>
         <Link href = '/tags/react'><a>#react</a></Link>
+        <Link href = '/tags/next-js'><a>#next-js</a></Link>
+        <Link href = '/tags/flutter'><a>#flutter</a></Link>
 
       <style jsx>{`
       	.tags {

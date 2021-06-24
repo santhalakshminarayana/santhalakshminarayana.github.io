@@ -8,6 +8,7 @@ import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
 import python from 'react-syntax-highlighter/dist/cjs/languages/prism/python';
 import jsx from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
+import dart from 'react-syntax-highlighter/dist/cjs/languages/prism/dart';
 
 //import vsc_dark_plus from 'react-syntax-highlighter/dist/cjs/styles/prism/vsc-dark-plus';
 
@@ -20,6 +21,7 @@ SyntaxHighlighter.registerLanguage('markdown', markdown);
 SyntaxHighlighter.registerLanguage('python', python);
 SyntaxHighlighter.registerLanguage('jsx', jsx);
 SyntaxHighlighter.registerLanguage('js', js);
+SyntaxHighlighter.registerLanguage('dart', dart);
 
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
 
