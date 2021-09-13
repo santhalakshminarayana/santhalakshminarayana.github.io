@@ -8,6 +8,7 @@ const tag_hover = c2, tag_hover_background = c3, tag_hover_border = c2, tag_acti
 export default function Tags(props) {
 	return (
 			<div className = 'tags'>
+        <Link href = '/tags/image-processing'><a>#image-processing</a></Link>
         <Link href = '/tags/react'><a>#react</a></Link>
         <Link href = '/tags/next-js'><a>#next-js</a></Link>
         <Link href = '/tags/flutter'><a>#flutter</a></Link>

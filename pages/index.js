@@ -8,8 +8,6 @@ import CardLayout from '../components/CardLayout.js';
 
 import { getAllPostsMetadata } from '../lib/get-all-posts-data.js';
 
-//const c1 = '#ff2a6d', c2 = '#d1f7ff', c3 = '#05d9e8', c4 = '#005678', c5 = '#01012b';
-
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
 
 const header_background = c4, greetings_heading = c6, greetings_statement = c6, quote_color = c5;
@@ -56,8 +54,9 @@ export default function Home({ postsMetaData }) {
         <div className = 'header-info'>
           <div className = 'greetings'>
             <p className = 'greetings-heading'>Greetings, Programs! In the Matrix called Earth.</p>
-            <p className = 'greetings-statement'>I'm Santha Lakshmi Narayana, a voyager on mission exploring 
-                                                digital universe.</p>
+            <p className = 'greetings-statement'>I'm Santha Lakshmi Narayana, a voyager on mission 
+              exploring the digital universe.
+            </p>
           </div>
         </div>
 

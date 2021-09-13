@@ -1,13 +1,13 @@
 ---
 title: "Build Blog with Next.js and MDX & Deploy to Github Pages"
 description: "Create a blog with Next.js as Static Site Generator, MDX for writing content, Github Pages for deploying the static website. Also add SEO and Image optimization."
-imgName: "nextjs.jpeg"
+imgName: "blog-nextjs-mdx/nextjs.jpeg"
 date: "Dec 31, 2020"
 tags: ['react', 'next-js']
 keywords: [react', 'next.js', 'blog', 'mdx', 'markdown', 'gh-pages', 'github-pages']
 ---
 
-![Build Blog with Next.js & MDX and Deploy to Github Pages](nextjs.jpeg)
+![Build Blog with Next.js & MDX and Deploy to Github Pages](blog-nextjs-mdx/nextjs.jpeg)
 
 # Build Blog with Next.js & MDX and Deploy to Github Pages
 
@@ -149,7 +149,7 @@ yarn dev -p 8000
 Open any desktop browser and type URL http://localhost:port/ to see changes.
 For the above code, the display is like below
 
-![First preview](nextjs-blog-display.jpg)
+![First preview](blog-nextjs-mdx/nextjs-blog-display.jpg)
 
 We have a home page with a welcome message. Now some create blog posts with MDX.
 
@@ -353,7 +353,7 @@ export async function getStaticProps() {
 
 Which displays as 
 
-![MDX blog posts display on Home page](blog-posts-display-on-home-page.jpg)
+![MDX blog posts display on Home page](blog-nextjs-mdx/blog-posts-display-on-home-page.jpg)
 
 ## Rendering MDX and providing dynamic routing
 
@@ -433,7 +433,7 @@ With **renderToString** and **hydrate** we parse markdown content to HTML string
 
 Now in the browser hit URL *http://localhost:3000/blog/batman-vs-superman* or *http://localhost:3000/blog/justice-league* to see the post. You might see output similar to below
 
-![MDX Post Display](mdx-post-display.jpg)
+![MDX Post Display](blog-nextjs-mdx/mdx-post-display.jpg)
 
 ## Navigation from the Home page
 
@@ -520,7 +520,7 @@ You can more than this by exploring more about this plugin.
 
 For Single Application Websites (SPA) SEO is a major problem which Next.js takes care of this by providing API [next/head](https://nextjs.org/docs/api-reference/next/head) which behaves exactly like **<head\>** in HTML. We can wrap meta properties, title, description, Open Graph (OG) properties, Twitter cards, etc., inside the **Head** component. For our Home page we can set title and description as 
 
-![Seo in Next.js,80](seo-in-nextjs.jpg)
+![Seo in Next.js:=:80](blog-nextjs-mdx/seo-in-nextjs.jpg)
 
 If you don't want to set meta properties, title, description, and others there are so many plugins like [next-seo](https://www.npmjs.com/package/next-seo) available which handle all of these manual adding for you.
 
@@ -544,7 +544,7 @@ Github Pages is a very great place to host static sites. But we need to push and
 
 To do this we must provide access for Github Actions to this repository to access source files. To provide access, go to [Github Settings -> tokens](https://github.com/settings/tokens) and create a new **personal access token** by checking **repo** scopes and others if you need and save as **GITHUB_TOKEN** (or any other name). Copy this **access code** and in the repository, move to the **secretes** tab in the **Settings** section and create a new secrete and copy this code. Remember the name of the secrete token you created in this repo for future purposes. 
 
-![Github Repository Secretes Token,80](github-repo-secretes-token.jpg)
+![Github Repository Secretes Token:=:80](blog-nextjs-mdx/github-repo-secretes-token.jpg)
 
 It's time to configure GitHub Actions. Create a directory called _.github/workflows_ at the root level locally. Create a file **integrate.yml** inside _.github/workflows_ and add the following configuration
 

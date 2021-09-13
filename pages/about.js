@@ -12,8 +12,9 @@ const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb
 
 const about_heading = c3, about_meta_info = c4, about_meta_icon = c4, display_img_border = c4;
 const about_info = c1 + 'd9', external_link = c1, external_link_border = c5, external_link_hover = c3;
-const horizontal_break = c1 + '80', portfolio_section_heading = c3, organization_name = c5, role_buffer_dot = c1;
-const role_name = c4, role_duration = c1 + 'bf', tech_stack_group_heading = c5, tech_stack_icon = c4, tech_stack_name = c4;
+const horizontal_break = c1 + '80', portfolio_section_heading = c3, portfolio_section_heading_decoraion = c6;
+const organization_name = c5, role_buffer_dot = c1, role_name = c4, role_duration = c1 + 'bf';
+const tech_stack_group_heading = c5, tech_stack_icon = c4, tech_stack_name = c4;
 
 
 const styles = `
@@ -118,7 +119,10 @@ const styles = `
     font-family: 'Ubuntu', sans-serif;
     font-size: calc(1.2rem + 0.7vw);
     color: ${portfolio_section_heading};
+    text-decoration: underline;
+    text-decoration-color: ${portfolio_section_heading_decoraion};
     text-align: center;
+    padding-bottom: 1vh;
   }
 
   .organization-container {
@@ -344,7 +348,7 @@ export default function About_Page(props) {
 
         <div className = 'about-contanier'> 
           <div className = 'about-meta'>
-            <img className = 'display-img' src = '/images/santha-lakshmi-narayana.png'
+            <img className = 'display-img' src = '/images/about/santha-lakshmi-narayana.png'
                   alt = 'Lakshmi Narayana Santha'/>
             <Footer bg_color = {'transparent'} normal_color = {c4} icon_size = {'21px'} 
               horizontal_margin = {'5px'} horizontal_padding = {'1px'} vertical_padding = {'5px'}
@@ -389,7 +393,7 @@ export default function About_Page(props) {
             
             <div className = 'organization-container'>
               <div className = 'organization-info-container'>
-                <img className = 'organization-logo' src = '/images/nouveau-labs-logo.png' 
+                <img className = 'organization-logo' src = '/images/about/nouveau-labs-logo.png' 
                       alt = 'Nouveau Labs' />
                 <p className = 'organization-name'>Nouveau Labs</p>
               </div>

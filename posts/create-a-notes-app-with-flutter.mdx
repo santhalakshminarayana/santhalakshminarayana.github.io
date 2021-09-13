@@ -1,13 +1,13 @@
 ---
 title: "Create a Notes App with Flutter"
 description: "Create a color-rich Note-taking app with Flutter."
-imgName: "note-app-in-flutter.jpg"
+imgName: "note-app-flutter/note-app-in-flutter.jpg"
 date: "Jun 15, 2021"
 tags: ['flutter']
 keywords: ['flutter', 'dart', 'android', 'note-app', 'note-taking', 'sqflite', 'sqlite']
 ---
 
-![Create a Notes App with flutter](note-app-in-flutter.jpg)
+![Create a Notes App with flutter](note-app-flutter/note-app-in-flutter.jpg)
 
 # Create a Note-taking App in Flutter
 
@@ -306,7 +306,7 @@ class MyApp extends StatelessWidget {
 
 To see the changes in the app, in the flutter running environment press **r** to hot reload or **R** restart of the app.
 
-![Home Screen, 30](notes-app-initial-home-screen.jpg)
+![Home Screen:=:30](note-app-flutter/notes-app-initial-home-screen.jpg)
 
 The Floating action button at the bottom-right will take us to the Edit screen to create a new note. To add navigation from Home to Edit, first create a Edit Screen Widget in **notes_edit.dart** inside **lib/screens**. For now, add a simple UI for the Edit screen like below because we just need a widget to route from Home to Edit screen.
 
@@ -521,7 +521,7 @@ Here also controller of **TextField** is set to **_textFieldController** which i
 
 After adding all these widgets, the Edit screen would look like
 
-![Edit screen, 30](notes-app-initial-edit-screen.jpg)
+![Edit screen:=:30](note-app-flutter/notes-app-initial-edit-screen.jpg)
 
 ### Add a Color palette to select Note color
 
@@ -608,7 +608,7 @@ class ColorPalette extends StatelessWidget {
 
 As we already stored different colors in **NoteColors** Map object, we iterate this object and fill the color palette with bright colors.
 
-![Color Palette, 60](notes-app-color-palette.jpg)
+![Color Palette:=:60](note-app-flutter/notes-app-color-palette.jpg)
 
 ### Save notes
 
@@ -955,7 +955,7 @@ class DisplayNotes extends StatelessWidget {
 
 Now Home screen displays all notes stored as
 
-![Home screen, 30](notes-app-home-notes-list.jpg)
+![Home screen:=:30](note-app-flutter/notes-app-home-notes-list.jpg)
 
 Long press on the note to select the note. And if a note is selected we can add a delete action to delete the selected notes. Add **Delete** button at **appBar** **actions** which shows delete icon only if any note is selected.
 

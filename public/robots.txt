@@ -1,4 +1,9 @@
+# *
 User-agent: *
 Allow: /
+
+# Host
 Host: https://santhalakshminarayana.github.io
+
+# Sitemaps
 Sitemap: https://santhalakshminarayana.github.io/sitemap.xml

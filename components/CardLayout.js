@@ -10,21 +10,22 @@ const tag_link_active_background = c5;
 export default function CardLayout({ postsMetaData }) {
 	return (
 		<div className = 'card-layout'>
-			{postsMetaData.map((metadata, index) => { 
-				//const imgSrc = require(`../images/${metadata.metadata.imgName}`);
-				//const imgSrcWebp = require(`../images/${metadata.metadata.imgName}?webp`);
-				const imgSrc = require(`../images/${metadata.metadata.imgName}?resize`);
-				const imgSrcWebp = require(`../images/${metadata.metadata.imgName}?resize&format=webp`);
+			{postsMetaData.map((metadata, index) => {
+				//const imgSrc = require(`../images/${metadata.metadata.imgName}?resize`);
+				//const imgSrcWebp = require(`../images/${metadata.metadata.imgName}?resize&format=webp`);
 
 				const imgType = 'image/' + metadata.metadata.imgName.split('.').pop();
 				return (
 					<div className = 'card-container' key = {metadata.metadata.title} >
 						<div>
 							<div className = 'img-container'>
+								{/*
 								<picture>
 			            <source srcSet={imgSrcWebp} type = "image/webp" />
 			            <img src={imgSrc} alt = {metadata.metadata.title} />
 			          </picture>
+			          */}
+			          <img src={'/images/'+metadata.metadata.imgName} alt = {metadata.metadata.title} />
 							</div>
 
 							<div className = 'info-container'>

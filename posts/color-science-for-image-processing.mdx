@@ -1,0 +1,330 @@
+---
+title: "Color Science for Image Processing"
+description: "Understand the concept of Color for Image Processing."
+imgName: "color-science/color-science.jpg"
+date: "Aug 28, 2021"
+tags: ['image-processing']
+keywords: ['image-processing', 'computer-vision', 'color', 'opencv', 'digital-image-processing']
+---
+
+![Color Science for Image Processing](color-science/color-science.jpg)
+
+# Color Science for Image Processing
+
+Everything we deal with in image processing is all about colors. Digital image processing/signaling is about understanding and processing image data in the form of color bits that we encounter in our daily life. 
+
+From Space exploration to Film making, Air force to Archeology, image processing is applied everywhere that uses colors to gather data. For example Hubble telescope uses image processing techniques like **broad-band** and **narrow-band** filtering to color map planets, nebula, and galaxies based on the gases and their interactions like in "The Pillars of Creation".
+
+![Pillars of Creation:=:40:=:The Pillars of Creation (NASA)$$$https://www.nasa.gov/image-feature/the-pillars-of-creation](color-science/pillars-of-creation.jpg)
+
+In this article, we discuss color and its properties which helps us to understand different image processing/computer vision techniques.
+
+---
+
+## Color and Human Vision
+
+When we talk about colors, colors are represented in a way human eyes perceive. Because different species see things in different colors, and they can also see what humans cannot see like Snakes and Bats can detect infrared radiation which humans couldn't. So we generally restrict colors to human vision.
+
+Color is an illusion that our brain creates when a light beam reflects off an object/emits from an object and reaches our eyes. When light strikes the surface of an object, some light will be absorbed and some will be reflected. That reflected light with different wavelengths reaches our eyes and we perceive them as different colors.
+
+Issac Newton described the color as a quality of light. And the light which is an electromagnetic wave is classified into different segments with certain frequencies and wavelength ranges. The visible light spectrum is the segment of the electromagnetic spectrum that human eyes can only perceive. The visible light wavelength range is ~380 to ~780 nanometers. By deflection of light through a prism, Newton assigned different colors to different wavelengths in the visible spectrum which we generally see when a rainbow appears (VIBGYOR).
+
+![Visible Spectrum:=:55:=:Visible Light Spectrum$$$https://en.wikipedia.org/wiki/Electromagnetic_radiation](color-science/visible-spectrum.jpg)
+
+The retina in our eye is responsible for vision. The retina contains photoreceptor cells that convert light rays and send signals back to the brain through nerves and the brain intercepts these colors. Rods and Cones in the retina are two types of photoreceptors that are responsible for our vision in dark and bright conditions. Rods work at a low level of light and our vision is in grayscale. Rods don't provide any color vision. At night as there is a low level of light we can see the objects in combinations of white and black (grayscale). Cones work in bright light and provides color vision. 
+
+![Retina:=:70:=:Light capture by Rods and Cones in Retina$$$https://www.xrite.com/blog/color-perception-part-3](color-science/retina-rods-cones.jpg)
+
+### RGB (primary color) cones
+
+In the 1800s, Thomas Young stated that the human eye consists of three different types of color receptors more likely red, green, and blue, and mixing these colors create other colors.
+
+There are three types of cones called short (S), medium (M), and long (L) which are sensitive to different wavelength ranges of spectral distribution and detect Blue, Green, and Red respectively.
+
+![Normalized Cone Responsivity:=:45:=:Normalized Responsivity$$$https://en.wikipedia.org/wiki/Cone_cell^^^ of S, M and L cones](color-science/normalized-cone-responsivity.jpg)
+
+These S, M, and L cones detect Blue, Green, and Red colors respectively and other colors are perceived by overlapping of different stimulations of these cones. The brain then integrates these cone signals and detects millions of colors. For example, Yellow color is a proportion of Green and Red cones and no or less effect of Blue cone. These three colors RGB (Red, Green, Blue) are primary colors and any color can be produced with the combination of these primitive colors.
+
+![Retinal Response:=:40:=:Retinal Response$$$https://askabiologist.asu.edu/rods-and-cones^^^ of rods and cones](color-science/retinal-response.jpg)
+
+If we mix all RGB colors at a high-intensity level we get White color, and if RGB colors with 0 intensity level produce Black Color.
+
+### The Color of an object
+
+When a light beam hits the surface of an object, it absorbs some wavelengths and reflects a particular wavelength of light. An object looking Pink absorbs all wavelengths of light except some portion of Red and Blue. And our eyes receive those Red and Blue colors by cones and intercept as pink by stimulating the Red and Blue cones. Paints on walls are made to absorb all of the wavelengths except the color of their appearance. 
+
+### Secondary colors
+
+If we mix two primary colors at equal intensities and another one is being kept at a 0 level, we get secondary colors.
+- Cyan (Blue + Green)
+- Magenta (Red + Blue)
+- Yellow (Green + Red). 
+
+These Cyan (C), Magenta (M), and Yellow (Y) colors are called secondary colors (CMY) as they are derived from primary ones (RGB).
+
+C,M, and Y are also complementary colors to R, G, and B as synthensize of C, M and Y don't have any R, G, and B colors respectively. This means when an object is illuminated with RGB colors, the object absorbs at least one primary color and reflects the other two primary colors. An object looking Cyan would absorb Red but reflects Green and Blue (G + B = C). Mixing secondary colors produces RGB colors.
+- M + Y = R
+- Y + C = G
+- C + M = B
+
+### Additive and Subtractive Color System
+
+The object appears in different colors if the various amount of RGB light emitted from it. It appears black when no percentage of RGB is emitted and if all are emitted at the highest intensity, it appears as white. Thus adding different RGB percentages produce different colors. This process of synthesizing colors by emitting RGB colors from black (when no light is produced) is called **Additive** color model. We start from black and reach white. Display monitors and screens we see around are based on an Additive color model. They produce colors by varying RGB color intensities.
+
+What if an object instead of emitting it reflects certain wavelengths of light by absorbing other wavelengths. This is how we naturally see an object and its appearance. An object absorbs some light and reflects other visible spectrum wavelengths that are perceived as color by our eyes. If an object absorbs cyan color, then it reflects red. Because 
+$$
+\small{White - Cyan = (R + G + B) - (G + B) = R}
+$$
+if we subtract cyan from white it produces a red color. 
+
+![Additive and Subtractive Colors:=:40](color-science/additive-subtractive-colors.jpeg)
+
+Here subtracting means mixing colors as an object absorbs colors and then reflects. Thus mixing CMY colors with a white color produces different colors. This process of synthesizing colors from adding CMY mixtures to white is called **Subtractive** color model. We start from white to black color. Printing and painting involve this color synthesis to generate different colors on white paper or canvas. As mixing of CMY at the highest intensity produces brown color, printers also use black (K) color to generate shades of the black, and the resultant color group is called as CMYK color model.
+
+---
+
+## Color matching
+
+Color matching is representing and reproducing any color wavelength using primary monochromatic wavelengths. Using different intensities of primary colors, the target color wavelength is produced.
+
+### Grassman's laws of additive color mixture
+
+In 1953, Grassmann recognized that any color can be matched with a linear combination of three primary colors. Grassmann's laws describe the relations between primary colors to match any color by additive color mixture. The following Grassmann's laws are fundamental for color mixing,
+
+- If two colors (X and Y) are the same, then mixing X and Y with the third color Z would still look like same. 
+$$
+\footnotesize{If \space X = Y, \space then \space X + Z = Y + Z}
+$$
+
+- Any color C can be produced by a linear combination of three primary colors but no primary color is matched by a combination of the other two. 
+$$
+\footnotesize{C = xX + yY + zZ}
+$$
+where (x, y, z) are portions of primary colors (X, Y, Z) required to match color C.
+
+- Two colors C1 and C2, if mixed to form another color C3, then C3 can be matched by a linear combination of mixtures of primary colors that are used to produce C1 and color C3. 
+$$
+\footnotesize{C3 = C1 + C2 = (xX1 + yY1 + zZ1) + (xX2 + yY2 + zZ2)}
+$$
+
+- Colors that are produced by mixing primary colors have constant luminance. This is not true at various lighting conditions like in photopic (daylight) vision, objects appear in different colors, but in scotopic (night) vision, objects appear in grayscale.
+
+
+### Human tristimulus response
+
+In the 1860s, James Maxwell stated that using RGB primary colors, all other colors can be generated but it is not possible to generate all colors only by addition and requires subtraction also to match certain colors. This is called the human tristimulus response. 
+
+### 2&deg Standard Observer color-matching experiment
+
+In the late 1920s, based on the works of Newton, Grassmann, and Maxwell, David Wright and John Guild independently conducted experiments to quantify the color reception ability of a normal human observer. They believed that human color receptors are located within the 2&deg arc of the fovea back from the retina, and asked standard observers or human volunteers to look through a hole that provides a 2&deg field of view. They asked volunteers to match the target color by adjusting combinations of red, blue, and green colors.
+
+As not all colors could be matching using an additive color model of red, blue, and green, the target color is mixed with some portion of the primary color, and the other two primary colors are altered in portions to match the target colors.
+
+The Commission International de l’Eclairage (CIE), based on Wright-Guild's 2&deg standard observer data, published RGB color matching functions to represent colors as a combination of three primary colors. This is also called **CIE standard 2&deg observer**.
+
+![2&deg and 10&deg Standard Observer:=:40:=:2&deg and 10&deg standard observer view$$$https://support.hunterlab.com/hc/en-us/articles/203420099-CIE-Standard-Observers-and-calculation-of-CIE-X-Y-Z-color-values-AN-1002b](color-science/standard-observer.jpg)
+
+### 10&deg Supplementary Standard Observer color-matching experiment
+
+In the 1960s, researchers observed that cones present in the retina cover a larger field than the standard 2&deg view. Three researchers, Stiles, Burch, and Speranskaya again repeated color matching experiments with a 10&deg field view. They believed 10&deg color matching experiments would cover more spectral response than 2&deg. And it was right. In 1964, the CIE published 10&deg Standard Observer based on a 10&deg color-matching experiment. The 10&deg standard observer is recommended than 2&deg as it covers larger color representatives.
+
+## CIE 1924 $\small{V(\lambda)}$ Spectral Luminous Efficiency function
+
+Human eyes perceive different wavelengths of visible spectrum at different brightness levles for same radiance energy. Sensitivity is zero at either end of the spectrum thus we recieve 0 brightness and no color.
+
+The luminous efficiency function describes the human eye's sensitivity for different wavelengths. The more sensitivity observed the more brightness the color is. Eyes are most sensitive at **555nm** at daylight (photopic) and **507nm** at night (scotopic). CIE $\small{V(\lambda)}$ luminosity curve tells the relative sensitivity of the human eye for different color wavelengths. The luminous efficiency function distinguishes the brightness level of two colors at equal luminous. We can derive relative brightness for different colors with $\small{V(\lambda)}$ function.
+
+![Luminous efficiency function:=:50:=:Photopic (black) and Scotopic (green) luminosity function$$$https://en.wikipedia.org/wiki/Luminous_efficiencG_function](color-science/luminosity-curve.jpg)
+
+From $\small{V(\lambda)}$ luminous efficiency function, we can observe that, for equal radiance energy, brightness order of RGB is **green>red>blue**. For two colors at **500nm** and **570nm** to look as equal brightness, the color at **500nm** should be more luminous than **570nm**. 
+$\small{V(\lambda)}$ function is an approximation function and accurate in some cases (like color blind people).
+
+### Relative luminance of RGB primaries
+
+The above CIE RGB color matching functions are scaled in assumtion that all colors have same brightness. The $\bar{r}$, $\bar{g}$ and $\bar{b}$ are normalized to have equal area under curve to yield $\bar{r}(\lambda) = \bar{g}(\lambda) = \bar{b}(\lambda) = 1$. The integrated area is assumed to be same that
+$$
+\int \bar{r}(\lambda)d\lambda = \int \bar{g}(\lambda)d\lambda = \int \bar{b}(\lambda)d\lambda = \int V(\lambda)d\lambda
+$$
+
+Solving the above expression gives the relative luminanace ratios for **r : g : b = 1 : 4.5907 : 0.0601**. If we compare $V(\lambda)$ luminous curve for **R = 700nm**, **G = 546.1nm** and **G = 435.8nm**, (r, g, b) luminance ratios are approximately matches.
+
+If ratios are normalized such that sum of ratios equals to 1, then **r : g : b = 0.2126 : 0.7152 : 0.0722**.
+
+To match any target color, RGB colors are mixed in portions obtained from CIE RGB color-mathcing function, and then those resultant RGB values should multiply by relative luminance ratios to get the target color with exact brightness.
+
+## CIE 1931 RGB color matching functions
+
+The **Color matching functions** are mathematical estimation of color response of each primary color relative to human observer in 2&deg view field. Color matching functions gives amount of primary color energy required to generate target color wavelength. CIE defined three color mathcing functions $\small{\bar{r}(\lambda), \space \bar{g}(\lambda) \space and \space \bar{b}(\lambda)}$ which are normalized weight factors.
+
+![CIE 1931 RGB color matching functions:=:50](color-science/cie-rgb-cmf.jpg)
+
+In the above RGB cmf diagram, each color wave represents RGB spectral intensities at various wavelengths. The three primary colors have peak sensitivity at wavelengths **R = 700nm**, **G = 546.1nm** and **G = 435.8nm**. The distribution of spectral energy is normalized and adding all color matching functions equals 1. Negative values in the graph indicate primary colors have to be mixed with the target color before color matching. And $\small{\bar{r}(\lambda)}$ slightly matches the $\small{V(\lambda)}$ luminous efficiency function.
+
+### RGB Tristimulus values
+
+The **tristimulus values** are, in a color space, the amount of color proportions of primary colors are required in a tri-chromatic additive color model to produce a color.
+
+For CIE 1931 RGB color space, the RGB tristimulus values for spectral distribution of color $\small{S(\lambda)}$ can be calculated as
+$$
+\small{R = \int S(\lambda)\bar{r}(\lambda)d\lambda \hspace2ex
+G = \int S(\lambda)\bar{g}(\lambda)d\lambda \hspace2ex
+B = \int S(\lambda)\bar{b}(\lambda)d\lambda}
+$$
+
+where $\small{S(\lambda)}$ is spectral intensity of a color.
+
+It can also be expressed as, for a color $\small{C}$,
+$$
+\small{C = R\bar{r}(\lambda) + G\bar{g}(\lambda) + B\bar{b}(\lambda)}
+$$
+$$
+\small{C = R\bold{R} + G\bold{G} + B\bold{B}}
+$$
+
+where $\small{R}$, $\small{G}$ and $\small{B}$ are tristimulus values, and scaled to unit length.
+
+## CIE XYZ color matching functions
+
+RGB color matching functions contain negative intensities in mathematical form but they are not practically suitable for the physical world. CIE then converted RGB color space to XYZ color space where XYZ are linear combinations of monochromatic colors RGB. The new XYZ color matching functions have only positive intensities. The derived XYZ parameters are imaginary and they roughly represent S, M, and L cones.
+
+![CIE XYZ color matching functions:=:60](color-science/cie-xyz-cmf.jpg)
+
+$\small{\bar{x}(\lambda), \bar{y}(\lambda) \space and \space \bar{z}(\lambda)}$ are color matching functions. From above diagram, we can say Violet (around 450nm) color is a mixture of Red and Blue which is indeed true and this cannot be seen in RGB color matching function curves.
+
+Also, distribution of $\small{\bar{y}(\lambda)}$ is close to $\small{V(\lambda)}$ luminous efficiency function. So Y component also roughly describes the luminance of the color.
+
+XYZ is a linear combination of RGB colors. If RGB colors are vectors with unit length and act as vector basis, they form a three-dimensional vector space. And XYZ vectors form a new basis vector by a linear transformation **M** of RGB vector basis.
+
+$$
+\small{\begin{bmatrix}
+X \\
+Y \\
+Z \\
+\end{bmatrix} = M
+\begin{bmatrix}
+R & G & B
+\end{bmatrix}}
+$$
+$$
+\small{\begin{bmatrix}
+X \\
+Y \\
+Z \\
+\end{bmatrix} = 
+\begin{bmatrix}
+R_x & R_y & R_z \\
+G_x & G_y & G_z \\
+B_x & B_y & B_z
+\end{bmatrix}
+\begin{bmatrix}
+R & G & B
+\end{bmatrix}}
+$$
+$$
+\small{\begin{bmatrix}
+X \\
+Y \\
+Z \\
+\end{bmatrix} = \frac{1}{0.17}
+\begin{bmatrix}
+0.49 & 0.31 & 0.20 \\
+0.17 & 0.81 & 0.01 \\
+0.00 & 0.01 & 0.99
+\end{bmatrix}
+\begin{bmatrix}
+R & G & B
+\end{bmatrix}}
+$$
+
+where X, Y, and Z are tristimulus values defined as, for spectral color distribution $\small{S(\lambda)}$
+$$
+\small{X = \int S(\lambda)\bar{x}(\lambda)d\lambda \hspace2ex
+Y = \int S(\lambda)\bar{y}(\lambda)d\lambda \hspace2ex
+Z = \int S(\lambda)\bar{z}(\lambda)d\lambda}
+$$
+
+From the above transformation matrix **M**, we can say Red and Green colors have zero or no impact on Z which can be confirmed from RGB color matching functions.
+
+---
+
+## CIE xy chromaticity diagram & CIE xyY color space
+
+Imagine if XYZ tristimulus values are represented as unit scale vectors, they form a 3D vector space and contains all possible colors with RGB combinations in a cube. Now trace out the coordinates of XYZ for different wavelengths in the visible spectrum, the closed curve that is formed by joining all coordinates is called spectral locus.
+
+![CIE XYZ color space:=:60:=:CIE XYZ spectral locus$$$https://commons.wikimedia.org/wiki/File:3D_Graph_of_CIE_XYZ_Colorspace.png](color-science/cie-xyz-colorspace.jpg)
+
+The above 3D XYZ color space contains colors with Hue, Saturationm and Intensity/Brightness. It requires three parameters (H, S, and V) to describe a color (each for hue, saturation, and intensity).
+
+If (X, Y, Z) are projected to $\small{X + Y + Z = 1}$ plane in XYZ vector space, then normalized representation of (X, Y, Z) is
+$$
+\small{x = \frac{X}{X + Y + Z} \hspace2ex 
+y = \frac{Y}{X + Y + Z} \hspace2ex
+z = \frac{Z}{X + Y + Z}}
+$$
+
+summing up the normalized x, y and z components equals to 1 i.e, $\small{x + y + z = 1}$ and $\small{x,y,z\ge0}$
+
+The planar projection of the above spectral locus to the plane $\small{X + Y + Z = 1}$, then it forms a planar triangle.
+
+![CIE XYZ planar projection:=:35](color-science/spectral-locus-planar-projection.jpg)
+
+**Chromaticity** is a color property without intensity i.e color independent component of a color. Chromaticity is the quality of a color determined by its dominant wavelength and its purity (chroma/saturation). In chromaticity, only hue and saturation are used to describe the colors. That means light blue and dark blue have the same hue and saturation values, and same color matching functions.
+
+A chromaticity diagram is a representation of 3D XYZ color space in 2D space with only chromaticity values (hue and saturation). As $x + y + z =1$, any component can be derived from two other components. So z can be derived from x and y as
+$$
+\small{x + y + z = 1}
+$$
+$$
+\small{z = 1 - x - y}
+$$
+
+Any tristimulus value can be derived from other tristimulus values. With Y, X and Z are derived as 
+$$
+\small{X = \frac{Y}{y}x}
+$$
+$$
+\small{Z = \frac{Y}{y}(1 - x - y)}
+$$
+
+If the above spectral locus triangular plane in xyz-plane is projected onto xy-plane, a chromaticity diagram is obtained. And to construct the actual XYZ values, Y is stored along with xy. Together xyY forms the **CIE xyY** color space with xy as chromaticity coordinates and Y as a luminance value because we discussed earlier that the Y component roughly matches $\small{V(\lambda)}$.
+
+The [RGB chromaticity diagram](https://en.wikipedia.org/wiki/Rg_chromaticity) could be constructed by following the same procedure as XYZ. Here **CIE rgG** color space is constructed by keeping rg chromaticity coordinates and G value for luminance.
+
+![CIE chromaticity diagram:=:50:=:CIE xyY chromaticity diagram](color-science/cie-chromaticity-diagram.jpg)
+
+The horseshoe shape in the above diagram contains all colors of the projected planar triangle. The chromaticity diagram is a mathematical representation of the human eye's color perception. 
+- The outer line of the spectral locus has colors with wavelengths distributed across in visible spectrum. Starting from violet to red and magenta line as a bridge between. These colors are hues or dominant wavelength colors which are seen in the rainbow.
+- The region inside the spectral locus contains all colors possible in XYZ space that are visible to our human eyes. These colors are saturated colors of hues or a mixture of monochromatic wavelengths.
+- A point (x, y) on the above graph matches a color in the xyY color space.
+- It can be observed that CMY (cyan, magenta, yellow) colors lie between (green and blue), (blue and red), and (red and green). CMY colors are present in complement/opposite to RGB.
+
+### Color gamut
+
+**Color gamut** describes a range of colors in the visible spectrum that are visible for human eyes. The color gamut of a device is that subset of color space that can be represented. color gamuts are generally a subset of the CIE chromaticity diagram with the center as a white point.
+
+![Color gamut:=:50:=:Different color gamuts in CIE xy chromaticity diagram$$$https://en.wikipedia.org/wiki/Gamut](color-science/color-gamut.jpg)
+
+Color gamuts are color spaces enclosed by a triangle with color coordinates of the monitor as red, green, and blue colors. A gamut is a three-dimensional color space with lightness being the third dimension perpendicular to the chromaticity diagram.
+
+Certain color gamuts are standardized by different institutions to reproduce the colors across different environments. The **sRGB** color gamut is the standard color subset used to display colors around the web.
+
+The colors outside of the chromaticity diagram but inside a color gamut (like ProPhoto RGB) are called imaginary colors as they are not visible for human eyes and they look like normal visible colors. These colors can be detected using color measuring techniques but our eyes cannot differentiate those colors with normal visible colors.
+
+---
+
+### References
+- [How the CIE 1931 color matching functions were derived](https://silo.tips/download/how-the-cie-1931-color-matching-functions-were-derived-from-wright-guild-data)
+- https://scholar.harvard.edu/files/schwartz/files/lecture17-color.pdf
+- [CIE 1931 color space - Wikipedia](https://en.wikipedia.org/wiki/CIE_1931_color_space)
+- [CIE color space - Gernot Hoffmann](http://docs-hoffmann.de/ciexyz29082000.pdf)
+- https://engineering.purdue.edu/~bouman/ece637/notes/pdf/Tristimulus.pdf
+- http://graphics.stanford.edu/courses/cs148-10-summer/docs/02_light_color.pdf
+- http://cs.haifa.ac.il/hagit/courses/ist/Lectures/IST03_ColorXYZx4.pdf
+- http://www.cs.cmu.edu/afs/cs/academic/class/15462-s16/www/lec_slides/23_color.pdf
+- https://web.eecs.umich.edu/~sugih/courses/eecs487/lectures/22-Light+Color.pdf
+- [Light, Color and Color Space - Scratch Pixel](https://www.scratchapixel.com/lessons/digital-imaging/colors/color-space)
+- [Color Matching - Craig Blackwell](https://www.youtube.com/watch?v=82ItpxqPP4I)
+- [Visualizing the XYZ Color space](https://www.youtube.com/watch?v=x0-qoXOCOow)
+- [A Beginner's Guide to Colorimetry](https://medium.com/hipster-color-science/a-beginners-guide-to-colorimetry-401f1830b65a)
+- [Precise Color Communincation - Konica Minolta](https://www.konicaminolta.com/instruments/knowledge/color/index.html)
+- [Color Gamut](https://epxx.co/artigos/gamut_en.html)
