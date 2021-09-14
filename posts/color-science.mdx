@@ -1,23 +1,23 @@
 ---
-title: "Color Science for Image Processing"
-description: "Understand the concept of Color for Image Processing."
+title: "Color Science"
+description: "Understanding the concept of Color from human eye's perception to digital world representation."
 imgName: "color-science/color-science.jpg"
 date: "Aug 28, 2021"
 tags: ['image-processing']
-keywords: ['image-processing', 'computer-vision', 'color', 'opencv', 'digital-image-processing']
+keywords: ['color-matching', 'color', 'chromaticity-diagram', 'cie']
 ---
 
-![Color Science for Image Processing](color-science/color-science.jpg)
+![Color Science](color-science/color-science.jpg)
 
-# Color Science for Image Processing
+# Color Science
 
-Everything we deal with in image processing is all about colors. Digital image processing/signaling is about understanding and processing image data in the form of color bits that we encounter in our daily life. 
+Color is an important element that exists in nature. Everything we see or feel through the eyes is all about colors. It is necessary to understand the concept of color in domains like image processing, film making, and digital photography, where color is the primary element.
 
-From Space exploration to Film making, Air force to Archeology, image processing is applied everywhere that uses colors to gather data. For example Hubble telescope uses image processing techniques like **broad-band** and **narrow-band** filtering to color map planets, nebula, and galaxies based on the gases and their interactions like in "The Pillars of Creation".
+From Space exploration to Film making, Air force to Archeology, color science is applied everywhere that uses colors to gather data. For example Hubble telescope uses image processing techniques like **broad-band** and **narrow-band** filtering to color map planets, nebula, and galaxies based on the gases and their interactions like in "The Pillars of Creation".
 
 ![Pillars of Creation:=:40:=:The Pillars of Creation (NASA)$$$https://www.nasa.gov/image-feature/the-pillars-of-creation](color-science/pillars-of-creation.jpg)
 
-In this article, we discuss color and its properties which helps us to understand different image processing/computer vision techniques.
+In this article, we discuss color, the evolution of color understanding, and numerical representation of color in the digital world.
 
 ---
 
@@ -62,7 +62,7 @@ If we mix two primary colors at equal intensities and another one is being kept 
 
 These Cyan (C), Magenta (M), and Yellow (Y) colors are called secondary colors (CMY) as they are derived from primary ones (RGB).
 
-C,M, and Y are also complementary colors to R, G, and B as synthensize of C, M and Y don't have any R, G, and B colors respectively. This means when an object is illuminated with RGB colors, the object absorbs at least one primary color and reflects the other two primary colors. An object looking Cyan would absorb Red but reflects Green and Blue (G + B = C). Mixing secondary colors produces RGB colors.
+C, M, and Y are also complementary colors to R, G, and B as synthesize of C, M and Y don't contain R, G, and B colors respectively. This means when an object is illuminated with RGB colors, the object absorbs at least one primary color and reflects the other two primary colors. An object looking Cyan would absorb Red but reflects Green and Blue (G + B = C). Mixing secondary colors produces RGB colors.
 - M + Y = R
 - Y + C = G
 - C + M = B
@@ -87,7 +87,7 @@ Here subtracting means mixing colors as an object absorbs colors and then reflec
 
 Color matching is representing and reproducing any color wavelength using primary monochromatic wavelengths. Using different intensities of primary colors, the target color wavelength is produced.
 
-### Grassman's laws of additive color mixture
+### Grassmann's laws of additive color mixture
 
 In 1953, Grassmann recognized that any color can be matched with a linear combination of three primary colors. Grassmann's laws describe the relations between primary colors to match any color by additive color mixture. The following Grassmann's laws are fundamental for color mixing,
 
@@ -130,7 +130,7 @@ In the 1960s, researchers observed that cones present in the retina cover a larg
 
 ## CIE 1924 $\small{V(\lambda)}$ Spectral Luminous Efficiency function
 
-Human eyes perceive different wavelengths of visible spectrum at different brightness levles for same radiance energy. Sensitivity is zero at either end of the spectrum thus we recieve 0 brightness and no color.
+Human eyes perceive different wavelengths of the visible spectrum at different brightness levels for the same radiance energy. Sensitivity is zero at either end of the spectrum thus we receive 0 brightness and no color.
 
 The luminous efficiency function describes the human eye's sensitivity for different wavelengths. The more sensitivity observed the more brightness the color is. Eyes are most sensitive at **555nm** at daylight (photopic) and **507nm** at night (scotopic). CIE $\small{V(\lambda)}$ luminosity curve tells the relative sensitivity of the human eye for different color wavelengths. The luminous efficiency function distinguishes the brightness level of two colors at equal luminous. We can derive relative brightness for different colors with $\small{V(\lambda)}$ function.
 
@@ -150,7 +150,7 @@ Solving the above expression gives the relative luminanace ratios for **r : g : 
 
 If ratios are normalized such that sum of ratios equals to 1, then **r : g : b = 0.2126 : 0.7152 : 0.0722**.
 
-To match any target color, RGB colors are mixed in portions obtained from CIE RGB color-mathcing function, and then those resultant RGB values should multiply by relative luminance ratios to get the target color with exact brightness.
+To match any target color, RGB colors are mixed in portions obtained from the CIE RGB color-matching function, and then those resultant RGB values should multiply by relative luminance ratios to get the target color with exact brightness.
 
 ## CIE 1931 RGB color matching functions
 
@@ -162,7 +162,7 @@ In the above RGB cmf diagram, each color wave represents RGB spectral intensitie
 
 ### RGB Tristimulus values
 
-The **tristimulus values** are, in a color space, the amount of color proportions of primary colors are required in a tri-chromatic additive color model to produce a color.
+The **tristimulus values** are, in a color space, the amount of color proportions of primary colors are required in a trichromatic additive color model to produce a color.
 
 For CIE 1931 RGB color space, the RGB tristimulus values for spectral distribution of color $\small{S(\lambda)}$ can be calculated as
 $$
@@ -253,7 +253,7 @@ Imagine if XYZ tristimulus values are represented as unit scale vectors, they fo
 
 ![CIE XYZ color space:=:60:=:CIE XYZ spectral locus$$$https://commons.wikimedia.org/wiki/File:3D_Graph_of_CIE_XYZ_Colorspace.png](color-science/cie-xyz-colorspace.jpg)
 
-The above 3D XYZ color space contains colors with Hue, Saturationm and Intensity/Brightness. It requires three parameters (H, S, and V) to describe a color (each for hue, saturation, and intensity).
+The above 3D XYZ color space contains colors with Hue, Saturation, and Intensity/Brightness. It requires three parameters (H, S, and V) to describe a color (each for hue, saturation, and intensity).
 
 If (X, Y, Z) are projected to $\small{X + Y + Z = 1}$ plane in XYZ vector space, then normalized representation of (X, Y, Z) is
 $$
@@ -309,6 +309,10 @@ Color gamuts are color spaces enclosed by a triangle with color coordinates of t
 Certain color gamuts are standardized by different institutions to reproduce the colors across different environments. The **sRGB** color gamut is the standard color subset used to display colors around the web.
 
 The colors outside of the chromaticity diagram but inside a color gamut (like ProPhoto RGB) are called imaginary colors as they are not visible for human eyes and they look like normal visible colors. These colors can be detected using color measuring techniques but our eyes cannot differentiate those colors with normal visible colors.
+
+---
+
+Over time, different color spaces and techniques were developed to describe human color perception. **Colorimetry** and **Spectrophotometry** are two different methods to quantify the colors. CIE XYZ color spaces are also defined for the 10&deg standard observer, and it is the standard color space being used in the modern digital world. In the fields like image processing and digital photography, it is necessary to have a good grasp of concepts like chromaticity diagram and color gamuts that are useful for methods like color constancy, color correction, and color grading.  
 
 ---
 

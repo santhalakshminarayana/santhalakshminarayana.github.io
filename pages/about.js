@@ -376,9 +376,9 @@ export default function About_Page(props) {
             </p>
 
             <p className = 'about-info-description'>As humans entered into AI world and the prophecies <b>AI RULES THE WORLD</b>, <b>ML IS FUTURE</b> are 
-              happening, I decided to understand how this new world works and started exploring AI. I like travelling in 
+              happening, I decided to understand how this new world works and started exploring AI. I like traveling in 
               Machine Learning, Data Science, Computer Vision regions mostly. I try new methods coming out and read tons of blog posts, watch videos, 
-              discuss with experts to keep me update myself about things happening in the digital world so that I won't be thown out from the running wheel.</p>
+              discuss with experts to keep me updated about things happening in the digital world so that I won't be thrown out from the running wheel.</p>
 
             <p className = 'about-info-description'>More to come in life...</p>
           </div>

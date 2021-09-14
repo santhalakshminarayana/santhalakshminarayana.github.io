@@ -85,16 +85,7 @@ Open **package.json** file in the root directory and add **deploy** command to e
     "deploy": "npm run build && npm run export"
   },
   "dependencies": {
-    "@next/mdx": "^10.0.4",
-    "gray-matter": "^4.0.2",
-    "imagemin-mozjpeg": "^9.0.0",
-    "imagemin-optipng": "^8.0.0",
-    "next": "10.0.4",
-    "next-mdx-remote": "^2.0.1",
-    "next-optimized-images": "^2.6.2",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "webp-loader": "^0.6.0"
+    ---
   }
 }
 
@@ -364,8 +355,8 @@ The beauty of Next.js is that we can dynamically serve pages by fetching these *
 Create **blog** folder inside the **pages** folder and inside this **blog** folder create a file with name **[id].js**. Dynamic routes in Next.js are identified by **[]** (square brackets) in the filename. We can provide any query parameter to this **[]** page component which will end up as *http://localhost:8000/blog/post-name* for **post-name.js**. Now add following code to *pages/blog/**[id]**.js*
 
 ```js:pages/blog/[id].js
-import renderToString from 'next-mdx-remote/render-to-string';
-import hydrate from 'next-mdx-remote/hydrate';
+import { serialize } from 'next-mdx-remote/serialize';
+import { MDXRemote } from 'next-mdx-remote';
 import { getAllPostsPath, getPostData } from '../../lib/getPostsData.js';
 
 const components = {
@@ -383,12 +374,11 @@ const components = {
 }
 
 export default function Blog({ postMetadata, postContent }) {
-	const content = hydrate(postContent, { components });
 
 	return (
 		<div>
 			<div className = 'blog-content'>
-				{content}
+				<MDXRemote {...postContent} components = {components} /> 
 			</div>
 
 			<style jsx>{`
@@ -416,7 +406,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	const postData = await getPostData(params.id);
-	const mdxSource = await renderToString(postData.content, { components });
+	const mdxSource = await serialize(postData.content);
 	return {
 		props: {
 			postMetadata: postData.metadata,
@@ -429,9 +419,9 @@ export async function getStaticProps({ params }) {
 
 If any page provides dynamic routing we must provide all dynamic paths we want to serve to this page through the [getStaticPaths](https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation) function.
 
-With **renderToString** and **hydrate** we parse markdown content to HTML string and render as plain HTML. To style the HTML tags in markdown, we pass custom tags as components to the MDX loader which maps tags automatically. In the above file two tags, **h1** and **p** are customized and combined as components.
+With **serialize** and **MDXRemote**, we parse markdown content to HTML string and render it as plain HTML. To style the HTML tags in markdown, we pass custom tags as components to the MDX loader which maps tags automatically. In the above file two tags, **h1** and **p** are customized and combined as components.
 
-Now in the browser hit URL *http://localhost:3000/blog/batman-vs-superman* or *http://localhost:3000/blog/justice-league* to see the post. You might see output similar to below
+Now, in the browser, hit URL *http://localhost:3000/blog/batman-vs-superman* or *http://localhost:3000/blog/justice-league* to see the post. You might see output similar to below
 
 ![MDX Post Display](blog-nextjs-mdx/mdx-post-display.jpg)
 
@@ -651,4 +641,4 @@ While developing it works fine everything, so we check the environment phase we 
 
 ---
 
-And here we are with our personal blog on the internet and we can take our blog to next level by adding fancy CSS, custom components, and other pages like **about**, **contact**... Only sky is the limit for human creativity and I hope you will create your website better than mine. In the end, I hope you got some useful information from this article to build your own blog. If you are curious to check the source code of this website, you can find it on [github.com/santhalakshminarayana/santhalakshminarayana.github.io](https://github.com/santhalakshminarayana/santhalakshminarayana.github.io).
+And here we are with our personal blog on the internet and we can take our blog to next level by adding fancy CSS, custom components, and other pages like **about**, **contact**... I hope you find this articl useful to build your own blog. To check the source code of this website, you can find it at [github.com/santhalakshminarayana/santhalakshminarayana.github.io](https://github.com/santhalakshminarayana/santhalakshminarayana.github.io).
