@@ -4,7 +4,7 @@ description: "Understanding the concept of Color from human eye's perception to 
 imgName: "color-science/color-science.jpg"
 date: "Aug 28, 2021"
 tags: ['image-processing']
-keywords: ['color-matching', 'color', 'chromaticity-diagram', 'cie']
+keywords: ['color-matching', 'color', 'chromaticity-diagram', 'cie', 'graphic-design']
 ---
 
 ![Color Science](color-science/color-science.jpg)
@@ -31,11 +31,11 @@ Issac Newton described the color as a quality of light. And the light which is a
 
 ![Visible Spectrum:=:55:=:Visible Light Spectrum$$$https://en.wikipedia.org/wiki/Electromagnetic_radiation](color-science/visible-spectrum.jpg)
 
-The retina in our eye is responsible for vision. The retina contains photoreceptor cells that convert light rays and send signals back to the brain through nerves and the brain intercepts these colors. Rods and Cones in the retina are two types of photoreceptors that are responsible for our vision in dark and bright conditions. Rods work at a low level of light and our vision is in grayscale. Rods don't provide any color vision. At night as there is a low level of light we can see the objects in combinations of white and black (grayscale). Cones work in bright light and provides color vision. 
+The retina in our eye is responsible for vision. The retina contains photoreceptor cells that convert light signals to neural signals and send those signals back to the brain through nerves. And then, the brain intercepts these signals to colors. Rods and Cones in the retina are two types of photoreceptors that are responsible for our vision in dark and bright conditions. Rods work at a low level of light and our vision is in grayscale. Rods don't provide any color vision. At night as there is a low level of light we can see the objects in combinations of white and black (grayscale). Cones work in bright light and provides color vision. 
 
 ![Retina:=:70:=:Light capture by Rods and Cones in Retina$$$https://www.xrite.com/blog/color-perception-part-3](color-science/retina-rods-cones.jpg)
 
-### RGB (primary color) cones
+### Triochromatic theory
 
 In the 1800s, Thomas Young stated that the human eye consists of three different types of color receptors more likely red, green, and blue, and mixing these colors create other colors.
 
@@ -49,7 +49,15 @@ These S, M, and L cones detect Blue, Green, and Red colors respectively and othe
 
 If we mix all RGB colors at a high-intensity level we get White color, and if RGB colors with 0 intensity level produce Black Color.
 
-### The Color of an object
+### Opponent process theory {: #opponent-process-theory }
+
+After cones converting physical (light) signal to neural signal, these neural signals reach the brain through nerves. Here, cells changes behavior and responds in opponent manner for colos. The photoreceptor cells are in inter-connection with each other cell and gives positive or negative responses for incoming color signals. Some cells fire positive signals when seeing red color, and activates negative signals for green color. These opposite responses don't happen at the same time in a cell. The opponent process theory states that color perception is controlled by three opponent color systems: red-green, blue-yellow, and white-black (according to recent study, these pairs are blue-yellow, red-cyan, and green-magenta). These opponet colors don't perceive as together because cells can only fire one of the colors in a pair i.e. there is no "bluish yellow" or "greenish red".
+
+![Opponent Process:=:60:=:Opponent Process$$$https://en.wikipedia.org/wiki/Opponent_process](color-science/opponent-process-theory.jpg)
+
+These tirchromatic and opponent process theories gives an idea about how our brain receive and process light signals into colors.
+
+## The Color of an object
 
 When a light beam hits the surface of an object, it absorbs some wavelengths and reflects a particular wavelength of light. An object looking Pink absorbs all wavelengths of light except some portion of Red and Blue. And our eyes receive those Red and Blue colors by cones and intercept as pink by stimulating the Red and Blue cones. Paints on walls are made to absorb all of the wavelengths except the color of their appearance. 
 
@@ -312,7 +320,9 @@ The colors outside of the chromaticity diagram but inside a color gamut (like Pr
 
 ---
 
-Over time, different color spaces and techniques were developed to describe human color perception. **Colorimetry** and **Spectrophotometry** are two different methods to quantify the colors. CIE XYZ color spaces are also defined for the 10&deg standard observer, and it is the standard color space being used in the modern digital world. In the fields like image processing and digital photography, it is necessary to have a good grasp of concepts like chromaticity diagram and color gamuts that are useful for methods like color constancy, color correction, and color grading.  
+Over time, different color spaces and techniques were developed to describe human color perception. **Colorimetry** and **Spectrophotometry** are two different methods to quantify the colors. CIE XYZ color spaces are also defined for the 10&deg standard observer, and it is the standard color space being used in the modern digital world. In the fields like image processing and digital photography, it is necessary to have a good grasp of concepts like chromaticity diagram and color gamuts that are useful for methods like color constancy, color correction, and color grading. 
+
+For further study about colors, check out the topics like color tolerance, color difference, conversion of different color gamuts between display systems, and additional color spaces like CIE LAB.
 
 ---
 
