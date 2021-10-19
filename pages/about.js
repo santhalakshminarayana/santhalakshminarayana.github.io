@@ -5,7 +5,7 @@ import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 
 import { SiCplusplus, SiPython, SiJavascript, SiKeras, SiTensorflow, SiPytorch, 
-  SiReact, SiNextDotJs, SiMysql } from "react-icons/si";
+  SiReact, SiNextdotjs, SiMysql } from "react-icons/si";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
@@ -465,7 +465,7 @@ export default function About_Page(props) {
               </div>
 
               <div className = 'tech-stack-division'>
-                <SiNextDotJs className = 'tech-stack-icon'/>
+                <SiNextdotjs className = 'tech-stack-icon'/>
                 <p className = 'tech-stack-name'>Next</p>
               </div>
 
