@@ -13,24 +13,17 @@
   "dependencies": {
     "@next/mdx": "^10.2.3",
     "gray-matter": "^4.0.3",
-    "imagemin-mozjpeg": "^9.0.0",
-    "imagemin-optipng": "^8.0.0",
     "next": "^11.1.2",
     "next-compose-plugins": "^2.2.1",
-    "next-mdx-remote": "^3.0.6",
-    "next-optimized-images": "^2.6.2",
-    "next-sitemap": "^1.6.164",
-    "npm": "^7.21.1",
+    "next-mdx-remote": "3.0.0",
+    "next-sitemap": "^1.6.192",
+    "npm": "^8.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
     "react-syntax-highlighter": "^15.4.4",
-    "rehype-katex": "4.0.0",
-    "remark-math": "4.0.0",
-    "webp-loader": "^0.6.0"
+    "rehype-katex": "3.0.0",
+    "remark-math": "3.0.0"
   },
-  "devDependencies": {
-    "responsive-loader": "2.0.0",
-    "sharp": "^0.27.2"
-  }
+  "devDependencies": {}
 }

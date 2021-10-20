@@ -233,12 +233,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
 	const postData = await getPostData(params.id);
+	
 	const mdxSource = await serialize(postData.content, {
 		mdxOptions: {
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex]
     }
-	})
+	});
 	return {
 		props: {
 			postMetadata: postData.metadata,
