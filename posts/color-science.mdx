@@ -199,7 +199,37 @@ RGB color matching functions contain negative intensities in mathematical form b
 
 $\small{\bar{x}(\lambda), \bar{y}(\lambda) \space and \space \bar{z}(\lambda)}$ are color matching functions. From above diagram, we can say Violet (around 450nm) color is a mixture of Red and Blue which is indeed true and this cannot be seen in RGB color matching function curves.
 
-Also, distribution of $\small{\bar{y}(\lambda)}$ is close to $\small{V(\lambda)}$ luminous efficiency function. So Y component also roughly describes the luminance of the color.
+### CIE XYZ tristimulus values calculation 
+
+For light source with spectral radiance $\small{L(\lambda)}$,
+$$
+\small{X = \int L(\lambda)\bar{x}(\lambda)d\lambda \hspace2ex
+Y = \int L(\lambda)\bar{y}(\lambda)d\lambda \hspace2ex
+Z = \int L(\lambda)\bar{z}(\lambda)d\lambda}
+$$
+where $$\lambda$$ is the equivalent monochromatic light (nm) for a range of wavelengths [380, 780]nm.
+
+For reflective or transmissive object case when illuminated by light source, replace spectral radiance by spectral reflectance (or transmittance) $\small{S(\lambda)}$, multiplied by the spectral power distribution of the illuminant $\small{I(\lambda)}$
+$$
+\small{X = \frac{K}{N}\int S(\lambda)I(\lambda)\bar{x}(\lambda)d\lambda}
+$$
+$$
+\small{Y = \frac{K}{N}\int S(\lambda)I(\lambda)\bar{y}(\lambda)d\lambda}
+$$
+$$
+\small{Z = \frac{K}{N}\int S(\lambda)I(\lambda)\bar{z}(\lambda)d\lambda}
+$$
+
+where $$K$$ is scaling factor (1-100), and
+$$
+\small {N = \int I(\lambda)\bar{y}(\lambda)d\lambda}
+$$
+
+Due to absence of analytical expressions of color matching functions, the above integration is transformed to summation of equal intervals of **10nm** over spectrum wavelength range [380, 780]nm.
+
+### XYZ from RGB
+
+Distribution of $\small{\bar{y}(\lambda)}$ is close to $\small{V(\lambda)}$ luminous efficiency function. So Y component roughly describes the luminance of the color. X is a combination of RGB colors and Z represents blue color. With Y, XZ represents all possible chromaticities (color without luminance).
 
 XYZ is a linear combination of RGB colors. If RGB colors are vectors with unit length and act as vector basis, they form a three-dimensional vector space. And XYZ vectors form a new basis vector by a linear transformation **M** of RGB vector basis.
 
@@ -210,7 +240,9 @@ Y \\
 Z \\
 \end{bmatrix} = M
 \begin{bmatrix}
-R & G & B
+R \\
+G \\
+B \\
 \end{bmatrix}}
 $$
 $$
@@ -225,7 +257,9 @@ G_x & G_y & G_z \\
 B_x & B_y & B_z
 \end{bmatrix}
 \begin{bmatrix}
-R & G & B
+R \\
+G \\
+B \\
 \end{bmatrix}}
 $$
 $$
@@ -240,24 +274,19 @@ Z \\
 0.00 & 0.01 & 0.99
 \end{bmatrix}
 \begin{bmatrix}
-R & G & B
+R \\
+G \\
+B \\
 \end{bmatrix}}
 $$
 
-where X, Y, and Z are tristimulus values defined as, for spectral color distribution $\small{S(\lambda)}$
-$$
-\small{X = \int S(\lambda)\bar{x}(\lambda)d\lambda \hspace2ex
-Y = \int S(\lambda)\bar{y}(\lambda)d\lambda \hspace2ex
-Z = \int S(\lambda)\bar{z}(\lambda)d\lambda}
-$$
-
-From the above transformation matrix **M**, we can say Red and Green colors have zero or no impact on Z which can be confirmed from RGB color matching functions.
+From the above transformation matrix **M**, we can say Red and Green colors have zero or no impact on Z which can be confirmed from RGB color matching functions. Also, Y is a combination of weighted RGB values of relative luminance. 
 
 ---
 
 ## CIE xy chromaticity diagram & CIE xyY color space
 
-Imagine if XYZ tristimulus values are represented as unit scale vectors, they form a 3D vector space and contains all possible colors with RGB combinations in a cube. Now trace out the coordinates of XYZ for different wavelengths in the visible spectrum, the closed curve that is formed by joining all coordinates is called spectral locus.
+Imagine if XYZ tristimulus values are represented as vectors, they form a 3D vector space and contains all possible colors with RGB combinations in a cube. Now trace out the coordinates of XYZ for different wavelengths in the visible spectrum, the closed curve that is formed by joining all coordinates is called spectral locus.
 
 ![CIE XYZ color space:=:60:=:CIE XYZ spectral locus$$$https://commons.wikimedia.org/wiki/File:3D_Graph_of_CIE_XYZ_Colorspace.png](color-science/cie-xyz-colorspace.jpg)
 
@@ -270,9 +299,9 @@ y = \frac{Y}{X + Y + Z} \hspace2ex
 z = \frac{Z}{X + Y + Z}}
 $$
 
-summing up the normalized x, y and z components equals to 1 i.e, $\small{x + y + z = 1}$ and $\small{x,y,z\ge0}$
+Summing up the normalized x, y and z components equals to 1 i.e, $\small{x + y + z = 1}$ and $\small{x,y,z\ge0}$
 
-The planar projection of the above spectral locus to the plane $\small{X + Y + Z = 1}$, then it forms a planar triangle.
+The planar projection of the above spectral locus to the plane $\small{X + Y + Z = 1}$ forms a planar triangle.
 
 ![CIE XYZ planar projection:=:35](color-science/spectral-locus-planar-projection.jpg)
 
@@ -341,4 +370,7 @@ For further study about colors, check out the topics like color tolerance, color
 - [Visualizing the XYZ Color space](https://www.youtube.com/watch?v=x0-qoXOCOow)
 - [A Beginner's Guide to Colorimetry](https://medium.com/hipster-color-science/a-beginners-guide-to-colorimetry-401f1830b65a)
 - [Precise Color Communincation - Konica Minolta](https://www.konicaminolta.com/instruments/knowledge/color/index.html)
-- [Color Gamut](https://epxx.co/artigos/gamut_en.html)
+- [Color Gamut - Epxx](https://epxx.co/artigos/gamut_en.html)
+- http://www.marcelpatek.com/color.html
+- https://www.oceanopticsbook.info/view/photometry-and-visibility/chromaticity
+- https://www.thebroadcastbridge.com/content/entry/14426/color-and-colorimetry-part-7-cie-xyz
