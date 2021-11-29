@@ -1,0 +1,542 @@
+---
+title: "Chromatic adaptation (Color constancy)"
+description: "Color constancy of an image using Chromatic adaptation technique in Python."
+imgName: "chromatic-adaptation/chromatic-adaptation.jpg"
+date: "Nov 26, 2021"
+tags: ['image-processing', 'opencv']
+keywords: ['color-science', 'color-constancy', 'chromatic-adaptation', 'gray-world', 'opencv', 'python']
+---
+
+![Color constancy of an image using Chromatic adaptation](chromatic-adaptation/chromatic-adaptation.jpg)
+
+# Color constancy of an image using Chromatic adaptation
+
+## Color constancy
+
+Color constancy is the tendency of the human color system that ensures the color perception of objects is relatively constant under varying illumination conditions. It means we observe the same object colors for different light conditions. 
+
+Like for example, under a greenish light source, the color of the apple looks relatively red even though the intensity of the green wavelength is greater than other colors. It's unknown how we (and some other animals) have this color perception system.
+
+Several mechanisms like metamerism, chromatic adaptation, memory map, etc. are involved in achieving color constancy. Metamerism happens when two object looks the same color even though the reflectance wavelengths are not the same but overall color is the same. Our memory map of object colors helps our eyes to adjust the color perception after some time under different illuminations. 
+
+Color constancy is not true in every object case, for some objects under certain illumination conditions, it could be inverse. Color constancy happens in most of the cases for objects if we have seen them before and for other objects/surfaces, we observe the color of major intensity wavelength. Color constancy depends heavily on the illumination source and neighborhood surface.
+
+![Checker Shadow Illusion:=:50:=:Even though both A and B are the same gray color, A appears darker than B because of shadow from the cylinder which changes illumination on B](chromatic-adaptation/checker-shadow-illusion.jpg)
+
+Several theories like photoreceptor sensitivity, retinex, color map, etc, try to measure the color constancy using different mechanisms. 
+
+## Chromatic adaptation 
+
+Chromatic adaptation is one of the mechanisms involved in color constancy and is defined as the ability of human color perception to adjust the retina/cortex sensitivity for changes in the illuminant color system. Chromatic adaptation is closely related to the adjustment of cone sensitivity that happens in our eyes when the illumination changes. Like our eyes adjust to see the objects as constant colors under different day-light conditions like sunrise, mid-day, and sunset. In all these conditions, we perceive object colors as the same. This could be opposite in some conditions where we see opposite colors instead of relative colors.  
+
+In computer vision, computation color constancy is achieving human color constancy using different methods based on color constancy mechanisms. And chromatic adaptation technique is one of the methods to achieve computational color constancy based on illumination.
+
+### Von Kries transform
+
+The Von Kries chromatic adaptation technique is based on the LMS cone sensitivity response function. LMS cones responses in the retina are independent of each other and they adjust independently for varying illuminations. Each cone increases or decreases responsiveness based on illuminant spectral energy. Each cone cell gains (increase or decrease) some spectral sensitivity response to adapt for new illumination from the previous illumination to perceive object constant colors. 
+
+Based on LMS cones gain, Von Kries adaptation transforms one illuminant to other to keep the **white color** constant in both systems. Von Kries transform based on LMS cone sensitivity is the base for chromatic adaptation transforms proposed later.
+
+## Chromatic adaptation transform
+
+Von Kries chromatic adaptation transformation is a linear transformation of the source color to destination color based on LMS cones gain for adaptation to destination illuminant. That is, we can transform the color in one illuminant to other illuminants if we scale the color with a gain of LMS for adaptation to color constancy. 
+
+> If you're not familiar with concepts like **CIE RGB**, **CIE XYZ** tristimulus values, **chromaticity diagram**, and other color science topics, please refer to those topics at my previous blog about [color-science](https://santhalakshminarayana.github.io/blog/color-science).
+
+The destination LMS cone responses can be calculated by multiplying the gain LMS with source LMS cone responses. In matrix form, the representation is 
+
+$$
+\begin{bmatrix}
+L_{D} \\
+M_{D} \\
+S_{D} \\
+\end{bmatrix} = 
+\begin{bmatrix}
+L_{D}/L_{S} & 0 & 0 \\
+0 & M_{D}/M_{S} & 0 \\
+0 & 0 & S_{D}/S_{S} \\
+\end{bmatrix}
+\begin{bmatrix}
+L_{S} \\
+M_{S} \\
+S_{S} \\
+\end{bmatrix}
+$$
+
+where **L, M, and S** of source and destination are represented in **CIE LMS color space**, and $$L_{D}/L_{S}$$, $$M_{D}/M_{S}$$, and $$S_{D}/S_{S}$$ are gain factors for source to destination illumination adaptation.
+
+As color representation in **LMS color space** is difficult and not practiced, transform the **LMS color space** to **CIE XYZ**. When a transformation is performed in **CIE XYZ** or any other space but not **LMS cone space** is called **Wrong Von Kries**.
+
+$$
+\begin{bmatrix}
+L \\
+M \\
+S \\
+\end{bmatrix} = M_{A}
+\begin{bmatrix}
+X \\
+Y \\
+Z \\
+\end{bmatrix}
+$$
+
+$$
+\begin{bmatrix}
+L \\
+M \\
+S \\
+\end{bmatrix} = 
+\begin{bmatrix}
+a & b & c \\
+d & e & f \\
+g & h & i \\
+\end{bmatrix}
+\begin{bmatrix}
+X \\
+Y \\
+Z \\
+\end{bmatrix}
+$$
+
+where the transformation matrix $$M_{A}$$ with dimensions $$3x3$$ and independent gain control factors $$(a, e, i)$$ is called chromatic adaptation transform (CAT) matrix. Each CAT model give different CAT matrices for transformation from **LMS cone space** to **CIE XYZ**.
+
+Wrong Von Kries transform by **XYZ** gain scaling to **CIE XYZ** tristimulus values of the source is,
+
+$$
+\begin{bmatrix}
+X_{D} \\
+Y_{D} \\
+Z_{D} \\
+\end{bmatrix} = 
+\begin{bmatrix}
+X_{D}/X_{S} & 0 & 0 \\
+0 & Y_{D}/Y_{S} & 0 \\
+0 & 0 & Z_{D}/Z_{S} \\
+\end{bmatrix}
+\begin{bmatrix}
+X_{S} \\
+Y_{S} \\
+Z_{S} \\
+\end{bmatrix}
+$$
+
+We can convert **CIE XYZ** to **LMS cone space** and then back to **CIE XYZ** with $$M_{A}$$, then we can change Wrong Von Kries to general Von Kries as,
+
+$$
+\begin{bmatrix}
+X_{D} \\
+Y_{D} \\
+Z_{D} \\
+\end{bmatrix} = M
+\begin{bmatrix}
+X_{S} \\
+Y_{S} \\
+Z_{S} \\
+\end{bmatrix}
+$$
+
+$$
+M = M_{A}^{-1}
+\begin{bmatrix}
+L_{D}/D_{S} & 0 & 0 \\
+0 & M_{D}/M_{S} & 0 \\
+0 & 0 & S_{D}/S_{S} \\
+\end{bmatrix} M
+$$
+
+$$
+\begin{bmatrix}
+L_{S} \\
+M_{S} \\
+S_{S} \\
+\end{bmatrix} = M_{A}
+\begin{bmatrix}
+X_{S} \\
+Y_{S} \\
+Z_{S} \\
+\end{bmatrix}
+$$
+
+$$
+\begin{bmatrix}
+L_{D} \\
+M_{D} \\
+S_{D} \\
+\end{bmatrix} = M_{A}
+\begin{bmatrix}
+X_{D} \\
+Y_{D} \\
+Z_{D} \\
+\end{bmatrix}
+$$
+
+The generalized version of Von Kries for **CIE XYZ white point** reference is,
+
+$$
+\begin{bmatrix}
+X_{D} \\
+Y_{D} \\
+Z_{D} \\
+\end{bmatrix} = M_{A}^{-1}
+\begin{bmatrix}
+L_{D}/L_{S} & 0 & 0 \\
+0 & M_{D}/M_{S} & 0 \\
+0 & 0 & S_{D}/S_{S} \\
+\end{bmatrix} M_{A}
+\begin{bmatrix}
+X_{S} \\
+Y_{S} \\
+Z_{S} \\
+\end{bmatrix}
+$$
+
+$$(X, Y, Z)$$ values for source and destination are illuminant white point values in **CEI XYZ**.
+
+> [White point](https://en.wikipedia.org/wiki/White_point) is the color that is formed when all cone sensitivity responses are maximum.
+
+## Implementation of Chromatic adaptation transform
+
+We will implement chromatic adaptation for converting source image to destination illuminant by applying CAT. Chromatic adaptation for an image is implemented in two steps 
+1. Estimate scene illuminant of image
+2. Convert source image to destination illuminant with source illuminant obtained in step 1
+
+### Illumination estimation of image
+
+Illumination estimation is predicting tristimulus values (CIE XYZ) for the white point of the illuminant light source under which the reference image has been taken. These predicted white point tristimulus values were then later used for CAT. Illumination estimation is a very crucial step in chromatic adaptation. Several illumination estimation methods exist like
+- Gray world assumption
+- White patch retinex
+- Reflection model
+
+The above methods are suitable for uniform illumination, for nonuniform illumination Retinex models are widely used.
+
+For now, we use the Gray world assumption for illumination estimation
+
+### Gray world assumption illuminant estimation
+
+[Gray world assumption](https://en.wikipedia.org/wiki/Color_normalization) is a simple method that assumes image contains objects with different reflectance colors uniformly from minimum to maximum intensities and averaging all pixel colors gives gray color. Illumination estimation is calculated by averaging all pixel values for each channel. For an image with equal representation of colors, illumination estimation gives average color gray.
+
+$$
+Illuminant = (R_{avg}/255, G_{avg}/255, B_{avg}/255)
+$$
+
+where $R_{avg}$, $G_{avg}$, and $B_{avg}$ are means of each image channel (R, B, G). Scale the mean values to the maximum intensity value of an image which is generally 255 (8-bit).
+
+> Images are generally stored in JPEG or PNG in [sRGB](https://en.wikipedia.org/wiki/SRGB) format. To mimic the human perception of non-linear luminance factor, while taking pictures, exposure values are [Gamma corrected](https://www.cambridgeincolour.com/tutorials/gamma-correction.htm) with a value close to 2.2. And any image processing operation should be applied on linear RGB values by converting sRGB gamma to linear RGB without gamma. 
+
+Read source image to which we apply chromatic adaptation and transform to destination illuminant,
+
+```python
+import numpy as np
+import cv2
+
+# read image which generally in sRGB format
+img = cv2.imread('input.jpg')
+# reverse channel order from BGR to RGB
+img = img[:, :, ::-1]
+# scale image in range [0.0, 1.0]
+img = img / 255.0
+```
+
+Convert sRGB image to linear RGB
+
+```python
+def srgb_to_linear(srgb):
+    # 'sRGB' in [0.0, 1.0]
+
+    ln_rgb = srgb.copy()
+    mask = ln_rgb > 0.04045
+    ln_rgb[mask] = np.power((ln_rgb[mask] + 0.055) / 1.055, 2.4)
+    ln_rgb[~mask] /= 12.92
+    return ln_rgb
+
+def linear_to_srgb(linear):
+    # 'linear RGB' in [0.0, 1.0]
+    
+    srgb = linear.copy()
+    mask = srgb > 0.0031308
+    srgb[mask] = 1.055 * np.power(srgb[mask], 1 / 2.4) - 0.055
+    srgb[~mask] *= 12.92
+    return np.clip(srgb, 0.0, 1.0)
+```
+
+![sRGB to linear RGB](chromatic-adaptation/srgb-to-linear-rgb.jpg)
+
+Apply gray world on linear RGB image and get illuminant
+
+```python
+def get_gray_world_illuminant(img):
+    # image in sRGB with range [0.0, 1.0]
+    # convert sRGB to linear RGB
+    ln_img = srgb_to_linear(img)
+    # mean of each channel
+    avg_ch = ln_img.mean(axis=(0, 1))
+    # convert back RGB mean values to sRGB
+    return linear_to_srgb(avg_ch)
+```
+
+Illuminant for the image is 
+
+```python
+illuminant = get_gray_world_illuminant(img)
+```
+
+```python
+print(illuminant) => array([0.29078475, 0.39055316, 0.50858647])
+```
+
+Illuminant for the above image is **[0.29078475, 0.39055316, 0.50858647]**. For the output illuminant, we can say that the blue color influence is higher than other color wavelengths in the image.
+
+Now we have the illuminant of the source image, next apply chromatic adaptation for this image.
+
+### Chromtic adaptation
+
+We have source illuminant, to transform to destination illuminant, we consider [D65 standard illuminant](https://www.waveformlighting.com/color-matching/what-is-d65-and-what-is-it-used-for) for the destination which is standard for digital images and displays. We assume that the source image was taken under a different illuminant and we now transform that image to D65 illuminant.
+
+Illuminant for D65 white is **[0.95047, 1., 1.08883]**, these are the **CIE XYZ** values for white point of sRGB D65. sRGB values for D65 white point (all values are 255) is **(1.0, 1.0, 1.0)** which is destination illuminant white point. 
+
+We implement chromatic adaptation transform step-by-step.
+
+> Every operation should be applied on **linear RGB**
+
+First, convert illuminant sRGB values to **CIE XYZ**.
+
+```python
+RGB_TO_XYZ = np.array([[0.412453, 0.357580, 0.180423], 
+                       [0.212671, 0.715160, 0.072169], 
+                       [0.019334, 0.119193, 0.950227]])
+
+XYZ_TO_RGB = np.array([[3.240481, -1.537151, -0.498536],
+                       [-0.969256, 1.875990, 0.0415560],
+                       [0.055647, -0.204041, 1.057311]])
+
+def srgb_to_xyz(srgb):
+    # convert 'sRGB' to 'linear RGB'
+    rgb = srgb_to_linear(srgb)
+    # convert 'linear RGB' to 'XYZ'
+    return rgb @ RGB_TO_XYZ.T
+
+def xyz_to_srgb(xyz):
+    # convert 'XYZ' to 'linear RGB'
+    rgb = xyz @ XYZ_TO_RGB.T
+    # convert back 'linear RGB' to 'sRGB'
+    return linear_to_srgb(rgb)
+
+def normalize_xyz(xyz):
+    # normalize xyz with 'y' so that 'y' represents luminance
+    return xyz / xyz[1]
+```
+
+Convert sRGB to XYZ passing source and destination white points
+
+```python
+# source illuminant white point obtained from previous step 
+src_white_point = illuminant
+# destination illuminant white point scale to 1.0
+dst_white_point = (1.0, 1.0, 1.0)
+
+# convert white point in 'sRGB' to 'XYZ' 
+# and normalize 'XYZ' that 'Y' as luminance
+xyz_src = srgb_to_xyz(src_white_point)
+n_xyz_src = normalize_xyz(xyz_src)
+xyz_dst = srgb_to_xyz(dst_white_point)
+n_xyz_dst = normalize_xyz(xyz_dst)
+```
+
+Next, convert XYZ values to LMS cone space by transforming XYZ values with CAT transform matrix. Multiple CAT matrices exist and the Bradford model is popular among all these types.
+
+```python
+BRADFORD = np.array([[0.8951, 0.2664, -0.1614], 
+                     [-0.7502, 1.7135, 0.0367], 
+                     [0.0389, -0.0685, 1.0296]])
+
+VON_KRIES = np.array([[0.40024, 0.70760, -0.08081],
+                      [-0.22630, 1.16532, 0.04570],
+                      [0.00000, 0.00000, 0.91822]])
+
+SHARP = np.array([[1.2694, -0.0988, -0.1706],
+                  [-0.8364, 1.8006, 0.0357],
+                  [0.0297, -0.0315, 1.0018]])
+
+CAT2000 = np.array([[0.7982, 0.3389, -0.1371],
+                    [-0.5918, 1.5512, 0.0406], 
+                    [0.0008, 0.2390, 0.9753]])
+
+CAT02 = np.array([[0.7328, 0.4296, -0.1624],
+                  [-0.7036, 1.6975, 0.0061],
+                  [0.0030, 0.0136, 0.9834]])
+```
+
+Convert XYZ values to LMS and get gain scale factors by dividing destination LMS with source LMS.
+
+```python
+def get_cat_matrix(cat_type = 'BRADFORD'):
+    if cat_type == 'BRADFORD':
+        return BRADFORD
+    elif cat_type == 'VON_KRIES':
+        return VON_KRIES
+    elif cat_type == 'SHARP':
+        return SHARP
+    elif cat_type == 'CAT2000':
+        return CAT2000
+    else:
+        return CAT02
+    
+def xyz_to_lms(xyz, M):
+    return xyz @ M.T
+
+def get_gain(lms_src, lms_dst):
+    return lms_dst / lms_src
+
+def transform_lms(M, gain):
+    return np.linalg.inv(M) @ np.diag(gain) @ M
+```
+
+```python
+# get CAT type matrix
+cat_m = get_cat_matrix('BRADFORD')
+
+# convert 'XYZ' to 'LMS'
+lms_src = xyz_to_lms(n_xyz_src, cat_m)
+lms_dst = xyz_to_lms(n_xyz_dst, cat_m)
+# LMS gain by scaling destination with source LMS
+gain = get_gain(lms_src, lms_dst)
+
+# multiply CAT matrix with LMS gain factors
+ca_transform = transform_lms(cat_m, gain)
+```
+
+*ca_transform()* applies chromatic adaptation transformation on LMS gain factors and then converts back the LMS values to XYZ by multiplying with the inverse transform of CAT matrix.
+
+Transform the source image to destination illuminant by multiplying XYZ values with chromatic adaptation transformation XYZ values.
+
+```python
+# convert 'sRGB' source image to 'XYZ' 
+src_img_xyz = srgb_to_xyz(img)
+
+# apply CAT transform to image
+transformed_xyz = src_img_xyz @ ca_transform.T
+
+# convert back 'XYZ' to 'sRGB' image
+transformed_img = xyz_to_srgb(transformed_xyz)
+```
+
+**transformed_img** is the final image after transformation.
+
+The final chromatic adaptation function that transforms source image to destination illuminant is
+
+```python
+def chromatic_adaptation_image(src_white_point, dst_white_point, src_img, cat_type = 'BRADFORD'):
+    # convert white point in 'sRGB' to 'XYZ' 
+    # and normalize 'XYZ' that 'Y' as luminance
+    xyz_src = srgb_to_xyz(src_white_point)
+    n_xyz_src = normalize_xyz(xyz_src)
+    xyz_dst = srgb_to_xyz(dst_white_point)
+    n_xyz_dst = normalize_xyz(xyz_dst)
+
+    # get CAT type matrix
+    cat_m = get_cat_matrix(cat_type)
+
+    # convert 'XYZ' to 'LMS'
+    lms_src = xyz_to_lms(n_xyz_src, cat_m)
+    lms_dst = xyz_to_lms(n_xyz_dst, cat_m)
+    # LMS gain by scaling destination with source LMS
+    gain = get_gain(lms_src, lms_dst)
+
+    # multiply CAT matrix with LMS gain factors
+    ca_transform = transform_lms(cat_m, gain)
+    
+    # convert 'sRGB' source image to 'XYZ' 
+    src_img_xyz = srgb_to_xyz(src_img)
+    
+    # apply CAT transform to image
+    transformed_xyz = src_img_xyz @ ca_transform.T
+    
+    # convert back 'XYZ' to 'sRGB' image
+    transformed_img = xyz_to_srgb(transformed_xyz)
+    
+    return transformed_img
+```
+
+```python
+# read image which generally in sRGB format
+img = cv2.imread('input.jpg')
+# reverse channel order from BGR to RGB and scale to 1.0
+r_img = img[:, :, ::-1] / 255
+# get source illuminant by illumination estimation
+src_white_point = get_gray_world_illuminant(r_img)
+dst_white_point = np.array([1.0, 1.0, 1.0])
+# apply chromatic apatation for source image
+ca_img = chromatic_adaptation_image(src_white_point, dst_white_point, r_img, cat_type='BRADFORD')
+# reverse channel order from RGB to BGR, and rescale to 255
+ca_img = (ca_img[:, :, ::-1] * 255).astype(np.uint8)
+```
+
+![Chromatic adaptation transform Batman](chromatic-adaptation/chromatic-adaptation-transform-batman.jpg)
+![Chromatic adaptation transform Pool](chromatic-adaptation/chromatic-adaptation-transform-pool.jpg)
+
+As chromatic adaptation is done with reference white point, the transformed images contain improved white color ranges and other colors are transformed based on illumination transform obtained by white point transform. 
+
+As illumination estimation is a crucial step, we can improve results further by applying other illumination estimation methods and images with uniform color objects.
+
+### ColorChecker
+
+[ColorChecker](https://en.wikipedia.org/wiki/ColorChecker) is a color checker chart containing multiple color squares or rectangles in a grid. ColorChecker chart contains a range of spectral reflectance color patches that represents natural object colors like human skin, leaves, flowers, sky, etc. These color patches on a whole represent all possible intensity ranges that are suitable for many uniform illumination conditions. 
+
+ColorChecker charts are used in photography while shooting images/videos under varying illumination conditions. Multiple scenes are shot under varying lighting conditions placing ColorChecker chart in the scene, and later based on the color patches illumination, images are adjusted to destination illuminant. This process is called color grading and it involves several steps including chromatic adaptation. 
+
+![ColorChecker chart:=:40:=:Macbeth ColorChecker chart](chromatic-adaptation/color-checker.jpg)
+
+As the color checker chart contains uniform color ranges, we can use this chart to estimate the illuminant of an image. We can detect ColorChecker chart in an image using OpenCV using OpenCV-Contrib module **mcc** (Macbeth ColorChecker).
+
+```python
+def get_colorchecker_coord(img):
+    # initialize CCDetector object
+    checker_detector = cv2.mcc.CCheckerDetector_create()
+    # detect classic Macbeth 24 color grid chart
+    has_chart = checker_detector.process(img, cv2.mcc.MCC24, 1)
+    # if any chart present
+    if has_chart:
+        # ColorChecker chart coordinates
+        # order - (tl, tr, br, bl)
+        box = checker_detector.getListColorChecker()[0].getBox()
+        min_x = int(min(box[0][0], box[3][0]))
+        max_x = int(max(box[1][0], box[2][0]))
+        min_y = int(min(box[0][1], box[1][1]))
+        max_y = int(max(box[2][1], box[3][1]))
+        coord = [(min_x, min_y), (max_x, max_y)]
+        return [True, coord]
+    else:
+        return [False, []]
+```
+
+The above function returns rectangle coordinates (top-left, bottom-right) for ColorChecker chart if present in an image.
+
+We extract ColorChecker from an image and estimate illuminant for only that extracted color chart as it contains uniform color ranges that give a good estimation of illuminant than the whole image.
+
+```python
+src_white_point = np.array([1.0, 1.0, 1.0])
+has_chart, coord = get_colorchecker_coord(img)
+if has_chart:
+    src_white_point = get_gray_world_illuminant(r_img[coord[0][1]: coord[1][1], coord[0][0]: coord[1][0]])
+else:
+    src_white_point = get_gray_world_illuminant(r_img)
+```
+
+![Detect ColorChecker chart](chromatic-adaptation/detec-colorchecker-chart.jpg)
+
+Chromatic adaptation of the above image with illuminant obtained from cropped ColorChecker chart is
+
+![Chromatic adptation ColorChecker Batman](chromatic-adaptation/chromatic-adaptation-batman-comparison.jpg)
+
+Some regions and color ranges of transformed images of **Img 1** and **Img 2** are close to each other because we have applied the same destination illuminant for both images and this gives the conclusion that chromatic adaptation works to transform images from one illuminant to another.
+
+We can improve transformation further with better illumination estimation models (both uniform and non-uniform) and compare various chromatic adaptation transform models.
+
+### References
+
+- https://www.cell.com/current-biology/pdf/S0960-9822(07)01839-8.pdf
+- http://www.marcelpatek.com/color.html
+- http://www.brucelindbloom.com/index.html?Eqn_ChromAdapt.html
+- https://web.stanford.edu/~sujason/ColorBalancing/adaptation.html
+- https://in.mathworks.com/help/images/color.html
+- https://in.mathworks.com/matlabcentral/fileexchange/66682-chromadapt-adjust-color-balance-of-rgb-image-with-chromatic
