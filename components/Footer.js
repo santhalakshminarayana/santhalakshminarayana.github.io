@@ -111,7 +111,7 @@ export default function Footer(props) {
 
 			{props.need_copy_right == true?
 				<div className = 'copy-right-container'>
-					<p className = 'copy-right-text'>Santha Lakshmi Narayana &#169; 2021</p>
+					<p className = 'copy-right-text'>Santha Lakshmi Narayana &#169; 2022</p>
 				</div>:
 				null
 			}

@@ -3,7 +3,7 @@ title: "Chromatic adaptation (Color constancy)"
 description: "Color constancy of an image using Chromatic adaptation technique in Python."
 imgName: "chromatic-adaptation/chromatic-adaptation.jpg"
 date: "Nov 26, 2021"
-tags: ['image-processing', 'opencv']
+tags: ['image-processing', 'color-science', 'opencv']
 keywords: ['color-science', 'color-constancy', 'chromatic-adaptation', 'gray-world', 'opencv', 'python']
 ---
 
@@ -36,6 +36,8 @@ In computer vision, computation color constancy is achieving human color constan
 The Von Kries chromatic adaptation technique is based on the LMS cone sensitivity response function. LMS cones responses in the retina are independent of each other and they adjust independently for varying illuminations. Each cone increases or decreases responsiveness based on illuminant spectral energy. Each cone cell gains (increase or decrease) some spectral sensitivity response to adapt for new illumination from the previous illumination to perceive object constant colors. 
 
 Based on LMS cones gain, Von Kries adaptation transforms one illuminant to other to keep the **white color** constant in both systems. Von Kries transform based on LMS cone sensitivity is the base for chromatic adaptation transforms proposed later.
+
+---
 
 ## Chromatic adaptation transform
 
@@ -193,6 +195,8 @@ $$
 $$(X, Y, Z)$$ values for source and destination are illuminant white point values in **CEI XYZ**.
 
 > [White point](https://en.wikipedia.org/wiki/White_point) is the color that is formed when all cone sensitivity responses are maximum.
+
+---
 
 ## Implementation of Chromatic adaptation transform
 
@@ -478,6 +482,8 @@ As chromatic adaptation is done with reference white point, the transformed imag
 
 As illumination estimation is a crucial step, we can improve results further by applying other illumination estimation methods and images with uniform color objects.
 
+---
+
 ### ColorChecker
 
 [ColorChecker](https://en.wikipedia.org/wiki/ColorChecker) is a color checker chart containing multiple color squares or rectangles in a grid. ColorChecker chart contains a range of spectral reflectance color patches that represents natural object colors like human skin, leaves, flowers, sky, etc. These color patches on a whole represent all possible intensity ranges that are suitable for many uniform illumination conditions. 
@@ -529,6 +535,8 @@ Chromatic adaptation of the above image with illuminant obtained from cropped Co
 ![Chromatic adptation ColorChecker Batman](chromatic-adaptation/chromatic-adaptation-batman-comparison.jpg)
 
 Some regions and color ranges of transformed images of **Img 1** and **Img 2** are close to each other because we have applied the same destination illuminant for both images and this gives the conclusion that chromatic adaptation works to transform images from one illuminant to another.
+
+---
 
 We can improve transformation further with better illumination estimation models (both uniform and non-uniform) and compare various chromatic adaptation transform models.
 
