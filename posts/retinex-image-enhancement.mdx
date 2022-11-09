@@ -157,7 +157,7 @@ We give default sigma scale values as **[15, 80, 250]** with equal weights which
 
 ![Multi scale retinex:=:100](retinex-image-enhancement/multi-scale-retinex.jpg)
 
-The **MSR** image for the above input image with scales **[15, 80, 250]** has many areas enhanced especially in the corner regions which are darker in the input image given by **SSR(15)**. And the retinex output has contrast separation comparatively better than the input image added by **SSR(80)** and **SSR(250**, but the output image has an overall gray appeal. 
+The **MSR** image for the above input image with scales **[15, 80, 250]** has many areas enhanced especially in the corner regions which are darker in the input image given by **SSR(15)**. And the retinex output has contrast separation comparatively better than the input image added by **SSR(80)** and **SSR(250)**, but the output image has an overall gray appeal. 
 
 The output **MSR** image is looking gray because retinex assumes the scene as in [Gray world](https://en.wikipedia.org/wiki/Color_normalization#Grey_world) where the average of all colors in the scene is close to gray color. If this assumption is failed in the input image, that is if there are colors that dominate the scene or some colors may not present, whatever the reason could be if the overall color average is not close to gray, then taking the average of multiple single-scale retinex images with equal weights gives output image with colors less saturated and close to gray color. So, we have to modify the Multi-scale retinex to preserve the color of the image.
 

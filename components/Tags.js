@@ -9,6 +9,8 @@ export default function Tags(props) {
 	return (
 			<div className = 'tags'>
         <Link href = '/tags/image-processing'><a>#image-processing</a></Link>
+        <Link href = '/tags/opencv'><a>#opencv</a></Link>
+        <Link href = '/tags/python-performance'><a>#python-performance</a></Link>
         <Link href = '/tags/color-science'><a>#color-science</a></Link>
         <Link href = '/tags/react'><a>#react</a></Link>
         <Link href = '/tags/next-js'><a>#next-js</a></Link>
