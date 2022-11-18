@@ -130,7 +130,8 @@ const components = {
     	border: `1px solid ${hr_color}`, }} />,
 
 	blockquote: props => <blockquote 
-		style = {{ backgroundColor: blockquote_background_color, 
+		style = {{ fontStyle: 'italic',
+			backgroundColor: blockquote_background_color, 
 			padding: '10px',
 			margin: '1vh 0 1vh 0',
 			borderLeft: `5px solid ${blockquote_border}`, 

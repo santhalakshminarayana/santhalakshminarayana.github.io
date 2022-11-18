@@ -20,8 +20,8 @@ One common practice to tackle the speed issues in production is to upgrade the h
 This is the first post in the series on Python performance and Optimization. The series points out the utilization of inbuilt libraries, low-level code conversions, and other interpreters to speed-up Python. The other posts included in this series are 
 
 - (Part-1): Why Python is slow? (this post)
-- (Part-2): Good practices to write fast Python code
-- (Part-3): Multi-processing and multi-tasking in Python
+- (Part-2): [Good practices to write fast Python code](https://santhalakshminarayana.github.io/blog/super-fast-python-good-practices)
+- (Part-3): Multi-processing in Python
 - (Part-4): Use Cython to get speed as fast as C
 - (Part-5): Use Numba to speed up Python Functions and Classes
 
@@ -79,7 +79,7 @@ We can see the address of **a** changes every time we change/assign the value be
 
 Python has to create new objects, keep their references, delete unused objects, and repeat the cycle. This continuous cycle of object creation and deletion whenever variable values changes make runtime slow.
 
-The major overhead that needs to address is Python's way of handling collections like Lists. In *C*, we create the arrays with fixed memory and the address of that array is fixed, and continuous memory allocation happens for all the elements starting from the fixed memory point. But in Python, for each value, an object is created anywhere in the memory (not continuous), and the list holds only references to these objects. Working on these arbitrary memory locations make things complex and eventually takes more time.
+The major overhead that needs to address is Python's way of handling collections like Lists. In *C*, we create the arrays with fixed memory and the address of that array is fixed, and continuous memory allocation happens for all the elements starting from the fixed memory point. But in Python, for each value, an [object is created](http://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/) anywhere in the memory (not continuous), and the list holds only references to these objects. Working on these arbitrary memory locations make things complex and eventually takes more time.
 
 ```python
 >>> l = [1, 2, 3, 4]
@@ -114,7 +114,7 @@ OUTPUT:
 ```
 
 
-### GIL, good and bad
+### GIL, good and bad:=:gil-good-and-bad
 
 In **C**, there is no inbuilt support for garbage collection. One has to manually de-allocate/free the memory. Unlike C, Python does garbage collection by using a mechanism called reference count. For every PyObject, Python keeps track of a count of how many references are pointing to the current object. If no reference is pointing to the current object, then, Python frees the memory by deleting the unused object. 
 
