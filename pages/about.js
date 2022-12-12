@@ -366,21 +366,16 @@ export default function About_Page(props) {
 
           <div className = 'about-info'>
             <p className = 'about-heading'>#Don't study but learn</p>
-            <p className = 'about-info-description'>Hello tech geek, I'm <b>Santha Lakshmi Narayana</b> (actually human but they called me as),
-              working as <b>Software Engineer</b> and also experiencing complex working nature of life.</p>
+            <p className = 'about-info-description'>Hello, I'm <b>Santha Lakshmi Narayana</b>, Software Engineer at 
+            Nouveau Labs in Bengaluru, India.</p>
 
-            <p className = 'about-info-description'>I have started this blog to share my knowledge (one of the rare things to give for free) 
-              that I have gained over years and hope that will help you that <b>You don't need to re-invent the wheel</b>. 
-              If any single person gained anything from me that will give motivation and encourages me to contribute more. This site is a bit technical 
-              about <b>Machine Learning, Web & Mobile development, Programming</b>. 
+            <p className = 'about-info-description'>I primarily work in AI, Machine Learning, and Backend tech. 
+            I have profound knowledge of Advanced Image Processing, Computer Vision, and NLP. Throughout my career, 
+            I have worked on projects like AutoML, Image enhancement, Search information extraction, 
+            Name matching & mapping, etc. I believe in writing performance-optimized 
+            code. Besides AI and ML, I have also experience in Mobile application development(Android).
             </p>
 
-            <p className = 'about-info-description'>As humans entered into AI world and the prophecies <b>AI RULES THE WORLD</b>, <b>ML IS FUTURE</b> are 
-              happening, I decided to understand how this new world works and started exploring AI. I like traveling in 
-              Machine Learning, Data Science, Computer Vision regions mostly. I try new methods coming out and read tons of blog posts, watch videos, 
-              discuss with experts to keep me updated about things happening in the digital world so that I won't be thrown out from the running wheel.</p>
-
-            <p className = 'about-info-description'>More to come in life...</p>
           </div>
         </div>
 
