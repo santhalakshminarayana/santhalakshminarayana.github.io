@@ -1,0 +1,309 @@
+---
+title: "Super fast Python (Part-5): Numba"
+description: "Speed up Numerical computations and functions in Python with Numba and Numpy."
+imgName: "super-fast-python-numba/super-fast-python-numba.jpg"
+date: "Dec 25, 2022"
+tags: ['python-performance']
+keywords: ['numba', python-performance', 'python-optimize', 'python', 'fast-python', 'speed', 'jit', 'numba-numpy']
+---
+
+![Super fast Python: Numba](super-fast-python-numba/super-fast-python-numba.jpg)
+
+# Super fast Python (Part-5): Numba
+
+This is the fifth and last post in the series on Python performance and Optimization. The series points out the utilization of inbuilt libraries, low-level code conversions, and other Python implementations to speed-up Python. The other posts included in this series are 
+
+- (Part-1): [Why Python is slow?](https://santhalakshminarayana.github.io/blog/super-fast-python-why-python-slow)
+- (Part-2): [Good practices to write fast Python code](https://santhalakshminarayana.github.io/blog/super-fast-python-good-practices)
+- (Part-3): [Multi-processing in Python](https://santhalakshminarayana.github.io/blog/super-fast-python-multi-processing)
+- (Part-4): [Use Cython to get speed as fast as C](https://santhalakshminarayana.github.io/blog/super-fast-python-cython)
+- (Part-5): Use Numba to speed up Python Functions (this post)
+
+In the last post about [Cython to speed-up Python code](https://santhalakshminarayana.github.io/blog/super-fast-python-cython), we discussed writing Python code in C-style, compiling that code separately into an object file, and using that generated file as an import directly into Python. But, not all people would feel comfortable writing C-style code or even some might not know C at all. So, to deal with such cases and get the performant efficient code to speed-up Python, one can use [Numba](https://numba.pydata.org/) instead. Numba translates Python code to machine code that executes almost as fast as C/C++ if optimized correctly.
+
+## What is Numba?
+
+Numba is a JIT (just-in-time) compiler that takes Python byte code and compiles it into machine code directly using [LLVM](https://llvm.org/) compiling mechanism. JIT is a type of interpreter that compiles frequently called code into machine code and caches that generated machine code to be used later for faster execution type. Here, Numba also takes Python code and generated machine code which the Python interpreter calls directly instead of interpreting and converting to machine code each time. Numba works best for numerical calculations, Array and Numpy operations, and loops. With Numba, we can write vectorized operations and parallelized loops to run on either CPU or GPU. 
+
+Numba decorators are one of the many ways to invoke the JIT compilation. Numba provides different decorators to compile code in different modes and types, the common decorators used in Numba are:
+- @jit - invoke JIT compilation for the provided function
+- @njit - @jit decorator with enabling strict no-python mode
+- @vectorize - convert normal functions into Numpy like **ufuncs**
+- @guvectorize - generalized **ufuncs** for higher dimensional arrays
+- @stencil - make a function behave as a kernel for a **stencil** like operation
+
+Numba also provides different options to pass for some of these decorators to configure the JIT compilation behavior
+- nopython
+- parallel
+- cache
+- nogil
+- fastmath
+- boundscheck
+- error_model
+- cuda
+
+## Numba @jit
+
+**@jit** decorator takes the Python function that needs to machine code compiled. When we make a call to the function we provided to **@jit**, upon the first time calling, Numba compiles the function, caches the machine code, and this machine code is directly used for the execution. As compilation takes time, the first-time call to the function gives some latency. But, for consecutive function calls in the same runtime, just the cached machine code is used instead of re-compiling every time. 
+
+Let's consider the following simple function *solve_expression* as an example. *solve_expression* takes some arguments, checks some conditions, and calculates the final polynomial expression. 
+
+```python
+def solve_expression(x, a, b, c, d):
+    A, B, C, D = a, b, c, d
+    if a > 10.1:
+        A = 2 * a
+    if 2.6 <= b < 8.3:
+        B = b - 1/b
+    if c > 4.5:
+        C = 4
+    if d < 9.0:
+        D = d ** 2
+    
+    return A*(x**3) + B*(x**2) + C*(x) + D
+```
+
+Now, use the **@jit** decorator to compile this function into machine code as 
+
+```python
+from numba import jit
+
+@jit
+def solve_expression(x, a, b, c, d):
+    A, B, C, D = a, b, c, d
+    if a > 10.1:
+        A = 2 * a
+    if 2.6 <= b < 8.3:
+        B = b - 1/b
+    if c > 4.5:
+        C = 4
+    if d < 9.0:
+        D = d ** 2
+    
+    return A*(x**3) + B*(x**2) + C*(x) + D
+```
+
+In the code snippet, we have imported the **jit** function decorator and decorated *solve_expression* with it.
+
+```python
+x, a, b, c, d = 2, 13, 1.2, 4, 7
+
+res = solve_expression(x, a, b, c, d)
+``` 
+
+> Inspect the Intermediate Representation (IR) of the function using solve_expression.inspect_types()
+
+As Numba **@jit** defers the JIT compilation until it encounters the first call to the function, the function call with arguments *solve_expression(x, a, b, c, d)* takes some time for executions. But, function calls later at this point will be fast. 
+
+Now compare the speeds of the normal Python function and Numba JIT decorated function. Using *solve_expression.py_func()*, we can invoke the normal python function of this JIT decorated function.
+
+```python
+%% timeit
+res = solve_expression.py_func(x, a, b, c, d)
+
+'''Output
+912 ns ± 3.47 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+'''
+```
+
+The normal Python function takes approx. 900 nanoseconds. 
+
+```python
+%%timeit
+res = solve_expression(x, a, b, c, d)
+
+'''Output
+277 ns ± 1.36 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+'''
+```
+
+And the Numba version takes approx. 280 nanoseconds. The Numba version is 3x times faster than the pure Python function.
+
+### Compilation options
+
+For **@jit** decorator, we can pass multiple options to configure the compilation behavior
+
+- **nopython**: if True, enables no-python mode making code execution without Python interpreter interference
+- **nogil**: if True, releases the GIL (only when *nopython=True*) inside the compiled function, useful for concurrent execution such as threads
+- **cache**: if True, store the compiled code in local storage and use this code whenever the function is called instead of re-compiling for every runtime
+- **parallel**: if True, enables automatic parallelization
+- **fastmath**: if True, uses faster math operations but less safe floating-point operations
+
+Apart from these, there are some more options available. You can check all options at [@jit reference](https://numba.readthedocs.io/en/stable/reference/jit-compilation.html#jit-functions).
+
+## Lazy and Eager compilation
+
+Note that, as Python function arguments can take any time of arguments, Numba compiles the function for that specific type of the argument passed. If a new type of argument is passed to the function while calling, Numba re-compiles the code for that specific type.
+
+### Lazy compilation
+
+The above *solve_expression()* function takes any type of argument. If we provide a function like this Numba calculates the optimization steps to be done based on the argument types provided at the first function call. In this way, Numba infers the argument types and compiles the specific version of the same function for different types. 
+
+Ex: if we change the argument types like this
+
+```python
+# previous values, x, a, b, c, d = 2, 13, 1.2, 4, 7
+# new values
+x, a, b, c, d = 3.9, 12, 5, 9.1, 14
+
+res = solve_expression(x, a, b, c, d)
+```
+
+As the previous compiled function expects types for *x=int, a=int, b=float, c=int, d=int*, and in the latest function call we have changed some argument types. So, Numba re-compiles the function for new argument types. This mode of the compilation of code is called lazy compilation because Numba compiles for specific argument types only if it encounters them.
+
+### Eager compilation
+
+For function overloading, we can specify function signatures with argument types and return types in a list with the least significant precision at the top. [Numba types](https://numba.readthedocs.io/en/stable/reference/types.html) follow Numpy convention types with different precision levels.
+
+```python
+@jit(['int32(int32, int32)',
+      'i4(int32, int64)', 
+      '(f4, f8)',
+      'f8(f4, f4)'])
+def func1(a, b):
+    return a + b
+```
+
+In the above function, we passed function signatures as a list of strings. The syntax is return type is specified first and argument types are specified after. It is allowed to have no return type specified. Numba will infer the return type automatically and use that specification. Calling the function with argument types not provided in the list raises an error.
+
+## @njit or @jit(nopython=True)
+
+Numba **@jit** operates in two modes *nopython* and *object*. In **nopython** mode, no interference of the Python interpreter is required and execution is very fast compared to normal mode. **object** mode is the same as calling function without **@jit**. 
+
+Normally with the **@jit** decorator, Numba tries to compile in **nopython** mode. If any part of the code cannot be compiled due to the presence of code that is not supported by Numba like a heterogenous dictionary, some string methods, etc, then Numba fallbacks to **object** or normal Python mode for compilation. But still, it will improve the performance when loops are involved. If there is no code to optimize, **@jit** in object mode runs slower than the normal Python version as Numba compilation involves several function call overheads.
+
+We can enable the strict *nopython* mode by passing the option to **@jit** as *@jit(nopython=True)*. Numba also provides a separate decorator for this option. *@njit* decorator is an alias for *@jit(nopython=True)*.
+
+```python
+@jit(nopython=True)
+def f(a, b):
+	return a + b
+
+# or
+
+@njit
+def f(a, b):
+	return a + b
+```
+
+With **nopython** mode, if any code is present that requires object mode compilation, Numba will raise an error. The primary goal is to write functions that can be implemented in strict no-python mode.
+
+---
+
+## Numba and Numpy
+
+Numba is best for Numpy arrays and supports some [Numpy features](https://numba.readthedocs.io/en/stable/reference/numpysupported.html) in no-python mode.
+
+```python
+@njit(['int64[:](int64[:, :], int64[:, :])'])
+def f(a, b):
+    c = np.empty(a.shape[0], dtype='int64')
+    
+    for i in range(a.shape[0]):
+        c[i] = a[i].sum() * b[i].sum()
+    
+    return c
+```
+
+The function takes 2 2D Numpy int64 arrays as arguments with the return type as an array of float64. The function calculates the sum of the product of the sum of each row of *a* and *b*.
+
+```python
+x, y, n = 1000, 1000, 1_000_000
+l, h = 0, 100
+a = np.random.randint(l, h, n).reshape(x, y)
+b = np.random.randint(l, h, n).reshape(x, y)
+```
+
+If we compare both normal Numpy calculation of the above function and Numba compiled code, 
+
+```python
+%%timeit
+# normal Python calculation
+res = a.sum(axis=1) * b.sum(axis=1)
+
+'''Output:
+1.4 ms ± 7.1 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+'''
+```
+
+```python
+%%timeit 
+# Numba compiled function
+res = f(a, b)
+
+'''Output:
+1.19 ms ± 15.4 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+'''
+```
+
+Numba compiled version takes **1.19 ms** which is slightly faster than normal calculation with Numpy **1.4ms**.
+
+## @vectorize decorator
+
+One of the main reasons for Numpy speed is that most of the Numpy functions are [ufunc](https://numpy.org/doc/stable/user/basics.ufuncs.html)s (universal functions) that are vectorized and implemented inside compiled layer of Numpy and hence the speed. We might run into a situation where we cannot find any existing Numpy functions for use and write a workaround by combining Numpy functions into a single operation. This new operation is not optimized and we might lose the speed that Numpy provides due to custom loops. To solve this problem, we can make any function as **ufunc** that comes with vectorization and speed. 
+
+With [@vectorize](https://numba.readthedocs.io/en/stable/user/vectorize.html), Numba provides functionality to create custom vectorized universal functions. The universal function takes scalar values and returns a scalar value and these functions are applied over any Numpy arrays where array values are passed as single scalar values and an outside loop is automatically generated.
+
+```python
+@vectorize(['float64(int64, int64)'])
+def v_expr(a, b):
+    return (a**2) + (a*3) + (b/2) + 10
+```
+
+Here, we created a simple universal function that takes two scalar values and returns a calculated expression. 
+
+```python
+n = 1_000_000
+l, h = 0, 100
+a = np.random.randint(l, h, n)
+b = np.random.randint(l, h, n)
+```
+
+The speed comparison of the Numpy expression and vectorized ufunc function gives 
+
+```python
+%%timeit
+# general way of calculating Numpy expression
+res = (a**2) + (a*3) + (b/2) + 10
+
+'''Output:
+8.66 ms ± 71.9 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+'''
+```
+
+```python
+%%timeit
+# calculate expression with ufunc
+res = v_expr(a, b)
+
+'''Output:
+2.17 ms ± 96.5 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+'''
+```
+
+the optimized function **v_expr** takes **2.17 ms** which is 4x faster than the normal calculation with Numpy.
+
+---
+
+In this blog, we discussed basic Numba decorators and compared Numba compiled functions with normal Python functions. Explore other features of Numba like 
+- [automatic parallelization](https://numba.readthedocs.io/en/stable/user/parallel.html)
+- [loop parallelization with prange](https://numba.readthedocs.io/en/stable/user/parallel.html#explicit-parallel-loops)
+- [stencil kernel implementation for arrays](https://numba.readthedocs.io/en/stable/user/stencil.html)
+- [ahead-of-time compilation](https://numba.readthedocs.io/en/stable/user/pycc.html)
+
+Remember that not every function can be passed to Numba as there are some limitations like 
+- Numba only supports a subset of Python code like classes, multi-dimensional dictionaries, etc, which are not supported yet. 
+- As object mode compilation takes more time than the normal Python mode in some cases, it is better to check the speed of both normal and compiled code execution speed.
+- Support for external libraries like Pandas is not supported.
+- As Numba re-implements some Numpy APIs, there may be different behavior expected.
+
+---
+
+### References
+- [https://github.com/ContinuumIO/gtc2020-numba](https://github.com/ContinuumIO/gtc2020-numba)
+- [https://www.nvidia.com/en-us/glossary/data-science/numba/](https://www.nvidia.com/en-us/glossary/data-science/numba/)
+- [https://www.chrisvoncsefalvay.com/2019/03/23/jit-fast/](https://www.chrisvoncsefalvay.com/2019/03/23/jit-fast/)
+- [https://towardsdatascience.com/numba-weapon-of-mass-optimization-43cdeb76c7da](https://towardsdatascience.com/numba-weapon-of-mass-optimization-43cdeb76c7da)
+- [https://www.infoworld.com/article/3622013/speed-up-your-python-with-numba.html](https://www.infoworld.com/article/3622013/speed-up-your-python-with-numba.html)
+- [https://coderzcolumn.com/tutorials/python/numba](https://coderzcolumn.com/tutorials/python/numba)
+- [https://towardsdatascience.com/numpy-ufuncs-the-magic-behind-vectorized-functions-8cc3ba56aa2c](https://towardsdatascience.com/numpy-ufuncs-the-magic-behind-vectorized-functions-8cc3ba56aa2c)
