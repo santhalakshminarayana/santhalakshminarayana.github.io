@@ -14,7 +14,6 @@ class Icon extends Component {
 			linkedin_current_color: this.props.normal_color,
 			medium_current_color: this.props.normal_color,
 			kaggle_current_color: this.props.normal_color,
-			quora_current_color: this.props.normal_color,
 		};
 		this.icon_font_size = this.props.icon_size;
 		this.normal_color = this.props.normal_color;
@@ -22,7 +21,6 @@ class Icon extends Component {
 		this.linkedin_color = '#0e76a8';
 		this.medium_color = 'black';
 		this.kaggle_color = '#20beff';
-		this.quora_color = '#a82400';
 	}
 
 	render() {
@@ -44,10 +42,6 @@ class Icon extends Component {
 						<SiKaggle style = {{ color: this.state.kaggle_current_color, fontSize: this.icon_font_size }} 
 											onMouseEnter = {() => { this.setState(() => ({ kaggle_current_color: this.kaggle_color })) }}
 											onMouseLeave = {() => { this.setState(() => ({ kaggle_current_color: this.normal_color })) }} />:
-						this.props.icon_name == 'quora'?
-						<SiQuora style = {{ color: this.state.quora_current_color, fontSize: this.icon_font_size }} 
-											onMouseEnter = {() => { this.setState(() => ({ quora_current_color: this.quora_color })) }}
-											onMouseLeave = {() => { this.setState(() => ({ quora_current_color: this.normal_color })) }} />:
 						null
 					}
 				</div>
@@ -97,21 +91,12 @@ export default function Footer(props) {
 				null
 					}
 
-					{props.quora == true?
-						<div className = 'link-item'>
-				  <a href = 'https://www.quora.com/profile/Lakshmi-Narayana-217' className = 'link' rel="noreferrer" target = '_blank'>
-					<Icon icon_name = 'quora' normal_color = {props.normal_color} icon_size = {props.icon_size} />
-				  </a>
-				</div>:
-				null
-					}
-
 				</div>
 			</div>
 
 			{props.need_copy_right == true?
 				<div className = 'copy-right-container'>
-					<p className = 'copy-right-text'>Santha Lakshmi Narayana &#169; 2022</p>
+					<p className = 'copy-right-text'>Santha Lakshmi Narayana &#169; 2023</p>
 				</div>:
 				null
 			}

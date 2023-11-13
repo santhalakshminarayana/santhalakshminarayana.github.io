@@ -1,11 +1,10 @@
 import Head from 'next/head';
-import Link from 'next/link';
 
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 
-import { SiCplusplus, SiPython, SiJavascript, SiKeras, SiTensorflow, SiPytorch, 
-  SiReact, SiNextdotjs, SiMysql } from "react-icons/si";
+import { SiGo, SiCplusplus, SiPython, SiJavascript, SiKeras, SiTensorflow, SiPytorch, SiOpencv,
+  SiReact, SiNextdotjs, SiMysql, SiRedis, SiDocker } from "react-icons/si";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 
 const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
@@ -63,7 +62,7 @@ const styles = `
     max-width: 100%;
     height: auto;
     border-radius: 50%;
-    border: 2px solid ${display_img_border};
+    border: 0px solid ${display_img_border};
   }
 
   .about-info {
@@ -348,11 +347,11 @@ export default function About_Page(props) {
 
         <div className = 'about-contanier'> 
           <div className = 'about-meta'>
-            <img className = 'display-img' src = '/images/about/santha-lakshmi-narayana.png'
+            <img className = 'display-img' src = '/images/about/santha-lakshmi-narayana.jpg'
                   alt = 'Lakshmi Narayana Santha'/>
             <Footer bg_color = {'transparent'} normal_color = {c4} icon_size = {'21px'} 
               horizontal_margin = {'5px'} horizontal_padding = {'1px'} vertical_padding = {'5px'}
-              github = {true} linkedin = {true} medium = {true} kaggle = {true} quora = {true}
+              github = {true} linkedin = {true} medium = {true} kaggle = {false}
               need_copy_right = {false} />
               <div className = 'about-meta-icon-container'>
                 <MdEmail className = 'about-meta-icon' />
@@ -366,14 +365,14 @@ export default function About_Page(props) {
 
           <div className = 'about-info'>
             <p className = 'about-heading'>#Don't study but learn</p>
-            <p className = 'about-info-description'>Hello, I'm <b>Santha Lakshmi Narayana</b>, Software Engineer at 
+            <p className = 'about-info-description'>Hello, I'm <b>Santha Lakshmi Narayana</b>, Senior Software Engineer at 
             Nouveau Labs in Bengaluru, India.</p>
 
             <p className = 'about-info-description'>I primarily work in AI, Machine Learning, and Backend tech. 
-            I have profound knowledge of Advanced Image Processing, Computer Vision, and NLP. Throughout my career, 
-            I have worked on projects like AutoML, Image enhancement, Search information extraction, 
+            I have profound knowledge of Advanced Image Processing, Computer Vision, NLP, and System Design & Architecture. Throughout my career, 
+            I have worked on projects like Contact-center(both call and chat), AutoML, Image enhancement, Search information extraction, 
             Name matching & mapping, etc. I believe in writing performance-optimized 
-            code. Besides AI and ML, I have also experience in Mobile application development(Android).
+            code over quantity.
             </p>
 
           </div>
@@ -399,8 +398,20 @@ export default function About_Page(props) {
                     <div className = 'role-buffer-dot'></div>
                   </div>
                   <div className = 'role'>
+                    <p className = 'role-name'>Senior Software Engineer</p>
+                    <p className = 'role-duration'>Oct 2022 to present</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className = 'roles-container'>
+                <div className = 'role-container'>
+                  <div className = 'role-buffer'>
+                    <div className = 'role-buffer-dot'></div>
+                  </div>
+                  <div className = 'role'>
                     <p className = 'role-name'>Software Engineer</p>
-                    <p className = 'role-duration'>Jun 2020 to present</p>
+                    <p className = 'role-duration'>Jun 2020 to Oct 2022</p>
                   </div>
                 </div>
               </div>
@@ -429,14 +440,25 @@ export default function About_Page(props) {
 
             <p className = 'tech-stack-group-heading'>Tools</p>
             <div className = 'tech-stack-group'>
+            
+            <div className = 'tech-stack-division'>
+                <SiPython className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>Python</p>
+              </div>
+
+              <div className = 'tech-stack-division'>
+                <SiGo className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>Go</p>
+              </div>
+
               <div className = 'tech-stack-division'>
                 <SiCplusplus className = 'tech-stack-icon'/>
                 <p className = 'tech-stack-name'>C++</p>
               </div>
 
               <div className = 'tech-stack-division'>
-                <SiPython className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>Python</p>
+                <SiKeras className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>Keras</p>
               </div>
 
               <div className = 'tech-stack-division'>
@@ -447,6 +469,26 @@ export default function About_Page(props) {
               <div className = 'tech-stack-division'>
                 <SiPytorch className = 'tech-stack-icon'/>
                 <p className = 'tech-stack-name'>Pytorch</p>
+              </div>
+
+              <div className = 'tech-stack-division'>
+                <SiOpencv className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>OpenCV</p>
+              </div>
+
+              <div className = 'tech-stack-division'>
+                <SiDocker className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>Docker</p>
+              </div>
+
+              <div className = 'tech-stack-division'>
+                <SiMysql className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>MySQL</p>
+              </div>
+
+              <div className = 'tech-stack-division'>
+                <SiRedis className = 'tech-stack-icon'/>
+                <p className = 'tech-stack-name'>Redis</p>
               </div>
 
               <div className = 'tech-stack-division'>
@@ -464,10 +506,6 @@ export default function About_Page(props) {
                 <p className = 'tech-stack-name'>Next</p>
               </div>
 
-              <div className = 'tech-stack-division'>
-                <SiMysql className = 'tech-stack-icon'/>
-                <p className = 'tech-stack-name'>SQL</p>
-              </div>
             </div>
 
           </div>
