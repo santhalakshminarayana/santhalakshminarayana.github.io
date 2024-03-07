@@ -1,107 +1,198 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import { SiGithub, SiLinkedin, SiMedium, SiKaggle, SiQuora } from "react-icons/si";
+import {
+  SiGithub,
+  SiLinkedin,
+  SiMedium,
+  SiKaggle,
+  SiQuora,
+} from "react-icons/si";
 
-const c1 = '#071013', c2 = '#fffecb', c3 = '#20a4f3',  c4 = '#1d2b35', c5 = '#fb232e', c6 = '#ffaa33';
+const c1 = "#071013",
+  c2 = "#fffecb",
+  c3 = "#20a4f3",
+  c4 = "#1d2b35",
+  c5 = "#fb232e",
+  c6 = "#ffaa33";
 
 const copy_right = c2;
 
 class Icon extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { 
-			github_current_color: this.props.normal_color,
-			linkedin_current_color: this.props.normal_color,
-			medium_current_color: this.props.normal_color,
-			kaggle_current_color: this.props.normal_color,
-		};
-		this.icon_font_size = this.props.icon_size;
-		this.normal_color = this.props.normal_color;
-		this.github_color = '#24292e';
-		this.linkedin_color = '#0e76a8';
-		this.medium_color = 'black';
-		this.kaggle_color = '#20beff';
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      github_current_color: this.props.normal_color,
+      linkedin_current_color: this.props.normal_color,
+      medium_current_color: this.props.normal_color,
+      kaggle_current_color: this.props.normal_color,
+    };
+    this.icon_font_size = this.props.icon_size;
+    this.normal_color = this.props.normal_color;
+    this.github_color = "#24292e";
+    this.linkedin_color = "#0e76a8";
+    this.medium_color = "black";
+    this.kaggle_color = "#20beff";
+  }
 
-	render() {
-		return (
-				<div>
-					{this.props.icon_name == 'github' ? 
-						<SiGithub style = {{ color: this.state.github_current_color, fontSize: this.icon_font_size }} 
-											onMouseEnter = {() => { this.setState(() => ({ github_current_color: this.github_color })) }}
-											onMouseLeave = {() => { this.setState(() => ({ github_current_color: this.normal_color })) }} />:
-						this.props.icon_name == 'linkedin'?
-						<SiLinkedin style = {{ color: this.state.linkedin_current_color, fontSize: this.icon_font_size }} 
-											onMouseEnter = {() => { this.setState(() => ({ linkedin_current_color: this.linkedin_color })) }}
-											onMouseLeave = {() => { this.setState(() => ({ linkedin_current_color: this.normal_color })) }} />:
-						this.props.icon_name == 'medium'?
-						<SiMedium style = {{ color: this.state.medium_current_color, fontSize: this.icon_font_size }} 
-											onMouseEnter = {() => { this.setState(() => ({ medium_current_color: this.medium_color })) }}
-											onMouseLeave = {() => { this.setState(() => ({ medium_current_color: this.normal_color })) }} />:
-						this.props.icon_name == 'kaggle'?
-						<SiKaggle style = {{ color: this.state.kaggle_current_color, fontSize: this.icon_font_size }} 
-											onMouseEnter = {() => { this.setState(() => ({ kaggle_current_color: this.kaggle_color })) }}
-											onMouseLeave = {() => { this.setState(() => ({ kaggle_current_color: this.normal_color })) }} />:
-						null
-					}
-				</div>
-			)
-	}
-
+  render() {
+    return (
+      <div>
+        {this.props.icon_name == "github" ? (
+          <SiGithub
+            style={{
+              color: this.state.github_current_color,
+              fontSize: this.icon_font_size,
+            }}
+            onMouseEnter={() => {
+              this.setState(() => ({
+                github_current_color: this.github_color,
+              }));
+            }}
+            onMouseLeave={() => {
+              this.setState(() => ({
+                github_current_color: this.normal_color,
+              }));
+            }}
+          />
+        ) : this.props.icon_name == "linkedin" ? (
+          <SiLinkedin
+            style={{
+              color: this.state.linkedin_current_color,
+              fontSize: this.icon_font_size,
+            }}
+            onMouseEnter={() => {
+              this.setState(() => ({
+                linkedin_current_color: this.linkedin_color,
+              }));
+            }}
+            onMouseLeave={() => {
+              this.setState(() => ({
+                linkedin_current_color: this.normal_color,
+              }));
+            }}
+          />
+        ) : this.props.icon_name == "medium" ? (
+          <SiMedium
+            style={{
+              color: this.state.medium_current_color,
+              fontSize: this.icon_font_size,
+            }}
+            onMouseEnter={() => {
+              this.setState(() => ({
+                medium_current_color: this.medium_color,
+              }));
+            }}
+            onMouseLeave={() => {
+              this.setState(() => ({
+                medium_current_color: this.normal_color,
+              }));
+            }}
+          />
+        ) : this.props.icon_name == "kaggle" ? (
+          <SiKaggle
+            style={{
+              color: this.state.kaggle_current_color,
+              fontSize: this.icon_font_size,
+            }}
+            onMouseEnter={() => {
+              this.setState(() => ({
+                kaggle_current_color: this.kaggle_color,
+              }));
+            }}
+            onMouseLeave={() => {
+              this.setState(() => ({
+                kaggle_current_color: this.normal_color,
+              }));
+            }}
+          />
+        ) : null}
+      </div>
+    );
+  }
 }
 
 export default function Footer(props) {
-	return (
-		<div className = 'footer-container'>
-			<div className = 'footer-container-links'>
-				<div className = 'footer-links'>
-					{props.github == true?
-						<div className = 'link-item'>
-				  <a href = 'https://github.com/santhalakshminarayana' className = 'link' rel="noreferrer" target =' _blank' >
-						<Icon icon_name = 'github' normal_color = {props.normal_color} icon_size = {props.icon_size} />
-				  </a>
-				</div>:
-				null
-					}
+  return (
+    <div className="footer-container">
+      <div className="footer-container-links">
+        <div className="footer-links">
+          {props.github == true ? (
+            <div className="link-item">
+              <a
+                href="https://github.com/santhalakshminarayana"
+                className="link"
+                rel="noreferrer"
+                target=" _blank"
+              >
+                <Icon
+                  icon_name="github"
+                  normal_color={props.normal_color}
+                  icon_size={props.icon_size}
+                />
+              </a>
+            </div>
+          ) : null}
 
-					{props.linkedin == true?
-						<div className = 'link-item'>
-				  <a href = 'https://www.linkedin.com/in/santhalakshminarayana/' className = 'link' rel="noreferrer" target = '_blank' >
-						<Icon icon_name = 'linkedin' normal_color = {props.normal_color} icon_size = {props.icon_size} />
+          {props.linkedin == true ? (
+            <div className="link-item">
+              <a
+                href="https://www.linkedin.com/in/santhalakshminarayana/"
+                className="link"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <Icon
+                  icon_name="linkedin"
+                  normal_color={props.normal_color}
+                  icon_size={props.icon_size}
+                />
+              </a>
+            </div>
+          ) : null}
 
-					</a>
-				</div>:
-				null
-					}
+          {props.medium == false ? (
+            <div className="link-item">
+              <a
+                href="https://medium.com/@santhalakshminarayana/"
+                className="link"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <Icon
+                  icon_name="medium"
+                  normal_color={props.normal_color}
+                  icon_size={props.icon_size}
+                />
+              </a>
+            </div>
+          ) : null}
 
-					{props.medium == true?
-						<div className = 'link-item'>
-				  <a href = 'https://medium.com/@santhalakshminarayana/' className = 'link' rel="noreferrer" target = '_blank' >
-						<Icon icon_name = 'medium' normal_color = {props.normal_color} icon_size = {props.icon_size} />
-					</a>
-				</div>:
-				null
-					}
+          {props.kaggle == false ? (
+            <div className="link-item">
+              <a
+                href="https://www.kaggle.com/santhalnr/"
+                className="link"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <Icon
+                  icon_name="kaggle"
+                  normal_color={props.normal_color}
+                  icon_size={props.icon_size}
+                />
+              </a>
+            </div>
+          ) : null}
+        </div>
+      </div>
 
-					{props.kaggle == true?
-						<div className = 'link-item'>
-				  <a href = 'https://www.kaggle.com/santhalnr/' className = 'link' rel="noreferrer" target = '_blank' >
-						<Icon icon_name = 'kaggle' normal_color = {props.normal_color} icon_size = {props.icon_size} /></a>
-				</div>:
-				null
-					}
+      {props.need_copy_right == true ? (
+        <div className="copy-right-container">
+          <p className="copy-right-text">Santha Lakshmi Narayana &#169; 2023</p>
+        </div>
+      ) : null}
 
-				</div>
-			</div>
-
-			{props.need_copy_right == true?
-				<div className = 'copy-right-container'>
-					<p className = 'copy-right-text'>Santha Lakshmi Narayana &#169; 2023</p>
-				</div>:
-				null
-			}
-
-	  <style jsx>{`
+      <style jsx>{`
 		  .footer-container {
 				display: flex;
 				flex-direction: column;
@@ -149,6 +240,6 @@ export default function Footer(props) {
 			  }
 
 		  `}</style>
-	</div>
-	)
+    </div>
+  );
 }

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import Head from 'next/head';
+import React, { Component } from "react";
+import Head from "next/head";
 
-import '../styles/global_styles.css';
+import "../styles/global_styles.css";
 
 /*
 export function reportWebVitals(metric) {
@@ -12,13 +12,16 @@ export function reportWebVitals(metric) {
 */
 
 export default function App({ Component, pageProps }) {
-	return (
-		<>
-			<Head>
-				<link href="https://fonts.googleapis.com/css2?family=Maven+Pro&family=Share+Tech+Mono&family=Source+Sans+Pro&family=Ubuntu&display=swap" rel="stylesheet"/>
-			</Head>
+  return (
+    <>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Maven+Pro&family=Share+Tech+Mono&family=Source+Sans+Pro&family=Ubuntu&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
 
-			<Component {...pageProps} />
-		</>
-	)
+      <Component {...pageProps} />
+    </>
+  );
 }
