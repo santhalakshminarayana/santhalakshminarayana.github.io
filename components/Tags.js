@@ -22,6 +22,9 @@ export default function Tags(props) {
       <Link href="/tags/python">
         <a>#python</a>
       </Link>
+      <Link href="/tags/go">
+        <a>#go</a>
+      </Link>
       <Link href="/tags/image-processing">
         <a>#image-processing</a>
       </Link>
