@@ -9,6 +9,7 @@ import python from "react-syntax-highlighter/dist/cjs/languages/prism/python";
 import jsx from "react-syntax-highlighter/dist/cjs/languages/prism/jsx";
 import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import dart from "react-syntax-highlighter/dist/cjs/languages/prism/dart";
+import go from "react-syntax-highlighter/dist/cjs/languages/prism/go";
 
 //import vsc_dark_plus from 'react-syntax-highlighter/dist/cjs/styles/prism/vsc-dark-plus';
 
@@ -22,6 +23,7 @@ SyntaxHighlighter.registerLanguage("python", python);
 SyntaxHighlighter.registerLanguage("jsx", jsx);
 SyntaxHighlighter.registerLanguage("js", js);
 SyntaxHighlighter.registerLanguage("dart", dart);
+SyntaxHighlighter.registerLanguage("go", go);
 
 const c1 = "#071013",
   c2 = "#fffecb",

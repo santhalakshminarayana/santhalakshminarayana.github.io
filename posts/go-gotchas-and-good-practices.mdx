@@ -1,0 +1,221 @@
+---
+title: "Go Gotchas, Tips, and Good Practices for Efficient Go"
+description: "Review some of the common mistakes we make while writing Go code and learn how to avoid them along with good practices for efficient Go."
+imgName: "go-gotchas-and-good-practices/go-gotchas-and-good-practices.jpg"
+date: "Mar 25, 2024"
+tags: ['go']
+keywords: ['go', 'golang', 'go-gotchas', 'go-good-practices', 'go-best-practices', 'go-tips', 'efficient-go']
+---
+
+![Go Gotchas and Good Practices](go-gotchas-and-good-practices/go-gotchas-and-good-practices.jpg)
+
+###### Published on: **Mar 25, 2024**
+
+# Go Gotchas, Tips, and Good Practices for Efficient Go
+
+Even though Go is a very simple language and we can avoid most of the issues/errors at compilation time because of static typing, lint checks, data race checks, and other analysis checks, we still tend to make some common mistakes.
+
+In this article, we will review some of the common mistakes/gotchas the new Go developers make and some not-common mistakes even the experienced Go developers cannot avoid if they don't pay attention. And we will also see some good practices while writing Go code to make it more efficient.
+
+### Declaration inside a block in a local-scope
+
+Variables declared inside a block like *if-else/for* are local scope variables. If you have declared any variable outside of the block and re-declared the variable with the same name and changed it inside the block, after you try to access it thinking the values as changed but it's not the case in Go (maybe in Python). But in Go, it's a bug. This is one of the most common mistakes that many new Go developers make 
+
+```go
+func main() {
+	arr := []int{4, -2, 23, 10}
+	var v int
+
+	for _, v := range arr {
+		if v >= 10 {
+			break
+		}
+	}
+
+	fmt.Println("found value >=10:", v) // prints v as '0'
+}
+```
+
+Now, remove the declaration in the for-loop for *i* and print
+
+```go
+func main() {
+	arr := []int{4, -2, 23, 10}
+	var v int
+
+	for _, v = range arr {
+		if v >= 10 {
+			break
+		}
+	}
+
+	fmt.Println("found value >=10:", v) // prints v as '23'
+}
+```
+
+### Pointers in place of values
+
+Pointers are everywhere in Go. We can pass variables as values and also as pointers (reference only) to the functions. If the function is passed a pointer, there is a chance that it can modify the value of the pointer leading to an unprecedented situation. The function may pass the value to any other function where it can also change value and a chain of value changes make the program state undesirable. Even if you want to have this behavior like the value of the variable to be changed in the called function, it violates the principle of **Function invariance**. Instead, use struct and change members of the struct when needed.
+
+### General data structures are not good for concurrent access
+
+Normal data structures like int, slices, and maps are not safe for concurrent access by multiple goroutines. We may have to put locks or such mechanisms for safe access, without those proper synchronization mechanisms, we might face into data race situation.
+
+There exist atomic level operations to perform on primitive data types like int with *sync/atomic* package, and also *sync.Map* for concurrent access of Map elements.
+
+### Splitting an empty string will give a slice of length 1
+
+If the string is empty, and we split it, we expect the length of the resultant array to be **0**. But, in Go, we will get the length as **1** and the first element is the empty string. This is strange in Go so keep in mind while splitting and it's always good to check the string length before splitting.
+
+```go
+func StringSplit(s string) []string {
+	return strings.Split(s, ",")
+}
+
+func CheckedEmptyStringSplit(s string) []string {
+	if len(s) == 0 {
+		return []string{}
+	}
+
+	return StringSplit(s)
+}
+
+func main() {
+	s := ""
+	fmt.Println(len(StringSplit(s))) // prints 1
+	fmt.Println(len(CheckedEmptyStringSplit(s))) // prints 0
+}
+```
+
+### Wrapping errors while checking with errors.Is
+
+Somewhere down the line of the function stack, we got an error and how can we check the error type compared to exceptions in other programming languages? To check if the returned is of any type, we can wrap the error with custom error type and message and the calling function can check it with *errors.Is*. This is very useful to trace back the error and people usually send string literals without wrapping those as errors.
+
+Also, treating errors as strings and comparing strings should be avoided instead use *errors.Is*.
+
+### Uninitializing the Map and Structs
+
+This is a very serious problem in Go. Sometimes we forget to initialize the map and that leads to runtime errors and the program to panic leading it to crash. The zero value of the map or struct is nil
+In Go, if you declare a map without initializing it, its zero value will be nil, and any further operations on this map raise run time panic because the *nil* map has not allocated any memory.
+
+The same can be applied when we use a pointer struct if not initialized.
+
+```go
+type intPC interface {
+	PrintContents()
+}
+
+type st struct {}
+
+func (s *st) PrintContents() {}
+
+func F(i intPC) {
+	i.PrintContents() // panics here
+}
+
+func main() {
+	var s *st
+	F(s)
+}
+```
+
+The above program compiles but panics as we have passed the struct pointer that is not pointing to any memory and its value is *nil*.
+
+### Nil Interfaces or Pointers
+
+This is the same as the above problem that will lead to panic and program crashes. An interface value is *nil* if its value and dynamic type are *nil*
+
+```go
+type intPC interface {
+	PrintContents()
+}
+
+func F(i intPC) {
+	fmt.Printf("type %T, value %v\n", i, i) // prints "type <nil>, value <nil>"
+	i.PrintContents() // panics here
+}
+
+func main() {
+	var i intPC
+	F(i)
+}
+```
+
+This is a classic example of nil-interface in Go, here the interface variable is not initialized with any concrete type (struct or int) and also not initialized with any memory. So, it's a nil-interface and we can't perform any operations on it. Avoid these types of nil types using proper checks.
+
+### JSON un-marshalling for integer to an interface will be float64
+
+While un-marshaling the JSON string into an *interface{}*, the numeric values like int are parsed as float64.
+
+```go
+func main() {
+	jsS := `{"a": 10}`
+
+	m := map[string]interface{}{}
+
+	json.Unmarshal([]byte(jsS), &m)
+
+	fmt.Printf("%T", m["a"]) // float64
+}
+```
+
+Use *json.UseNumber()* with a custom decoder for parsing numbers in JSON as numbers in Go.
+
+### Un-used function parameters
+
+As strict as the Go compiler for unused declared variables, it will ignore any function arguments that are not used. This may not be a problem but what if you are passing a huge chunk of data between functions that are not used anywhere creating the memory overhead? If you want to satisfy the interface for that method and there is no use for that argument, simply ignore it with blank identifier *_*.
+
+```go
+func F(param1 int, _ string) {
+	...
+}
+```
+
+### Using pointers in channels
+
+Passing pointer variables in the channel may create data race conditions as both the sender and receiver hold the reference and any one of them can modify. 
+
+Also passing pointers reduce memory overhead by eliminating copying and moving. So, we have to be careful when passing pointers into the channels. The Receiver should not alter the data that it receives as it is only allowed to consume the data. So, avoid data modification at the receiver side.
+
+### Receiving in closed channel results in zero value of the channel type
+
+If you try to receive from a closed channel, you will get the zero value of the channel type creating confusion that the sender is still sending.
+
+```go
+func main() {
+	ch := make(chan int)
+	close(ch)
+
+	fmt.Println(<-ch) // 0
+}
+```
+
+To avoid this, either check if the channel is closed by checking if the data received is sent by the channel or not as 
+
+```go
+func main() {
+	ch := make(chan int)
+	close(ch)
+
+	d, ok := <-ch
+	if !ok {
+		fmt.Println("channel closed")
+	} else {
+		fmt.Println(d)
+	}
+}
+```
+
+### Some other tips
+
+- There are no restrictions on interface declaration, it's better to have interface declaration at the client side or at the location where the package is being used. This limits the third-party packages from accessing the whole struct/data. 
+- Don't exploit the *Duck typing* of interfaces and structs in Go. Limit the size of the interface and use multiple interfaces for each set of functions.
+- Even though it is not mandatory to close the channels, it's still best practice to close them as it might free up some memory.
+- Use uni-directional channels instead of bi-directional because uni-directional channels restrict the function to either send or receive but not both creating some form of check. 
+- Buffer channels will block sending/reading, so use buffer channels to make multiple goroutines work as a synchronous function or communicate with these buffer channels.
+- Mutexes are slow, so use RWMutex which may be fast for reads at least.
+- Passing large data as an argument to function involves copying and creating the new data. Use pointers and don't modify the data in the called function.
+
+---
+
+These are some of the common mistakes we make in Go and also good practices that I felt worth sharing. Also check out my previous article on [Advanced Go](https://santhalakshminarayana.github.io/blog/advanced-golang-memory-model-concurrency) about memory model and concurrency in Go.
