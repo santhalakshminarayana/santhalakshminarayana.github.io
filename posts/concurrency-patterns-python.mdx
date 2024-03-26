@@ -71,7 +71,10 @@ class Ticker(Thread):
                 break
 
             # call the callback
-            self.callback(**self.cbkwargs)
+            try:
+                self.callback(**self.cbkwargs)
+            except Exception as e:
+                print(f"Exception for callback: {e}")
 ```
 
 This class inherits the *Thread* class to implement custom thread functionality. In the constructor, we pass the *is_daemon* flag that makes the current thread run as a daemon or not. Usually for background tasks that do not stick to the application lifecycle, they are not meant to be daemon. And other params like *tick_period* which says the time interval for the ticker, *callback* is a callback function, and *cbkwargs* are callback key arguments to pass to this callback function. We will speak about *self.task_kill_event = Event()* later.
