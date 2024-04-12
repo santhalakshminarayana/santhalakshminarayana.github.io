@@ -3,8 +3,24 @@ title: "Asynchronous or Concurrency patterns in Python with Asyncio"
 description: "Effective implementation of asynchronous or concurrency patterns like Background task and Worker Pool in Python using Asyncio."
 imgName: "concurrency-patterns-python/concurrency-patterns-python.jpg"
 date: "Mar 6, 2024"
-tags: ['concurrency', 'python-performance', 'python']
-keywords: ['concurrency', 'asyncio', 'python-concurrency', 'worker-pool', 'job-queue', 'worker-queue', 'background-thread', 'background-task', 'background-job', 'python-performance', 'python-optimize', 'python', 'fast-python', 'speed']
+tags: ["concurrency", "python-performance", "python"]
+keywords:
+  [
+    "concurrency",
+    "asyncio",
+    "python-concurrency",
+    "worker-pool",
+    "job-queue",
+    "worker-queue",
+    "background-thread",
+    "background-task",
+    "background-job",
+    "python-performance",
+    "python-optimize",
+    "python",
+    "fast-python",
+    "speed",
+  ]
 ---
 
 ![Asynchronous or Concurrency Patterns in Python](concurrency-patterns-python/concurrency-patterns-python.jpg)
@@ -13,9 +29,9 @@ keywords: ['concurrency', 'asyncio', 'python-concurrency', 'worker-pool', 'job-q
 
 # Asynchronous or Concurrency Patterns in Python with Asyncio
 
-Most software development tasks require an asynchronous way of handling things like running background tasks, processing multiple tasks at a time, applying the same operations on huge data, distributing tasks to free workers, etc. In this blog, we will see how can we achieve some of these patterns with Python. 
+Most software development tasks require an asynchronous way of handling things like running background tasks, processing multiple tasks at a time, applying the same operations on huge data, distributing tasks to free workers, etc. In this blog, we will see how can we achieve some of these patterns with Python.
 
-Before delving into the concept, the most important thing we need to understand is *concurrency vs parallelism*. Concurrency is about handling multiple tasks at a time and this handling might be in parallel or not. Whereas parallelism is about doing multiple tasks parallelly/simultaneously at a time. Parallelism can be termed as concurrency but not vice-versa. 
+Before delving into the concept, the most important thing we need to understand is _concurrency vs parallelism_. Concurrency is about handling multiple tasks at a time and this handling might be in parallel or not. Whereas parallelism is about doing multiple tasks parallelly/simultaneously at a time. Parallelism can be termed as concurrency but not vice-versa.
 
 In my earlier blog posts about [Super Fast Python: Multiprocessing](https://santhalakshminarayana.github.io/blog/super-fast-python-multi-processing), I have described how can achieve parallelism with Python.
 
@@ -23,21 +39,21 @@ One can ask, in parallelism, if we can do multiple things at a time, why do we n
 
 To utilize multiple cores, we have to create at least one process per core. The creation and memory management of the process is time-consuming and comes with its overheads. So, a general rule of thumb is to use multi-programming for CPU-intensive tasks, and I/O bound tasks like network calls, and reading from disk are handled concurrently with threads. As we can use multi-threading in Python, creating and managing a huge number of threads is not optimal in Python or any high-level language. The solution to create and manage huge numbers of thread-like objects say in thousands or 100s of thousands, we can use Co-routines which can be termed as virtual threads or small threads whose memory footprint is very minimal compared to threads. And we can spawn thousands of these in a few microseconds.
 
-
 Coroutines are part of core Python and are handled with an in-built package called [asyncio](https://docs.python.org/3/library/asyncio.html)
 
-The goal of this article is to demonstrate some concurrency patterns rather than learning about coroutines. So, it's expected to have some basic background with *asyncio*.
+The goal of this article is to demonstrate some concurrency patterns rather than learning about coroutines. So, it's expected to have some basic background with _asyncio_.
 
 In the following sections, we cover the two most used concurrency patterns:
+
 - Background tasks with Ticker
 - WorkerPool pattern
 - Pipeline or Chain processing
 
 ## Ticker & Background tasks
 
-Let's say we have a stream of data coming and stored in some data sources like Database, Redis, or in the Cloud. And we want to analyze that data periodically let's say every 1 day and send an email notification to the customers with the analyzed report. This is a basic CRON job that we execute in Linux. 
+Let's say we have a stream of data coming and stored in some data sources like Database, Redis, or in the Cloud. And we want to analyze that data periodically let's say every 1 day and send an email notification to the customers with the analyzed report. This is a basic CRON job that we execute in Linux.
 
-If you don't know what the is ticker, it is a kind of background task where the program will be notified for every time interval that we need to do some task. Tickers are all over any periodic notification or job updates. 
+If you don't know what the is ticker, it is a kind of background task where the program will be notified for every time interval that we need to do some task. Tickers are all over any periodic notification or job updates.
 
 We will use a ticker for our coroutine to come into the foreground and call a callback that it receives with callback arguments. Let's look at the following ticker class
 
@@ -47,10 +63,10 @@ from typing import Any, Callable, Optional
 
 class Ticker(Thread):
     def __init__(
-        self, 
-        is_daemon: bool, 
-        tick_period: int, 
-        callback: Callable, 
+        self,
+        is_daemon: bool,
+        tick_period: int,
+        callback: Callable,
         **cbkwargs: Optional[Any]
     ):
         Thread.__init__(self)
@@ -77,15 +93,15 @@ class Ticker(Thread):
                 print(f"Exception for callback: {e}")
 ```
 
-This class inherits the *Thread* class to implement custom thread functionality. In the constructor, we pass the *is_daemon* flag that makes the current thread run as a daemon or not. Usually for background tasks that do not stick to the application lifecycle, they are not meant to be daemon. And other params like *tick_period* which says the time interval for the ticker, *callback* is a callback function, and *cbkwargs* are callback key arguments to pass to this callback function. We will speak about *self.task_kill_event = Event()* later.
+This class inherits the _Thread_ class to implement custom thread functionality. In the constructor, we pass the _is_daemon_ flag that makes the current thread run as a daemon or not. Usually for background tasks that do not stick to the application lifecycle, they are not meant to be daemon. And other params like _tick_period_ which says the time interval for the ticker, _callback_ is a callback function, and _cbkwargs_ are callback key arguments to pass to this callback function. We will speak about _self.task_kill_event = Event()_ later.
 
-This class has two methods *kill* and *run* where *run* is an overridden *Thread* class function. 
+This class has two methods _kill_ and _run_ where _run_ is an overridden _Thread_ class function.
 
-[*threading.Event()*](https://docs.python.org/3/library/threading.html#event-objects) object is used for communication between threads. It's simply a boolean flag that one thread signals the other thread that listens to this event object states. We use an event object to signal for the background task to exit. This is what the *kill* function is. If we call this function, it will set the event to be **True** signaling the listing thread.
+[_threading.Event()_](https://docs.python.org/3/library/threading.html#event-objects) object is used for communication between threads. It's simply a boolean flag that one thread signals the other thread that listens to this event object states. We use an event object to signal for the background task to exit. This is what the _kill_ function is. If we call this function, it will set the event to be **True** signaling the listing thread.
 
-The overriding *run* method is a classic implementation of a background running thread, it will run in a loop until it receives the *is_killed* to be **True** which we set by calling *kill*. *self.task_kill_event.wait(self.tick_period)* is where the magic happens. Here we will wait for the specified ticker period for that event to be set. After the specified interval period, if we don't receive the event signal, the **is_killed** will be False, and we will call the callback with the keyword arguments.
+The overriding _run_ method is a classic implementation of a background running thread, it will run in a loop until it receives the _is_killed_ to be **True** which we set by calling _kill_. _self.task_kill_event.wait(self.tick_period)_ is where the magic happens. Here we will wait for the specified ticker period for that event to be set. After the specified interval period, if we don't receive the event signal, the **is_killed** will be False, and we will call the callback with the keyword arguments.
 
-Why don't we use a simple *thread.sleep* for sleeping in the background? Let's say, that while waiting for a ticker period, we get the event signal, then we have to right away exit the thread. For example, if the ticker period is for 10 seconds, and while in the 6th second, we get the signal, we will exit there instead of waiting for the other 4 seconds. This can't be achieved with thread sleep. This is very useful if we are running larger ticker periods let's for days or weeks.
+Why don't we use a simple _thread.sleep_ for sleeping in the background? Let's say, that while waiting for a ticker period, we get the event signal, then we have to right away exit the thread. For example, if the ticker period is for 10 seconds, and while in the 6th second, we get the signal, we will exit there instead of waiting for the other 4 seconds. This can't be achieved with thread sleep. This is very useful if we are running larger ticker periods let's for days or weeks.
 
 Let's look at how we can run this ticker thread for every time inteval.
 
@@ -98,18 +114,18 @@ def process(task_for=""):
     global process_called
     process_called += 1
     print("process called for: ", process_called, " times")
-    
+
 async def stop_ticker(kill_func: Callable, after_time: int):
     await asyncio.sleep(after_time)
     kill_func()
     # call any cleanup functions for graceful exiting
     await asyncio.sleep(1)
-    
+
 if __name__=="__main__":
     cbkargs = {"task_for": "data-pre-process"}
     ticker = Ticker(True, 3, process, **cbkargs)
     ticker.start()
-    
+
     ev_loop = asyncio.get_event_loop()
     ev_loop.run_until_complete(stop_ticker(ticker.kill, 7))
 ```
@@ -120,11 +136,11 @@ process called for:  2  times
 Exiting ticker.
 ```
 
-In the above example, we have imported the *Ticker* class and defined a function *process* which we pass as a callback to this ticker. This function will be called for after every ticker period and this is where we do any periodic processing like sending notifications. 
+In the above example, we have imported the _Ticker_ class and defined a function _process_ which we pass as a callback to this ticker. This function will be called for after every ticker period and this is where we do any periodic processing like sending notifications.
 
-The line *ticker = Ticker(True, 3, process, **cbkargs)* initializes the ticker with **3** second time interval. We have defined another function *stop_ticker* which we will use to kill the ticker after some time. The stop ticker function will wait for some time (7 seconds here) and kill the ticker. 
+The line _ticker = Ticker(True, 3, process, \*\*cbkargs)_ initializes the ticker with **3** second time interval. We have defined another function _stop_ticker_ which we will use to kill the ticker after some time. The stop ticker function will wait for some time (7 seconds here) and kill the ticker.
 
-As we can see in the output, the ticker called the callback every 3 seconds and got stopped by the parent thread which is our main thread here through *stop_ticker* function.
+As we can see in the output, the ticker called the callback every 3 seconds and got stopped by the parent thread which is our main thread here through _stop_ticker_ function.
 
 ---
 
@@ -133,12 +149,13 @@ This is a very effective way of defining a ticker in Python with a simple thread
 ## Worker pool/Job queue pattern
 
 We can define worker pool concurrency patterns with threads alone using multi-threading. But there are limitations with threads, like:
-- Threads are synchronous, meaning when a thread is paused it blocks the execution also, leaving other threads for starvation 
+
+- Threads are synchronous, meaning when a thread is paused it blocks the execution also, leaving other threads for starvation
 - we cannot create a huge number of threads due to various reasons like memory, context switching, etc.
 
 So, we can use a coroutine to do this job because we can have an asynchronous way of doing things if have to call any API or wait to load the huge dataset, we can pause the current coroutine and let others claim the CPU. As Python is single-threaded, meaning only 1 thread can run at a time, this un-blocking way of organizing your tasks makes your Python code efficient and performant. And we can create thousands of coroutines in quick time and they occupy very little memory.
 
-The worker pool pattern is a simple and the most widely used concurrency pattern for distributing multiple tasks or jobs (n-jobs) to multiple workers (m-workers). Usually *n >= m*. In this pattern, we have a list of jobs to be processed, and they are to be read from a static queue or a dynamic stream. And we have to distribute those jobs to idle workers who take the job and process it. Worker may or may not return the result based on the type of the Job. Idle workers are very hungry and they compete with other idle workers to take the incoming Job or un-attended Job.
+The worker pool pattern is a simple and the most widely used concurrency pattern for distributing multiple tasks or jobs (n-jobs) to multiple workers (m-workers). Usually _n >= m_. In this pattern, we have a list of jobs to be processed, and they are to be read from a static queue or a dynamic stream. And we have to distribute those jobs to idle workers who take the job and process it. Worker may or may not return the result based on the type of the Job. Idle workers are very hungry and they compete with other idle workers to take the incoming Job or un-attended Job.
 
 ![Worker-pool pattern with Job Queue:=:70:=:Worker pool with Job Queue. Each idle worker takes one job at a time and processes the Job. After the job is complete, the worker will continue to take any un-attended Job.](concurrency-patterns-python/job-queue-worker-pool.jpg)
 
@@ -165,7 +182,7 @@ class WorkerPool(Thread):
 
         self.event_loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.event_loop)
-        
+
         self.job_queue = Queue()
         self.n_workers = n_workers
         self.callback = callback
@@ -211,12 +228,11 @@ class WorkerPool(Thread):
             self.event_loop.close()
 ```
 
-Here, we extend the *Thread* class to execute WorkerPool in a separate thread. The constructor takes the list of job items, *n_workers* for how many workers to spawn, and a callback function to call with the job detail.
+Here, we extend the _Thread_ class to execute WorkerPool in a separate thread. The constructor takes the list of job items, _n_workers_ for how many workers to spawn, and a callback function to call with the job detail.
 
-*WorkerPool* class defines two methods *job_wp* and *distribute*. *job_wp* creates a JobQueue with all jobs and also creates multiple workers each with a name **Worker: i** where *i* is ith worker. This function will wait for all workers to complete processing all Jobs.
+_WorkerPool_ class defines two methods _job_wp_ and _distribute_. _job_wp_ creates a JobQueue with all jobs and also creates multiple workers each with a name **Worker: i** where _i_ is ith worker. This function will wait for all workers to complete processing all Jobs.
 
-*distribute* function takes the unattended job and calls the callback with job details as parameters to the callback function. We can also extend this to pass arguments. After executing the job, we finally mark that job as done.
-
+_distribute_ function takes the unattended job and calls the callback with job details as parameters to the callback function. We can also extend this to pass arguments. After executing the job, we finally mark that job as done.
 
 Example of processing Jobs by multiple workers:
 
@@ -230,7 +246,7 @@ async def process_job(job_detail: Any):
     print("Processing job:", job_detail, "will take:", time_to, "seconds")
     await asyncio.sleep(time_to)
     print("Completed job:", job_detail)
-    
+
 if __name__=="__main__":
     wp = WorkerPool(True, list(range(1, 11)), 3, process_job)
     atime = time()
@@ -239,7 +255,7 @@ if __name__=="__main__":
     print("time taken:", str(int(time()-atime)) + "s")
 ```
 
-Here, we initialize the WorkerPool class with **10** jobs and **3** workers along with a callback *process_job*. This *process_job* function might take any of [1, 4] seconds to complete.
+Here, we initialize the WorkerPool class with **10** jobs and **3** workers along with a callback _process_job_. This _process_job_ function might take any of [1, 4] seconds to complete.
 
 ```shell:Output
 Processing job: 1 will take: 3 seconds
@@ -272,6 +288,7 @@ With this asynchronous processing of Jobs, we have processed all the jobs whose 
 ## Pipeline or Chain processing
 
 Pipeline pattern or Chain processing is a simple concurrency pattern of executing the multiple jobs consecutively where the input for the current job is the output of the previous job. For example, let's say we have to analyze incoming data about customer ratings (scale: 1-5) for our service. And we have to do the following steps:
+
 - Analyse the feedback
 - If the rating is below 3, we have to store this rating for later analyses
 - Later generate the thank you message for the customer
@@ -287,7 +304,7 @@ If we have multiple customer ratings to be analyzed we can combine the **WorkerP
 imoport asyncio
 import random
 from worker_pool import WorkerPool
-            
+
 commuincation_type = ["email", "sms"]
 
 async def process_rating(job: list):
@@ -299,20 +316,20 @@ async def process_rating(job: list):
         await store_for_analyses(rating, idx)
     else:
         await form_thankyou_message(user, idx)
-        
+
 async def store_for_analyses(rating: int, idx: int):
     print(f"1a. storing for analyses, for item: {idx}")
     # store in some datastore
     await asyncio.sleep(1)
-    
+
 async def form_thankyou_message(user: str, idx: int):
     print(f"2. forming thank-you message, for item: {idx}")
     # a DB call to fetch the user details
     await asyncio.sleep(1)
-    
+
     # communication medium may be {email, sms}
     cs = random.choices(commuincation_type, weights=[0.5, 0.5], k=1)[0]
-    
+
     match cs:
         case "email":
             await send_email_message(user, idx)
@@ -320,35 +337,35 @@ async def form_thankyou_message(user: str, idx: int):
             await send_sms_message(user, idx)
         case _:
             return
-        
+
 async def send_email_message(user: str, idx: int):
     print(f"2a. sending email message, for item: {idx}, for user: {user}")
     # sendinig might take time
     await asyncio.sleep(1)
-    
+
 async def send_sms_message(user: str, idx: int):
     print(f"2b. sending sms message, for item: {idx}, for user: {user}")
     # sendinig might take time
     await asyncio.sleep(1)
-    
-    
+
+
 if __name__=="__main__":
     # create ratings, users, and items
     n = 10
     ratings = random.choices([1, 2, 3, 4, 5], weights=[0.25, 0.25, 0.15, 0.15, 0.2], k=n)
     items = list(range(1, n+1))
     users = list(map(lambda x: f"User {x}", items))
-    
+
     jobs = []
     for i in range(n):
         jobs.append([ratings[i], users[i], items[i]])
-    
+
     wp = WorkerPool(True, jobs, 3, process_rating)
     wp.start()
     wp.join()
 ```
 
-Here we define a list of functions that are depicted in the image above. Each function will take input from the previous function and apply its decision logic to call which function next. 
+Here we define a list of functions that are depicted in the image above. Each function will take input from the previous function and apply its decision logic to call which function next.
 
 In the example, we have created 10 rating items to be processed by 3 workers. The output of the processing is
 
@@ -396,9 +413,9 @@ from typing import Any, Callable, List, Optional
 
 class CustomCoroutine(Thread):
     def __init__(
-        self, 
+        self,
         is_daemon: bool,
-        callback: Callable[[List[Any]], None], 
+        callback: Callable[[List[Any]], None],
         **cbkwargs: Optional[Any]
     ):
         Thread.__init__(self)
@@ -424,6 +441,7 @@ class CustomCoroutine(Thread):
 ---
 
 I hope the above concurrency patterns give you some understanding of organizing your Python code for better performance and optimization. Other concurrency patterns that are worth noting are:
+
 - **Monitor pattern**: **n** number of threads waiting on some condition to be true, if the condition is not true, those threads need to be in a sleep state and pushed to the wait queue, and they have to be notified when the condition becomes true.
 - **Double Checked locking**: for creating concurrent objects. (Ex: Singleton design pattern)
 - **Barrier pattern**: All concurrently executing threads must wait for others to complete and wait at a point called barrier.

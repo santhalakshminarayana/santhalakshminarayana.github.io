@@ -3,8 +3,18 @@ title: "Image Enhancement using Retinex Algorithms"
 description: "Enhance low-light images using Retinex algorithms with Fast Fourier Transform in Python."
 imgName: "retinex-image-enhancement/retinex-image-enhancement.jpg"
 date: "Mar 23, 2022"
-tags: ['image-processing', 'color-science', 'opencv', 'python']
-keywords: ['retinex', 'image-enhance', 'retinex-image-enhance', 'image-processing', 'python', 'color-correct', 'color-enhance', 'color-balance']
+tags: ["image-processing", "color-science", "opencv", "python"]
+keywords:
+  [
+    "retinex",
+    "image-enhance",
+    "retinex-image-enhance",
+    "image-processing",
+    "python",
+    "color-correct",
+    "color-enhance",
+    "color-balance",
+  ]
 ---
 
 ![Image Enhancement using Retinex Algorithms](retinex-image-enhancement/retinex-image-enhancement.jpg)
@@ -36,7 +46,7 @@ $$
 Retinex(I)=Reflectance(r)*Illumination(S)
 $$
 
-where **I** is the retinex image, **r** is the reflectance of the surface, and **S** is the illumination on the surface. And the lightness of an image, which is computed in our visual system (Retina + Cortex) is computed by reflectance and illumination. If we assume illumination is uniform or smooth, then lightness depends only on reflectance value at a given position. 
+where **I** is the retinex image, **r** is the reflectance of the surface, and **S** is the illumination on the surface. And the lightness of an image, which is computed in our visual system (Retina + Cortex) is computed by reflectance and illumination. If we assume illumination is uniform or smooth, then lightness depends only on reflectance value at a given position.
 
 With this assumption, Land and McCann tried to compute the relative reflectance of an image to estimate the relative lightness of the scene. First, they proposed an algorithm that involves random paths and relative ratios to compute lightness. But that algorithm accuracy highly depends on the number of paths taken, and, it takes so much time to compute the number of paths increases. So, Land published another method to calculate the lightness of a pixel in which the lightness of a pixel is the ratio between the value of a pixel and the average of the surrounding pixels considering the density of these surrounding pixels to have density proportional to the inverse of the square distance.
 
@@ -60,7 +70,7 @@ $$
 
 **Single-scale retinex (SSR)** is defined as the difference between the image at a given pixel (x,y) and the center-surround average of that pixel (x,y).
 
-The calculation of the above surrounding pixels average is equal to the inverse square spatial function for a given pixel. And we can use any high pass filter to calculate the surrounding average (Ex. Gaussian distribution) that satisfies the above conditions. 
+The calculation of the above surrounding pixels average is equal to the inverse square spatial function for a given pixel. And we can use any high pass filter to calculate the surrounding average (Ex. Gaussian distribution) that satisfies the above conditions.
 
 If we consider Gaussian function ($G_{\sigma}$) as center-surround function, then retinex image for each i-th channel in an image is,
 
@@ -72,7 +82,7 @@ That is the Single-scale retinex of an image is estimated by taking the logarith
 
 ```python
 import numpy as np
-import cv2 
+import cv2
 
 def get_ksize(sigma):
     # opencv calculates ksize from sigma as
@@ -86,7 +96,7 @@ def get_gaussian_blur(img, ksize=0, sigma=5):
     # if ksize == 0, then compute ksize from sigma
     if ksize == 0:
         ksize = get_ksize(sigma)
-    
+
     # Gaussian 2D-kernel can be seperable into 2-orthogonal vectors
     # then compute full kernel by taking outer product or simply mul(V, V.T)
     sep_k = cv2.getGaussianKernel(ksize, sigma)
@@ -98,13 +108,13 @@ def ssr(img, sigma):
 	# Single-scale retinex of an image
     # SSR(x, y) = log(I(x, y)) - log(I(x, y)*F(x, y))
     # F = surrounding function, here Gaussian
-    
+
     return np.log10(img) - np.log10(get_gaussian_blur(img, ksize=0, sigma=sigma) + 1.0)
 ```
 
-The function *ssr()* takes arguments of an image, for which retinex has to be estimated, and sigma value for Gaussian distribution. It returns the single-scale retinex image by subtracting the image and gaussian blur of an image. 
+The function _ssr()_ takes arguments of an image, for which retinex has to be estimated, and sigma value for Gaussian distribution. It returns the single-scale retinex image by subtracting the image and gaussian blur of an image.
 
-*get_gaussian_blur()* gives Gaussian blur of an image. In this function, we are not using normal *cv2.GaussianBlur()* method but calculating Gaussian blur using *cv2.filter2D()* using linear seperability of Gaussian distribution kernels. The reason is, *cv2.GaussianBlur()* is too slow for large kernels. But *cv2.filter2D()* applies filter to an image using [fast-Fourier transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) if *kernel size (ksize)* > 11. **fast Fourier transform** computes the convolution in a very few milliseconds than the traditional convolution that takes days or even years to complete.
+_get_gaussian_blur()_ gives Gaussian blur of an image. In this function, we are not using normal _cv2.GaussianBlur()_ method but calculating Gaussian blur using _cv2.filter2D()_ using linear seperability of Gaussian distribution kernels. The reason is, _cv2.GaussianBlur()_ is too slow for large kernels. But _cv2.filter2D()_ applies filter to an image using [fast-Fourier transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) if _kernel size (ksize)_ > 11. **fast Fourier transform** computes the convolution in a very few milliseconds than the traditional convolution that takes days or even years to complete.
 
 > As [OpenCV implementation of fast-Fourier transform](https://docs.opencv.org/4.5.5/de/dbc/tutorial_py_fourier_transform.html) is faster than NumPy implementation, we proceed with OpenCV default Fourier transform implementations instead of NumPy or SciPy.
 
@@ -130,36 +140,36 @@ $$
 MSR_i{(x,y)} = 255\frac{MSR_i{(x,y)} - \min(MSR_i)}{\max(MSR_i) - \min(MSR_i)}
 $$
 
-where for channel $i$, $MSR_i{(x,y)}$ is the pixel value at position $(x,y)$, $\min(MSR_i)$ is minimum value of the channel, and $\max(MSR_i)$ is maximum value of the channel  
+where for channel $i$, $MSR_i{(x,y)}$ is the pixel value at position $(x,y)$, $\min(MSR_i)$ is minimum value of the channel, and $\max(MSR_i)$ is maximum value of the channel
 
-So, Multi-scale retinex is calculated by taking single-scale retinex for different scales and it is computed by the following function 
+So, Multi-scale retinex is calculated by taking single-scale retinex for different scales and it is computed by the following function
 
 ```python
 def msr(img, sigma_scales=[15, 80, 250]):
     # Multi-scale retinex of an image
     # MSR(x,y) = sum(weight[i]*SSR(x,y, scale[i])), i = {1..n} scales
-    
+
     msr = np.zeros(img.shape)
     # for each sigma scale compute SSR
     for sigma in sigma_scales:
         msr += ssr(img, sigma)
-    
+
     # divide MSR by weights of each scale
     # here we use equal weights
     msr = msr / len(sigma_scales)
-    
+
     # computed MSR could be in range [-k, +l], k and l could be any real value
     # so normalize the MSR image values in range [0, 255]
     msr = cv2.normalize(msr, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8UC3)
-    
+
     return msr
 ```
 
-We give default sigma scale values as **[15, 80, 250]** with equal weights which preserve high, middle, and low frequencies of an image respectively. *msr()* computes the **MSR** of an image by calculating **SSR** for each $\sigma$ scale. In the end, normalization of the **MSR** output is done because the computed values could be negative real values and not in a suitable range **[0-255]** for image representation.
+We give default sigma scale values as **[15, 80, 250]** with equal weights which preserve high, middle, and low frequencies of an image respectively. _msr()_ computes the **MSR** of an image by calculating **SSR** for each $\sigma$ scale. In the end, normalization of the **MSR** output is done because the computed values could be negative real values and not in a suitable range **[0-255]** for image representation.
 
 ![Multi scale retinex:=:100](retinex-image-enhancement/multi-scale-retinex.jpg)
 
-The **MSR** image for the above input image with scales **[15, 80, 250]** has many areas enhanced especially in the corner regions which are darker in the input image given by **SSR(15)**. And the retinex output has contrast separation comparatively better than the input image added by **SSR(80)** and **SSR(250)**, but the output image has an overall gray appeal. 
+The **MSR** image for the above input image with scales **[15, 80, 250]** has many areas enhanced especially in the corner regions which are darker in the input image given by **SSR(15)**. And the retinex output has contrast separation comparatively better than the input image added by **SSR(80)** and **SSR(250)**, but the output image has an overall gray appeal.
 
 The output **MSR** image is looking gray because retinex assumes the scene as in [Gray world](https://en.wikipedia.org/wiki/Color_normalization#Grey_world) where the average of all colors in the scene is close to gray color. If this assumption is failed in the input image, that is if there are colors that dominate the scene or some colors may not present, whatever the reason could be if the overall color average is not close to gray, then taking the average of multiple single-scale retinex images with equal weights gives output image with colors less saturated and close to gray color. So, we have to modify the Multi-scale retinex to preserve the color of the image.
 
@@ -204,7 +214,7 @@ We use default values suggested by different publishers for the above variables 
 ```python
 def color_balance(img, low_per, high_per):
     '''Contrast stretch img by histogram equilization with black and white cap'''
-    
+
     tot_pix = img.shape[1] * img.shape[0]
     # no.of pixels to black-out and white-out
     low_count = tot_pix * low_per / 100
@@ -216,7 +226,7 @@ def color_balance(img, low_per, high_per):
         ch_list = [img]
     else:
         ch_list = cv2.split(img)
-    
+
     cs_img = []
     # for each channel, apply contrast-stretch
     for i in range(len(ch_list)):
@@ -230,13 +240,13 @@ def color_balance(img, low_per, high_per):
             cs_img.append(ch)
             continue
         # lut with min-max normalization for [0-255] bins
-        lut = np.array([0 if i < li 
-                        else (255 if i > hi else round((i - li) / (hi - li) * 255)) 
+        lut = np.array([0 if i < li
+                        else (255 if i > hi else round((i - li) / (hi - li) * 255))
                         for i in np.arange(0, 256)], dtype = 'uint8')
         # constrast-stretch channel
         cs_ch = cv2.LUT(ch, lut)
         cs_img.append(cs_ch)
-    
+
     if len(cs_img) == 1:
         return np.squeeze(cs_img)
     elif len(cs_img) > 1:
@@ -248,7 +258,7 @@ def msrcr(img, sigma_scales=[15, 80, 250], alpha=125, beta=46, G=192, b=-30, low
     # MSRCR(x,y) = G * [MSR(x,y)*CRF(x,y) - b], G=gain and b=offset
     # CRF(x,y) = beta*[log(alpha*I(x,y) - log(I'(x,y))]
     # I'(x,y) = sum(Ic(x,y)), c={0...k-1}, k=no.of channels
-    
+
     img = img.astype(np.float64) + 1.0
     # Multi-scale retinex and don't normalize the output
     msr_img = msr(img, sigma_scales, apply_normalization=False)
@@ -260,7 +270,7 @@ def msrcr(img, sigma_scales=[15, 80, 250], alpha=125, beta=46, G=192, b=-30, low
     msrcr = cv2.normalize(msrcr, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8UC3)
     # color balance the final MSRCR to flat the histogram distribution with tails on both sides
     msrcr = color_balance(msrcr, low_per, high_per)
-    
+
     return msrcr
 ```
 
@@ -295,9 +305,11 @@ As we are applying retinex enhancement only on intensity-image, each color chang
 $$
 R_i{(x,y)}=I_i{(x,y)}\frac{RInt_i{(x,y)}}{Int_{(x,y)}}=I_i{(x,y)}*A_{(x,y)}
 $$
+
 $$
 A_{(x,y)}=\min(\frac{MAX\_VALUE}{B}, \frac{RInt_{(x,y)}}{Int_{(x,y)}})
 $$
+
 $$
 B_{(x,y)}=\max(I_c{(x,y)}, c\in\{0...k-1\})
 $$
@@ -310,14 +322,14 @@ def msrcp(img, sigma_scales=[15, 80, 250], low_per=1, high_per=1):
     # B(x,y) = MAX_VALUE/max(Ic(x,y))
     # A(x,y) = max(B(x,y), MSR_Int(x,y)/Int(x,y))
     # MSRCP = A*I
-    
+
     # Intensity image (Int)
     int_img = (np.sum(img, axis=2) / img.shape[2]) + 1.0
     # Multi-scale retinex of intensity image (MSR)
     msr_int = msr(int_img, sigma_scales)
     # color balance of MSR
     msr_cb = color_balance(msr_int, low_per, high_per)
-    
+
     # B = MAX/max(Ic)
     B = 256.0 / (np.max(img, axis=2) + 1.0)
     # BB = stack(B, MSR/Int)
@@ -326,13 +338,13 @@ def msrcp(img, sigma_scales=[15, 80, 250], low_per=1, high_per=1):
     A = np.min(BB, axis=0)
     # MSRCP = A*I
     msrcp = np.clip(np.expand_dims(A, 2) * img, 0.0, 255.0)
-    
+
     return msrcp.astype(np.uint8)
 ```
 
 ![Multi scale retinex with color preservation - MSRCP:=:100](retinex-image-enhancement/msrcp.jpg)
 
-The final **MSRCP** image above is looking much better than the **MSRCR** image by preserving relative color intensities in surrounding areas like stand boards have colors enhanced with maintaining relative color ratios between surroundings. The dark regions around the corner are transformed to bright colors but unwanted gray blocks are also upscaled due to a lack of texture information. 
+The final **MSRCP** image above is looking much better than the **MSRCR** image by preserving relative color intensities in surrounding areas like stand boards have colors enhanced with maintaining relative color ratios between surroundings. The dark regions around the corner are transformed to bright colors but unwanted gray blocks are also upscaled due to a lack of texture information.
 
 ---
 

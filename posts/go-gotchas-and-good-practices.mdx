@@ -3,8 +3,17 @@ title: "Go Gotchas, Tips, and Good Practices for Efficient Go"
 description: "Review some of the common mistakes we make while writing Go code and learn how to avoid them along with good practices for efficient Go."
 imgName: "go-gotchas-and-good-practices/go-gotchas-and-good-practices.jpg"
 date: "Mar 25, 2024"
-tags: ['go']
-keywords: ['go', 'golang', 'go-gotchas', 'go-good-practices', 'go-best-practices', 'go-tips', 'efficient-go']
+tags: ["go"]
+keywords:
+  [
+    "go",
+    "golang",
+    "go-gotchas",
+    "go-good-practices",
+    "go-best-practices",
+    "go-tips",
+    "efficient-go",
+  ]
 ---
 
 ![Go Gotchas and Good Practices](go-gotchas-and-good-practices/go-gotchas-and-good-practices.jpg)
@@ -19,7 +28,7 @@ In this article, we will review some of the common mistakes/gotchas the new Go d
 
 ### Declaration inside a block in a local-scope
 
-Variables declared inside a block like *if-else/for* are local scope variables. If you have declared any variable outside of the block and re-declared the variable with the same name and changed it inside the block, after you try to access it thinking the values as changed but it's not the case in Go (maybe in Python). But in Go, it's a bug. This is one of the most common mistakes that many new Go developers make 
+Variables declared inside a block like _if-else/for_ are local scope variables. If you have declared any variable outside of the block and re-declared the variable with the same name and changed it inside the block, after you try to access it thinking the values as changed but it's not the case in Go (maybe in Python). But in Go, it's a bug. This is one of the most common mistakes that many new Go developers make
 
 ```go
 func main() {
@@ -36,7 +45,7 @@ func main() {
 }
 ```
 
-Now, remove the declaration in the for-loop for *i* and print
+Now, remove the declaration in the for-loop for _i_ and print
 
 ```go
 func main() {
@@ -61,7 +70,7 @@ Pointers are everywhere in Go. We can pass variables as values and also as point
 
 Normal data structures like int, slices, and maps are not safe for concurrent access by multiple goroutines. We may have to put locks or such mechanisms for safe access, without those proper synchronization mechanisms, we might face into data race situation.
 
-There exist atomic level operations to perform on primitive data types like int with *sync/atomic* package, and also *sync.Map* for concurrent access of Map elements.
+There exist atomic level operations to perform on primitive data types like int with _sync/atomic_ package, and also _sync.Map_ for concurrent access of Map elements.
 
 ### Splitting an empty string will give a slice of length 1
 
@@ -89,14 +98,14 @@ func main() {
 
 ### Wrapping errors while checking with errors.Is
 
-Somewhere down the line of the function stack, we got an error and how can we check the error type compared to exceptions in other programming languages? To check if the returned is of any type, we can wrap the error with custom error type and message and the calling function can check it with *errors.Is*. This is very useful to trace back the error and people usually send string literals without wrapping those as errors.
+Somewhere down the line of the function stack, we got an error and how can we check the error type compared to exceptions in other programming languages? To check if the returned is of any type, we can wrap the error with custom error type and message and the calling function can check it with _errors.Is_. This is very useful to trace back the error and people usually send string literals without wrapping those as errors.
 
-Also, treating errors as strings and comparing strings should be avoided instead use *errors.Is*.
+Also, treating errors as strings and comparing strings should be avoided instead use _errors.Is_.
 
 ### Uninitializing the Map and Structs
 
 This is a very serious problem in Go. Sometimes we forget to initialize the map and that leads to runtime errors and the program to panic leading it to crash. The zero value of the map or struct is nil
-In Go, if you declare a map without initializing it, its zero value will be nil, and any further operations on this map raise run time panic because the *nil* map has not allocated any memory.
+In Go, if you declare a map without initializing it, its zero value will be nil, and any further operations on this map raise run time panic because the _nil_ map has not allocated any memory.
 
 The same can be applied when we use a pointer struct if not initialized.
 
@@ -119,11 +128,11 @@ func main() {
 }
 ```
 
-The above program compiles but panics as we have passed the struct pointer that is not pointing to any memory and its value is *nil*.
+The above program compiles but panics as we have passed the struct pointer that is not pointing to any memory and its value is _nil_.
 
 ### Nil Interfaces or Pointers
 
-This is the same as the above problem that will lead to panic and program crashes. An interface value is *nil* if its value and dynamic type are *nil*
+This is the same as the above problem that will lead to panic and program crashes. An interface value is _nil_ if its value and dynamic type are _nil_
 
 ```go
 type intPC interface {
@@ -145,7 +154,7 @@ This is a classic example of nil-interface in Go, here the interface variable is
 
 ### JSON un-marshalling for integer to an interface will be float64
 
-While un-marshaling the JSON string into an *interface{}*, the numeric values like int are parsed as float64.
+While un-marshaling the JSON string into an _interface{}_, the numeric values like int are parsed as float64.
 
 ```go
 func main() {
@@ -159,11 +168,11 @@ func main() {
 }
 ```
 
-Use *json.UseNumber()* with a custom decoder for parsing numbers in JSON as numbers in Go.
+Use _json.UseNumber()_ with a custom decoder for parsing numbers in JSON as numbers in Go.
 
 ### Un-used function parameters
 
-As strict as the Go compiler for unused declared variables, it will ignore any function arguments that are not used. This may not be a problem but what if you are passing a huge chunk of data between functions that are not used anywhere creating the memory overhead? If you want to satisfy the interface for that method and there is no use for that argument, simply ignore it with blank identifier *_*.
+As strict as the Go compiler for unused declared variables, it will ignore any function arguments that are not used. This may not be a problem but what if you are passing a huge chunk of data between functions that are not used anywhere creating the memory overhead? If you want to satisfy the interface for that method and there is no use for that argument, simply ignore it with blank identifier _\__.
 
 ```go
 func F(param1 int, _ string) {
@@ -173,7 +182,7 @@ func F(param1 int, _ string) {
 
 ### Using pointers in channels
 
-Passing pointer variables in the channel may create data race conditions as both the sender and receiver hold the reference and any one of them can modify. 
+Passing pointer variables in the channel may create data race conditions as both the sender and receiver hold the reference and any one of them can modify.
 
 Also passing pointers reduce memory overhead by eliminating copying and moving. So, we have to be careful when passing pointers into the channels. The Receiver should not alter the data that it receives as it is only allowed to consume the data. So, avoid data modification at the receiver side.
 
@@ -190,7 +199,7 @@ func main() {
 }
 ```
 
-To avoid this, either check if the channel is closed by checking if the data received is sent by the channel or not as 
+To avoid this, either check if the channel is closed by checking if the data received is sent by the channel or not as
 
 ```go
 func main() {
@@ -208,10 +217,10 @@ func main() {
 
 ### Some other tips
 
-- There are no restrictions on interface declaration, it's better to have interface declaration at the client side or at the location where the package is being used. This limits the third-party packages from accessing the whole struct/data. 
-- Don't exploit the *Duck typing* of interfaces and structs in Go. Limit the size of the interface and use multiple interfaces for each set of functions.
+- There are no restrictions on interface declaration, it's better to have interface declaration at the client side or at the location where the package is being used. This limits the third-party packages from accessing the whole struct/data.
+- Don't exploit the _Duck typing_ of interfaces and structs in Go. Limit the size of the interface and use multiple interfaces for each set of functions.
 - Even though it is not mandatory to close the channels, it's still best practice to close them as it might free up some memory.
-- Use uni-directional channels instead of bi-directional because uni-directional channels restrict the function to either send or receive but not both creating some form of check. 
+- Use uni-directional channels instead of bi-directional because uni-directional channels restrict the function to either send or receive but not both creating some form of check.
 - Buffer channels will block sending/reading, so use buffer channels to make multiple goroutines work as a synchronous function or communicate with these buffer channels.
 - Mutexes are slow, so use RWMutex which may be fast for reads at least.
 - Passing large data as an argument to function involves copying and creating the new data. Use pointers and don't modify the data in the called function.

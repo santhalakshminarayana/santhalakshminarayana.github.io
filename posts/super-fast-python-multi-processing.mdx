@@ -3,8 +3,16 @@ title: "Super fast Python (Part-3): Multi-processing"
 description: "Make computations in Python faster with Multi-processing ."
 imgName: "super-fast-python-multi-processing/super-fast-python-multi-processing.jpg"
 date: "Nov 12, 2022"
-tags: ['python-performance', 'python']
-keywords: ['python-multiprocessing', 'python-performance', 'python-optimize', 'python', 'fast-python', 'speed']
+tags: ["python-performance", "python"]
+keywords:
+  [
+    "python-multiprocessing",
+    "python-performance",
+    "python-optimize",
+    "python",
+    "fast-python",
+    "speed",
+  ]
 ---
 
 ![Super fast Python: Multi-processing](super-fast-python-multi-processing/super-fast-python-multi-processing.jpg)
@@ -13,7 +21,7 @@ keywords: ['python-multiprocessing', 'python-performance', 'python-optimize', 'p
 
 # Super fast Python (Part-3): Multi-processing
 
-This is the third post in the series on Python performance and Optimization. The series points out the utilization of inbuilt libraries, low-level code conversions, and other Python implementations to speed-up Python. The other posts included in this series are 
+This is the third post in the series on Python performance and Optimization. The series points out the utilization of inbuilt libraries, low-level code conversions, and other Python implementations to speed-up Python. The other posts included in this series are
 
 - (Part-1): [Why Python is slow?](https://santhalakshminarayana.github.io/blog/super-fast-python-why-python-slow)
 - (Part-2): [Good practices to write fast Python code](https://santhalakshminarayana.github.io/blog/super-fast-python-good-practices)
@@ -35,7 +43,7 @@ Also, there are external libraries like Numpy that release GIL and compute the t
 
 [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) module in Python offers a variety of APIs for achieving multiprocessing. In this blog, we discuss [mulitprocessing.Pool](https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool) class that takes multiple numbers of tasks and executes them parallelly by distributing tasks among multiple cores/workers.
 
-> [concurrent.futures.ProcessPoolExecutor](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor) provides a higher level interface on top of **multiprocessing** and offers additonal functions to  control the process pool.
+> [concurrent.futures.ProcessPoolExecutor](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor) provides a higher level interface on top of **multiprocessing** and offers additonal functions to control the process pool.
 
 ## Multiprocessing Pool
 
@@ -85,6 +93,7 @@ with Pool(processes=cpu_count()) as pool:
 
 print(f"time taken with multiprocessing: {perf_counter()-atime}")
 ```
+
 ```markdown:output
 without multiprocessing
 WORKER ID: 32093
@@ -113,11 +122,11 @@ WORKER ID: 33101
 time taken with multiprocessing: 2.077159455002402
 ```
 
-In the above code, we applied parallel computing by passing tasks (calling **fun_()**) to the multiprocessing pool. 
+In the above code, we applied parallel computing by passing tasks (calling **fun\_()**) to the multiprocessing pool.
 
 The pool class constructor takes the following arguments and returns the pool object
 
-- **processes**: no.of workers, default is all cores available in the system. We can check the available cores by calling *multiprocessing.cpu_count()* (mine is 8)
+- **processes**: no.of workers, default is all cores available in the system. We can check the available cores by calling _multiprocessing.cpu_count()_ (mine is 8)
 - **initializer**: initializer function that will be called by every worker when it starts
 - **initargs**: arguments to the initializer function above
 - **maxtasksperchild**: max. no.of tasks a worker should execute before being replaced by another worker process. This behavior releases the workers that are using system resources for a very long time
@@ -129,12 +138,12 @@ The pool object has several methods like apply, map, starmap, imap, etc, that se
 Pool.map() takes the following arguments
 
 - **func**: the function to be executed parallelly that takes one argument
-- **iterable**: an iterable whose elements are passed as arguments to the function above 
+- **iterable**: an iterable whose elements are passed as arguments to the function above
 - **chunksize**: chunk size number that used to divide the tasks
 
 > based on the nature of tasks, different **chunksize** numbers [schedules tasks differently](https://stackoverflow.com/questions/53751050/multiprocessing-understanding-logic-behind-chunksize)
 
-> In UNIX and such systems, [multiprocessing creates processes](https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods) using a fork, and in windows, it starts processes using spawn. There are some [additional restrictions](https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods) one should be aware of when the process start method is other than fork like protecting the entry point of the program by creating processes inside *if \_\_name\_\_==\_\_main\_\_* because spawn creates new python interpreter for each process.
+> In UNIX and such systems, [multiprocessing creates processes](https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods) using a fork, and in windows, it starts processes using spawn. There are some [additional restrictions](https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods) one should be aware of when the process start method is other than fork like protecting the entry point of the program by creating processes inside _if \_\_name\_\_==\_\_main\_\__ because spawn creates new python interpreter for each process.
 
 As we have 8 cores available and 10 tasks at hand, Pool.map() distributes the tasks among the 8 workers by dividing tasks into chunks like [2, 2, 1, 1, 1, 1, 1, 1] and pass them to workers.
 
@@ -156,7 +165,7 @@ Use process, when there is a small number of tasks and each task takes a large a
 
 ### Share data with global variables (copy-on-write)
 
-Processes created using multiprocessing run independently with their own memory space and they don't have access to the parent process's local data but they [inherit the global data of the parent](https://superfastpython.com/multiprocessing-inherit-global-variables-in-python/) (only when fork start method used). 
+Processes created using multiprocessing run independently with their own memory space and they don't have access to the parent process's local data but they [inherit the global data of the parent](https://superfastpython.com/multiprocessing-inherit-global-variables-in-python/) (only when fork start method used).
 
 Since child processes get a snapshot of the parent process's global data, we can utilize this behavior in a way such that we can make sharable data available to child processes by making the data global.
 
@@ -183,7 +192,7 @@ with Pool(processes=cpu_count(), initializer=pool_initializer, initargs=(X, A)) 
     res = pool.map(sum_product, range(n))
 ```
 
-In the above snippet, we initialized the pool with the *pool_initializer* function, this function will be called for every worker after they start and any data globalized inside this initialization function is available to all child processes. 
+In the above snippet, we initialized the pool with the _pool_initializer_ function, this function will be called for every worker after they start and any data globalized inside this initialization function is available to all child processes.
 
 > Even though we don't need the initializer function here to share data as we can make data global at the top level and all child processes would get a snapshot of the global data, there are other cases where the initializer function is useful. Like reading a file and sharing data, making a database connection, etc, which might work on variable parameters that we can pass in pool **initargs**.
 
@@ -196,7 +205,7 @@ def random_increment(i):
     rand_n = randint(0, i)
     a[rand_n] += 1
     print(f'child {i}: {a}')
-    
+
 n = 10
 a = list(range(n))
 
@@ -204,9 +213,9 @@ with Pool(processes=cpu_count()) as pool:
     pool.map(random_increment, range(n))
 
 print(f'parent {a}')
-``` 
+```
 
-In the above program, we have initialized a global variable **a** which is a list. We applied the function *random_increment()* for **n** tasks, and, *random_increment()* function takes the number **i** and increments the list **a** at the index generated randomly in the range(0..i).
+In the above program, we have initialized a global variable **a** which is a list. We applied the function _random_increment()_ for **n** tasks, and, _random_increment()_ function takes the number **i** and increments the list **a** at the index generated randomly in the range(0..i).
 
 As **a** is global, we expect the list **a** change in the parent process too, but it is not true as each child process is created by copying a snapshot of the parent data and each child will have their own memory.
 
@@ -236,7 +245,7 @@ With [multiprocessing.sharedctypes](https://docs.python.org/3/library/multiproce
 
 Multiprocessing provides two types of shared ctypes, one for read-and-write values and arrays, and the other one for read-only values and arrays.
 
-To manipulate data in child processes, use 
+To manipulate data in child processes, use
 
 - **multiprocessing.Value**: to share only single value variables such as numbers or strings
 - **multiprocessing.Array**: to share an array of values of the same data type in **C**
@@ -256,7 +265,7 @@ def random_increment(i):
     a[rand_n] += 1
 
     print(f'child {i}: {list(a)}')
-    
+
 def initializer_func(A):
     global a
     a = A
@@ -270,7 +279,7 @@ with Pool(processes=cpu_count(), initializer=initializer_func, initargs=(A,)) as
 print(f'parent: {list(A)}')
 ```
 
-In the above code, we have passed **multiprocessing.Array** instead of the normal list. **Array** is initialized with the data type ('i') and the iterable. We can also initialize the **Array** in other ways like defining the size first and assign later.  
+In the above code, we have passed **multiprocessing.Array** instead of the normal list. **Array** is initialized with the data type ('i') and the iterable. We can also initialize the **Array** in other ways like defining the size first and assign later.
 
 ```python
 A = Array('i', 10)
@@ -297,7 +306,7 @@ parent: [2, 1, 3, 5, 5, 8, 6, 8, 8, 9]
 
 ## Share large Numpy arrays between child processes
 
-For each task, as we pass data as arguments to the processes, the data will be pickled so that it can be sent from one process to other. If we pass large amounts of data, pickling involves a huge amount of memory and consumes more time. So, it is better to [share large data between child processes](https://research.wmz.ninja/articles/2018/03/on-sharing-large-arrays-when-using-pythons-multiprocessing.html) instead of passing the data individually. 
+For each task, as we pass data as arguments to the processes, the data will be pickled so that it can be sent from one process to other. If we pass large amounts of data, pickling involves a huge amount of memory and consumes more time. So, it is better to [share large data between child processes](https://research.wmz.ninja/articles/2018/03/on-sharing-large-arrays-when-using-pythons-multiprocessing.html) instead of passing the data individually.
 
 As we have seen in the above approach that copy-on-write sharing is good for read-only and to work with data that changes inside the child process, we have to share the data using a shared array. In this section, we will discuss sharing large Numpy arrays using a shared array.
 
@@ -336,15 +345,15 @@ print(f'Numpy array X_np:\n{X_np}')
 
 First, we defined the shape of the array **X_Shape**, and then created a Numpy array with zeros of shape **X_Shape**. Second, we have created a synchronized shared array and assigned it to **X**. Third, we wrapped the shared array as Numpy using **np.frombuffer**.
 
-**np.frombuffer** takes a 1-dimensional buffer array and interprets it into a Numpy array so we can manipulate the array easily. We used *X.get_obj()* instead **X** because **X** is a synchronized wrapper around the raw array and calling the **get_obj()** returns the raw buffer object.
+**np.frombuffer** takes a 1-dimensional buffer array and interprets it into a Numpy array so we can manipulate the array easily. We used _X.get_obj()_ instead **X** because **X** is a synchronized wrapper around the raw array and calling the **get_obj()** returns the raw buffer object.
 
 > For raw arrays (RawArray), objects should be passed normally without calling get_obj().
 
-Why use [**np.frombuffer**](https://www.educba.com/numpy-frombuffer/)? Since Numpy arrays take a large amount of memory space, we don't want to create a copy that again takes large memory. So, using **np.frombuffer** by utilizing the buffer protocol, we can get a Numpy array which is just a wrapper around the buffer memory. 
+Why use [**np.frombuffer**](https://www.educba.com/numpy-frombuffer/)? Since Numpy arrays take a large amount of memory space, we don't want to create a copy that again takes large memory. So, using **np.frombuffer** by utilizing the buffer protocol, we can get a Numpy array which is just a wrapper around the buffer memory.
 
-In **initiargs**, we should pass the shared array instead Numpy wrapper. We also pass the shape of the Numpy array as we need to reshape the 1D shared array into a multidimensional array in the worker function *assign_int()*.
+In **initiargs**, we should pass the shared array instead Numpy wrapper. We also pass the shape of the Numpy array as we need to reshape the 1D shared array into a multidimensional array in the worker function _assign_int()_.
 
-In the worker function *assign_int()*, again we interpreted the buffer as a Numpy array and assigned the row values at row number **i**.
+In the worker function _assign_int()_, again we interpreted the buffer as a Numpy array and assigned the row values at row number **i**.
 
 At last, in the parent process, we can check the multiprocessing assignment of the Numpy array.
 
@@ -358,6 +367,7 @@ Numpy array X_np:
  [998 998 998 ... 998 998 998]
  [999 999 999 ... 999 999 999]]
 ```
+
 ---
 
 Even though **multiprocessing** looks easy and flexible to use, there are some issues one can face with **multiprocessing** if not careful,

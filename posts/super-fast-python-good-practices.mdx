@@ -3,8 +3,9 @@ title: "Super fast Python (Part-2): Good Practices"
 description: "Write Python programs by following good practices to run code incredibly faster."
 imgName: "super-fast-python-good-practices/super-fast-python-good-practices.jpg"
 date: "Nov 9, 2022"
-tags: ['python-performance', 'python']
-keywords: ['python-performance', 'python-optimize', 'python', 'fast-python', 'speed']
+tags: ["python-performance", "python"]
+keywords:
+  ["python-performance", "python-optimize", "python", "fast-python", "speed"]
 ---
 
 ![Super fast Python: Good Practices](super-fast-python-good-practices/super-fast-python-good-practices.jpg)
@@ -17,7 +18,7 @@ In the earlier post on [why Python is slow?](https://santhalakshminarayana.githu
 
 In this blog, we discuss some good practices to speed up Python incredibly faster.
 
-This is the second post in the series on Python performance and Optimization. The series points out the utilization of inbuilt libraries, low-level code conversions, and other Python implementations to speed-up Python. The other posts included in this series are 
+This is the second post in the series on Python performance and Optimization. The series points out the utilization of inbuilt libraries, low-level code conversions, and other Python implementations to speed-up Python. The other posts included in this series are
 
 - (Part-1): [Why Python is slow?](https://santhalakshminarayana.github.io/blog/super-fast-python-why-python-slow)
 - (Part-2): Good practices to write fast Python code (this post)
@@ -40,6 +41,7 @@ from random import randint
 
 rand_nums = [randint(1, 100) for _ in range(100000)]
 ```
+
 Create 100000 random numbers between 1 and 100.
 
 ```python
@@ -48,6 +50,7 @@ cc = 0
 for i in range(len(rand_nums)):
     cc += rand_nums[i]
 ```
+
 ```python:output
 6.02 ms ± 94 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 ```
@@ -58,11 +61,12 @@ Manually summing up the all numbers over running a loop takes approximately 6ms.
 %%timeit
 cc = sum(rand_nums)
 ```
+
 ```python:output
 332 µs ± 15 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 ```
 
-Using built-in *sum()* takes only 0.3ms approximately.
+Using built-in _sum()_ takes only 0.3ms approximately.
 
 ### Local Variables vs Global Variables
 
@@ -70,7 +74,7 @@ When we call a function (a routine), the system pauses the code execution at the
 
 ### Import the sub-modules and functions directly
 
-When importing any module to use its sub-modules, classes, or functions, import them directly instead of importing just the module. When accessing objects using *.*, it triggers dictionary lookup using *\_\_getattribute\_\_*. If we call the object multiple times using *.*, that may increase the program time.
+When importing any module to use its sub-modules, classes, or functions, import them directly instead of importing just the module. When accessing objects using _._, it triggers dictionary lookup using \_\_\_getattribute\_\__. If we call the object multiple times using _.\_, that may increase the program time.
 
 ```python
 # instead of this
@@ -84,7 +88,7 @@ def_obj = Def()
 
 ### Limit the usage of '.'
 
-Speaking of the lookup time with the module's object references, the same can be applied to the referencing of properties and functions of an object(both custom and in-built). 
+Speaking of the lookup time with the module's object references, the same can be applied to the referencing of properties and functions of an object(both custom and in-built).
 
 ```python
 %%timeit
@@ -92,11 +96,12 @@ ll = []
 for i in range(len(rand_nums)):
     ll.append(rand_nums[i])
 ```
+
 ```python:output
 6.67 ms ± 84.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 ```
 
-Adding the list elements by appending with *list.append()* takes more time than following code because the function is assigned to a variable (functions are first-class citizens in Python) and used inside the loop. This simple practice avoids referencing the functions with **'.'** too often and finally limits the need for dictionary lookup.
+Adding the list elements by appending with _list.append()_ takes more time than following code because the function is assigned to a variable (functions are first-class citizens in Python) and used inside the loop. This simple practice avoids referencing the functions with **'.'** too often and finally limits the need for dictionary lookup.
 
 ```python
 %%timeit
@@ -105,13 +110,14 @@ ll_append = ll.append
 for i in range(len(rand_nums)):
     ll_append(rand_nums[i])
 ```
+
 ```python:output
 5.45 ms ± 116 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 ```
 
 ### Avoid writing functions unnecessary
 
-It's good to have code separability by using functions for each independent task. But, as functions in Python are relatively more expensive than C/C++ due to boxing and unboxing dynamic variables and other factors, limit writing functions for unnecessary cases like one-liners. 
+It's good to have code separability by using functions for each independent task. But, as functions in Python are relatively more expensive than C/C++ due to boxing and unboxing dynamic variables and other factors, limit writing functions for unnecessary cases like one-liners.
 
 ### Don't wrap lambdas around functions
 
@@ -127,7 +133,7 @@ def fun_sort_without_lambda(l):
     return sorted(l, key=abs)
 ```
 
-If we look at the CPython bytecode for the above functions with lambda expression passed as a key and with *abs* function object as a key,
+If we look at the CPython bytecode for the above functions with lambda expression passed as a key and with _abs_ function object as a key,
 
 ```python
 >>> from dis import dis
@@ -156,7 +162,7 @@ Disassembly of <code object <lambda> at 0x7fc51b3a19d0, file "<ipython-input-62-
              10 RETURN_VALUE
 ```
 
-for the function *fun_sort_with_lambda*, there is an additional function has been generated for lambda. We can avoid this function generation without using lambda as we can see in function *fun_sort_without_lambda*. 
+for the function _fun_sort_with_lambda_, there is an additional function has been generated for lambda. We can avoid this function generation without using lambda as we can see in function _fun_sort_without_lambda_.
 
 ### List comprehension is fast
 
@@ -168,6 +174,7 @@ rand_nums = []
 for _ in range(1000):
     rand_nums.append(randint(1, 100))
 ```
+
 ```output
 603 µs ± 15.3 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 ```
@@ -178,6 +185,7 @@ The list comprehension version of the above code snippet runs faster.
 %%timeit
 rand_nums = [randint(1, 100) for _ in range(1000)]
 ```
+
 ```python:output
 565 µs ± 11 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 ```
@@ -189,6 +197,7 @@ The optimization practices are not limited to the above approaches. We can check
 ---
 
 ### References
+
 - [Python Speed](https://wiki.python.org/moin/PythonSpeed)
 - [Python Optimization](https://aglowiditsolutions.com/blog/python-optimization/)
 - [Making Python Programs Blazingly Fast](https://martinheinz.dev/blog/13)

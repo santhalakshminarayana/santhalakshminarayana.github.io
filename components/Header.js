@@ -132,7 +132,6 @@ export default function Header(props) {
         @media screen and (max-width: 920px) {
           .header-container {
             padding: 10px 2vw 10px 2vw;
-            overflow-x: scroll;
           }
 
           #name {

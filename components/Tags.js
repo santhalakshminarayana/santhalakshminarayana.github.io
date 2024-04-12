@@ -16,39 +16,27 @@ const tag_hover = c2,
   tag_hover_border = c2,
   tag_active_background = c5;
 
+const tags = [
+  "python",
+  "go",
+  "image-processing",
+  "opencv",
+  "concurrency",
+  "python-performance",
+  "color-science",
+  "react",
+  "next-js",
+  "flutter",
+];
+
 export default function Tags(props) {
   return (
     <div className="tags">
-      <Link href="/tags/python">
-        <a>#python</a>
-      </Link>
-      <Link href="/tags/go">
-        <a>#go</a>
-      </Link>
-      <Link href="/tags/image-processing">
-        <a>#image-processing</a>
-      </Link>
-      <Link href="/tags/opencv">
-        <a>#opencv</a>
-      </Link>
-      <Link href="/tags/concurrency">
-        <a>#concurrency</a>
-      </Link>
-      <Link href="/tags/python-performance">
-        <a>#python-performance</a>
-      </Link>
-      <Link href="/tags/color-science">
-        <a>#color-science</a>
-      </Link>
-      <Link href="/tags/react">
-        <a>#react</a>
-      </Link>
-      <Link href="/tags/next-js">
-        <a>#next-js</a>
-      </Link>
-      <Link href="/tags/flutter">
-        <a>#flutter</a>
-      </Link>
+      {tags.map((tag) => (
+        <Link href={`/tags/${tag}`}>
+          <a>{`#${tag}`}</a>
+        </Link>
+      ))}
 
       <style jsx>{`
         .tags {

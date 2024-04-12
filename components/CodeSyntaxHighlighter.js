@@ -58,9 +58,10 @@ export default class CodeSyntaxHighlighter extends Component {
             <SyntaxHighlighter
               language={this.language}
               style={code_style}
+              showLineNumbers="true"
               customStyle={{
                 backgroundColor: background,
-                paddingBottom: "0px",
+                paddingBottom: "1vh",
                 margin: "0px",
                 marginBottom: "1vh",
                 borderBottomLeftRadius: "5px",
@@ -74,9 +75,10 @@ export default class CodeSyntaxHighlighter extends Component {
           <SyntaxHighlighter
             language={this.language}
             style={code_style}
+            showLineNumbers="true"
             customStyle={{
               backgroundColor: background,
-              paddingBottom: "0px",
+              paddingBottom: "1vh",
               marginTop: "1vh",
               marginBottom: "1vh",
               borderRadius: "5px",

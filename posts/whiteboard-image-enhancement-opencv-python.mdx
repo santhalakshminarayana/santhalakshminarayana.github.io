@@ -3,8 +3,20 @@ title: "Whiteboard Image Enhancement using OpenCV"
 description: "Enhance whiteboard images taken from mobile using OpenCV."
 imgName: "whiteboard-enhance/whiteboard-image-enhancement.jpg"
 date: "Oct 19, 2021"
-tags: ['image-processing', 'opencv', 'python']
-keywords: ['whiteboard', 'whiteboard-enhance', 'image-enhance', 'image-processing', 'opencv', 'python', 'difference-of-guassian', 'dog', 'contrast-stretch', 'color-balance']
+tags: ["image-processing", "opencv", "python"]
+keywords:
+  [
+    "whiteboard",
+    "whiteboard-enhance",
+    "image-enhance",
+    "image-processing",
+    "opencv",
+    "python",
+    "difference-of-guassian",
+    "dog",
+    "contrast-stretch",
+    "color-balance",
+  ]
 ---
 
 ![Whiteboard image enhancement in Python](whiteboard-enhance/whiteboard-image-enhancement.jpg)
@@ -13,7 +25,7 @@ keywords: ['whiteboard', 'whiteboard-enhance', 'image-enhance', 'image-processin
 
 # Whiteboard image enhancement using OpenCV
 
-Whiteboard images generally contain less contrast and low brightness as they would be captured in mobile under normal room light conditions. Enhancing whiteboard images makes text readable and gives an image with high contrast and brightness. 
+Whiteboard images generally contain less contrast and low brightness as they would be captured in mobile under normal room light conditions. Enhancing whiteboard images makes text readable and gives an image with high contrast and brightness.
 
 We will apply different image-processing techniques to enhance whiteboard images using OpenCV in Python. From this [whiteboard-cleaner](https://gist.github.com/lelandbatey/8677901) gist that enhances whiteboard images using [ImageMagick](https://imagemagick.org/), we will implement those ImageMagick methods in Python.
 
@@ -21,19 +33,22 @@ In that script, the following ImageMagick functions were used to enhance whitebo
 
 ```shell
 -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1
-``` 
-Above command applies image enhancing functions in order 
+```
+
+Above command applies image enhancing functions in order
+
 - **-morphology Convolve DoG:15, 100, 0**: Difference of Gaussian (DoG) with kernel_radius=15, sigma1=100, and sigma2=0
 - **-negate**: Negative of image
 - **-normalize**: Contrast stretch image with black=0.15% and white=0.05%
 - **-blur 0x1**: Gaussian blur with sigma=1
-- **-level 60%,91%,0.1: Stretch image with black=60% and white=91%, and Gamma correction by gamma=0.1
+- **-level 60%,91%,0.1**: Stretch image with black=60% and white=91%, and Gamma correction by gamma=0.1
 
 As I found some difficulty for exactly converting the ImageMagick C code to Python, I have changed the order and parameters that would give close results.
 
 ---
 
 We will apply series of image-processing methods and effects to enhance whiteboard images in the following order
+
 - Difference of Gaussian (DoG)
 - Negative effect
 - Contrast Stretching
@@ -60,12 +75,12 @@ img = cv2.imread('input.jpg')
 
 Normally $I_{dog}$ (DoG of image) is calculated by subtracting $I_{g1}$ and $I_{g2}$ which are convoluted images with two different Gaussian kernels. But ImageMagick applies convolution after subtracting and scaling two gaussian kernels.
 
-So, we will first subtract two different Gaussian kernels, scale and normalize the dog-kernel to the zero-summing kernel (sum of all elements ~ 0.0)  and then apply convolution.
+So, we will first subtract two different Gaussian kernels, scale and normalize the dog-kernel to the zero-summing kernel (sum of all elements ~ 0.0) and then apply convolution.
 
 ```python
 def normalize_kernel(kernel, k_width, k_height, scaling_factor = 1.0):
     '''Zero-summing normalize kernel'''
-    
+
     K_EPS = 1.0e-12
     # positive and negative sum of kernel values
     pos_range, neg_range = 0, 0
@@ -76,7 +91,7 @@ def normalize_kernel(kernel, k_width, k_height, scaling_factor = 1.0):
             neg_range += kernel[i]
         else:
             pos_range += kernel[i]
-    
+
     # scaling factor for positive and negative range
     pos_scale, neg_scale = pos_range, -neg_range
     if abs(pos_range) >= K_EPS:
@@ -87,24 +102,24 @@ def normalize_kernel(kernel, k_width, k_height, scaling_factor = 1.0):
         neg_scale = 1.0
     else:
         neg_scale = -neg_range
-        
+
     pos_scale = scaling_factor / pos_scale
     neg_scale = scaling_factor / neg_scale
-    
+
     # scale kernel values for zero-summing kernel
     for i in range(k_width * k_height):
         if (not np.nan == kernel[i]):
             kernel[i] *= pos_scale if kernel[i] >= 0 else neg_scale
-            
+
     return kernel
 
 def dog(img, k_size, sigma_1, sigma_2):
     '''Difference of Gaussian by subtracting kernel 1 and kernel 2'''
-    
+
     k_width = k_height = k_size
     x = y = (k_width - 1) // 2
     kernel = np.zeros(k_width * k_height)
-    
+
     # first gaussian kernal
     if sigma_1 > 0:
         co_1 = 1 / (2 * sigma_1 * sigma_1)
@@ -117,7 +132,7 @@ def dog(img, k_size, sigma_1, sigma_2):
     # unity kernel
     else:
         kernel[x + y * k_width] = 1.0
-    
+
     # subtract second gaussian from kernel
     if sigma_2 > 0:
         co_1 = 1 / (2 * sigma_2 * sigma_2)
@@ -130,15 +145,15 @@ def dog(img, k_size, sigma_1, sigma_2):
     # unity kernel
     else:
         kernel[x + y * k_width] -= 1.0
-    
+
     # zero-normalize scling kernel with scaling factor 1.0
     norm_kernel = normalize_kernel(kernel, k_width, k_height, scaling_factor = 1.0)
-    
+
     # apply filter with norm_kernel
     return cv2.filter2D(img, -1, norm_kernel.reshape(k_width, k_height))
-``` 
+```
 
-Get Difference of Gaussian (DoG) for image by calling *dog()* function with **radius = 15, sigma_1 = 100, sigma_2 = 0**. Here **radius = 15** for both kernels, for first kernel, **sigma = 100**, and for second kernel, **sigma = 0**. Kernel with **sigma = 0** creates unity kernel means convolution with this kernel gives same image. 
+Get Difference of Gaussian (DoG) for image by calling _dog()_ function with **radius = 15, sigma_1 = 100, sigma_2 = 0**. Here **radius = 15** for both kernels, for first kernel, **sigma = 100**, and for second kernel, **sigma = 0**. Kernel with **sigma = 0** creates unity kernel means convolution with this kernel gives same image.
 
 ```python
 dog_img = dog(img, 15, 100, 0)
@@ -157,7 +172,7 @@ For $I_{dog}$, get a negative image which is just an inversion of colors (255 - 
 ```python
 def negate(img):
     '''Negative of image'''
-    
+
     return cv2.bitwise_not(img)
 ```
 
@@ -188,19 +203,19 @@ def get_black_white_indices(hist, tot_count, black_count, white_count):
         if co > black_count:
             black_ind = i
             break
-            
+
     co = 0
     for i in range(len(hist) - 1, -1, -1):
         co += hist[i]
         if co > (tot_count - white_count):
             white_ind = i
             break
-    
+
     return [black_ind, white_ind]
 
 def contrast_stretch(img, black_point, white_point):
     '''Contrast stretch image with black and white cap'''
-    
+
     tot_count = img.shape[0] * img.shape[1]
     black_count = tot_count * black_point / 100
     white_count= tot_count * white_point / 100
@@ -208,15 +223,15 @@ def contrast_stretch(img, black_point, white_point):
     # calculate histogram for each channel
     for ch in cv2.split(img):
         ch_hists.append(cv2.calcHist([ch], [0], None, [256], (0, 256)).flatten().tolist())
-    
+
     # get black and white percentage indices
     black_white_indices = []
     for hist in ch_hists:
         black_white_indices.append(get_black_white_indices(hist, tot_count, black_count, white_count))
-        
+
     stretch_map = np.zeros((3, 256), dtype = 'uint8')
-    
-    # stretch histogram 
+
+    # stretch histogram
     for curr_ch in range(len(black_white_indices)):
         black_ind, white_ind = black_white_indices[curr_ch]
         for i in range(stretch_map.shape[1]):
@@ -230,12 +245,12 @@ def contrast_stretch(img, black_point, white_point):
                         stretch_map[curr_ch][i] = round((i - black_ind) / (white_ind - black_ind)) * 255
                     else:
                         stretch_map[curr_ch][i] = 0
-    
+
     # stretch image
     ch_stretch = []
     for i, ch in enumerate(cv2.split(img)):
         ch_stretch.append(cv2.LUT(ch, stretch_map[i]))
-        
+
     return cv2.merge(ch_stretch)
 ```
 
@@ -243,7 +258,7 @@ For each image channel, calculate cummulative histogram sum, and then cap pixels
 
 ```python
 contrast_stretch_img = contrast_stretch(negative_img, 2, 99.5)
-``` 
+```
 
 Negative image after contrast stretching is
 
@@ -258,13 +273,13 @@ Contrast stretching image contains noise, so blur the image with Gaussian kernel
 ```python
 def fast_gaussian_blur(img, ksize, sigma):
     '''Gussian blur using linear separable property of Gaussian distribution'''
-    
+
     kernel_1d = cv2.getGaussianKernel(ksize, sigma)
     return cv2.sepFilter2D(img, -1, kernel_1d, kernel_1d)
 
 def gamma(img, gamma_value):
     '''Gamma correction of image'''
-    
+
     i_gamma = 1 / gamma_value
     lut = np.array([((i / 255) ** i_gamma) * 255 for i in np.arange(0, 256)], dtype = 'uint8')
     return cv2.LUT(img, lut)
@@ -299,12 +314,12 @@ Color balance of an image is same as contrast-stretching method above but they a
 ```python
 def color_balance(img, low_per, high_per):
     '''Contrast stretch image by histogram equilization with black and white cap'''
-    
+
     tot_pix = img.shape[1] * img.shape[0]
     # no.of pixels to black-out and white-out
     low_count = tot_pix * low_per / 100
     high_count = tot_pix * (100 - high_per) / 100
-    
+
     cs_img = []
     # for each channel, apply contrast-stretch
     for ch in cv2.split(img):
@@ -317,13 +332,13 @@ def color_balance(img, low_per, high_per):
             cs_img.append(ch)
             continue
         # lut with min-max normalization for [0-255] bins
-        lut = np.array([0 if i < li 
-                        else (255 if i > hi else round((i - li) / (hi - li) * 255)) 
+        lut = np.array([0 if i < li
+                        else (255 if i > hi else round((i - li) / (hi - li) * 255))
                         for i in np.arange(0, 256)], dtype = 'uint8')
         # constrast-stretch channel
         cs_ch = cv2.LUT(ch, lut)
         cs_img.append(cs_ch)
-        
+
     return cv2.merge(cs_img)
 ```
 

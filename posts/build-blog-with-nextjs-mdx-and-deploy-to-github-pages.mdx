@@ -3,8 +3,9 @@ title: "Build Blog with Next.js and MDX & Deploy to Github Pages"
 description: "Create a blog with Next.js as Static Site Generator, MDX for writing content, Github Pages for deploying the static website. Also add SEO and Image optimization."
 imgName: "blog-nextjs-mdx/nextjs.jpeg"
 date: "Dec 31, 2020"
-tags: ['react', 'next-js']
-keywords: [react', 'next.js', 'blog', 'mdx', 'markdown', 'gh-pages', 'github-pages']
+tags: ["react", "next-js"]
+keywords:
+  [react', "next.js", "blog", "mdx", "markdown", "gh-pages", "github-pages"]
 ---
 
 ![Build Blog with Next.js & MDX and Deploy to Github Pages](blog-nextjs-mdx/nextjs.jpeg)
@@ -15,11 +16,12 @@ keywords: [react', 'next.js', 'blog', 'mdx', 'markdown', 'gh-pages', 'github-pag
 
 In this post, we will discuss how to create and publish a blog with [Next.js](https://nextjs.org/), write content with [MDX](https://mdxjs.com/), deploy static site to Github Pages, Image optimization to reduce the page load time and SEO for better page ranking.
 
-> Pre-requisites: Basic understanding of React and Markdown. 
+> Pre-requisites: Basic understanding of React and Markdown.
 
-Building a blog with Next.js is very easy and it is simple to understand, develop, and maintain the dynamic websites and credit goes to Next.js dynamic paging which lets the creation of dynamic URLs and routing. When I decided to start my blog then I searched and read about many frameworks like Vanilla React, Gatsby, Hugo, etc., After reading many blogs, comments, and reviews I felt Next.js would be the option I was looking for. 
+Building a blog with Next.js is very easy and it is simple to understand, develop, and maintain the dynamic websites and credit goes to Next.js dynamic paging which lets the creation of dynamic URLs and routing. When I decided to start my blog then I searched and read about many frameworks like Vanilla React, Gatsby, Hugo, etc., After reading many blogs, comments, and reviews I felt Next.js would be the option I was looking for.
 
 Next.js offers everything need to create a blog:
+
 - Static site export support
 - Dynamic routing
 - MDX (markdown with JSX) support
@@ -29,6 +31,7 @@ Next.js offers everything need to create a blog:
 Now dive in to create a simple blog
 
 ## Setup Next.js and MDX
+
 Next.js is a React framework to create SPA (single page applications) and enables both static websites and server-side rendering. Here we'll focus only on static website generation.
 
 ### Install Next.js
@@ -41,7 +44,7 @@ npx create-next-app
 yarn create next-app
 ```
 
-_create-next-app_ installs everything needed to start with. 
+_create-next-app_ installs everything needed to start with.
 
 The most important thing in Next.js is the **pages** directory. Every component exported from **.js**, **.jsx**, **.ts**, or **.tsx** in the pages folder is treated as a page and each page associates with a route based on its file name. In the pages folder, the **App** component from **\_app.js** serves as the initialization of pages that can be edited for custom use like global style declaration, CDN's, etc., **index.js** is the starting point for adding content.
 
@@ -60,14 +63,15 @@ We installed _@next/mdx_ to handle **.mdx** files in pages directory, _gray-matt
 Now create / open **next.config.js** (configuration file for Next.js) at the project root level and add the following to configure MDX and handle **.mdx** page extensions in the pages folder.
 
 ```js
-const withMDX = require('@next/mdx')({
+const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
-})
+});
 module.exports = withMDX({
-  pageExtensions: ['js', 'jsx', 'mdx'],
-  target: 'serverless',
-})
-``` 
+  pageExtensions: ["js", "jsx", "mdx"],
+  target: "serverless",
+});
+```
+
 As Next.js only looks for **.js** or **.jsx** files and gives routing to these pages, the above configuration tells Next.js to treat **.md** or **.mdx** files as pages and provide routing.
 
 As we are creating a static site, **target: 'serverless'** notifies Next.js to generate static files for us.
@@ -105,7 +109,7 @@ export default function Home() {
     <div className = 'info-container'>
       <img src = 'batman.png' alt = 'Batman Logo'/>
       <p className = 'info-description'>Hi I'm Batman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.</p>
-      <p className = 'info-description'>But please don't call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who 
+      <p className = 'info-description'>But please don't call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who
       might have started this mess.</p>
 
       <style jsx>{`
@@ -134,6 +138,7 @@ In the above snippet, **CSS** styles are provided inside the component. This is 
 In the **img** tag above, **src** is provided with the name of the image only but not relative/absolute path. In Next.js we don't need to provide complete paths if we place any assets (like images, videos) in the **public** folder. Next.js automatically prepends the path at build time for assets in the public folder.
 
 Now to see changes, start localhost (default port is 3000) as a dev server
+
 ```bash
 # starts localhost at port 8000
 yarn dev -p 8000
@@ -148,7 +153,7 @@ We have a home page with a welcome message. Now some create blog posts with MDX.
 
 ## Write Blog Content with MDX
 
-Create a directory to store our markdown posts at the root level or any accessible place. 
+Create a directory to store our markdown posts at the root level or any accessible place.
 
 ```shell
 mkdir posts
@@ -280,9 +285,10 @@ module.exports = withMDX({
   target: 'serverless',
 })
 ```
+
 ### Provide posts data to Home page
 
-We have to call the **getallPostsData** function to get data. But how can we pass this data to the component in **pages/index.js**? Don't worry we can pass data as **props** to the component before rendering using the [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function. **getStaticProps** allows us to fetch any dynamic data to provide before rendering the component. Change **pages/index.js** as 
+We have to call the **getallPostsData** function to get data. But how can we pass this data to the component in **pages/index.js**? Don't worry we can pass data as **props** to the component before rendering using the [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function. **getStaticProps** allows us to fetch any dynamic data to provide before rendering the component. Change **pages/index.js** as
 
 ```js:pages/index.js
 import { getPostsMetaData } from '../lib/getPostsData.js';
@@ -292,7 +298,7 @@ export default function Home({ postsData }) {
     <div className = 'info-container'>
       <img src = 'batman.png' alt = 'Batman Logo'/>
       <p className = 'info-description'>Hi I'm Batman, the saviour of Gotham City and I like to roam in nights to bash the bad guys.</p>
-      <p className = 'info-description'>But please don't call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who 
+      <p className = 'info-description'>But please don't call me as a source for <b>Corona Virus</b> and it could be the <b>Joker</b> who
       might have started this mess.</p>
       <hr/>
       {postsData.map((metadata) => {
@@ -344,17 +350,17 @@ export async function getStaticProps() {
 }
 ```
 
-Which displays as 
+Which displays as
 
 ![MDX blog posts display on Home page](blog-nextjs-mdx/blog-posts-display-on-home-page.jpg)
 
 ## Rendering MDX and providing dynamic routing
 
-So far so good until we want to display **.mdx** files as individual webpages. Right now it is not possible because Next.js only treats components exported inside the **pages** folder as webpages and provides routing, to provide routing for our posts we must export content from the **posts** directory to the **pages** folder. This is where we should spend some time to serve markdown files as webpages. 
+So far so good until we want to display **.mdx** files as individual webpages. Right now it is not possible because Next.js only treats components exported inside the **pages** folder as webpages and provides routing, to provide routing for our posts we must export content from the **posts** directory to the **pages** folder. This is where we should spend some time to serve markdown files as webpages.
 
 The beauty of Next.js is that we can dynamically serve pages by fetching these **.mdx** files and provide routing inside the **pages** directory with having dynamic pages.
 
-Create **blog** folder inside the **pages** folder and inside this **blog** folder create a file with name **[id].js**. Dynamic routes in Next.js are identified by **[]** (square brackets) in the filename. We can provide any query parameter to this **[]** page component which will end up as *http://localhost:8000/blog/post-name* for **post-name.js**. Now add following code to *pages/blog/**[id]**.js*
+Create **blog** folder inside the **pages** folder and inside this **blog** folder create a file with name **[id].js**. Dynamic routes in Next.js are identified by **[]** (square brackets) in the filename. We can provide any query parameter to this **[]** page component which will end up as _http://localhost:8000/blog/post-name_ for **post-name.js**. Now add following code to _pages/blog/**[id]**.js_
 
 ```js:pages/blog/[id].js
 import { serialize } from 'next-mdx-remote/serialize';
@@ -362,16 +368,16 @@ import { MDXRemote } from 'next-mdx-remote';
 import { getAllPostsPath, getPostData } from '../../lib/getPostsData.js';
 
 const components = {
-	h1: props => <h1 style = {{ 
-		fontSize: 'calc(1rem + 1.5vw)', 
+	h1: props => <h1 style = {{
+		fontSize: 'calc(1rem + 1.5vw)',
 		color: 'black',
-		margin: '1vh 0 1vh 0', }} 
+		margin: '1vh 0 1vh 0', }}
 		{...props} />,
 
-	p: props => <p style = {{ 
-		fontSize: 'calc(1rem + 0.1vw)', 
+	p: props => <p style = {{
+		fontSize: 'calc(1rem + 0.1vw)',
 		color: '#000000e6',
-		margin: '0vh 0 1vh 0' }} 
+		margin: '0vh 0 1vh 0' }}
 		{...props} />,
 }
 
@@ -380,7 +386,7 @@ export default function Blog({ postMetadata, postContent }) {
 	return (
 		<div>
 			<div className = 'blog-content'>
-				<MDXRemote {...postContent} components = {components} /> 
+				<MDXRemote {...postContent} components = {components} />
 			</div>
 
 			<style jsx>{`
@@ -393,7 +399,7 @@ export default function Blog({ postMetadata, postContent }) {
 					max-width: 50vw;
 				}
 		  `}</style>
-			
+
 		</div>
 	)
 }
@@ -423,13 +429,13 @@ If any page provides dynamic routing we must provide all dynamic paths we want t
 
 With **serialize** and **MDXRemote**, we parse markdown content to HTML string and render it as plain HTML. To style the HTML tags in markdown, we pass custom tags as components to the MDX loader which maps tags automatically. In the above file two tags, **h1** and **p** are customized and combined as components.
 
-Now, in the browser, hit URL *http://localhost:3000/blog/batman-vs-superman* or *http://localhost:3000/blog/justice-league* to see the post. You might see output similar to below
+Now, in the browser, hit URL _http://localhost:3000/blog/batman-vs-superman_ or _http://localhost:3000/blog/justice-league_ to see the post. You might see output similar to below
 
 ![MDX Post Display](blog-nextjs-mdx/mdx-post-display.jpg)
 
 ## Navigation from the Home page
 
-What if we want to navigate from the Home page to blog posts by clicking on the title of the post? For this Next.js provides a [next/link](https://nextjs.org/docs/api-reference/next/link) component that takes care of dynamic routing from any page to another by pre-pending the necessary path before the page to navigate like navigation to **batman-vs-superman** results as *http://localhost:3000/blog/batman-vs-superman*. We must navigate like this only if we are not pre-pending the base URL manually inside the website. Now change **pages/index.js** to get dynamic navigation
+What if we want to navigate from the Home page to blog posts by clicking on the title of the post? For this Next.js provides a [next/link](https://nextjs.org/docs/api-reference/next/link) component that takes care of dynamic routing from any page to another by pre-pending the necessary path before the page to navigate like navigation to **batman-vs-superman** results as _http://localhost:3000/blog/batman-vs-superman_. We must navigate like this only if we are not pre-pending the base URL manually inside the website. Now change **pages/index.js** to get dynamic navigation
 
 ```js
 import Link from 'next/link';
@@ -492,15 +498,15 @@ module.exports = withNextOptimizedImages(
 )
 ```
 
-In build time **next-optimized-images** exports optimized images to **images** (custom name) folder inside _out/_next/static_. So create **images** directory at the root level and move images to this folder which needs optimization and provide relative paths now which were previously not required because of the **public** folder.
+In build time **next-optimized-images** exports optimized images to **images** (custom name) folder inside _out/\_next/static_. So create **images** directory at the root level and move images to this folder which needs optimization and provide relative paths now which were previously not required because of the **public** folder.
 
 Change the **img** tag in **pages/index.js** to
 
 ```jsx
 <picture>
-  <source srcSet={require('../images/batman.png?webp')} type="image/webp" />
-  <source srcSet={require('../images/batman.png')} type="image/png" />
-  <img src={require('../images/batman.png')} alt = 'Batman Logo' />
+  <source srcSet={require("../images/batman.png?webp")} type="image/webp" />
+  <source srcSet={require("../images/batman.png")} type="image/png" />
+  <img src={require("../images/batman.png")} alt="Batman Logo" />
 </picture>
 ```
 
@@ -510,7 +516,7 @@ You can more than this by exploring more about this plugin.
 
 ## SEO in Next.js
 
-For Single Application Websites (SPA) SEO is a major problem which Next.js takes care of this by providing API [next/head](https://nextjs.org/docs/api-reference/next/head) which behaves exactly like **<head\>** in HTML. We can wrap meta properties, title, description, Open Graph (OG) properties, Twitter cards, etc., inside the **Head** component. For our Home page we can set title and description as 
+For Single Application Websites (SPA) SEO is a major problem which Next.js takes care of this by providing API [next/head](https://nextjs.org/docs/api-reference/next/head) which behaves exactly like **<head\>** in HTML. We can wrap meta properties, title, description, Open Graph (OG) properties, Twitter cards, etc., inside the **Head** component. For our Home page we can set title and description as
 
 ![Seo in Next.js:=:80](blog-nextjs-mdx/seo-in-nextjs.jpg)
 
@@ -532,9 +538,9 @@ You can find a new directory **out** at the root level which contains all dynami
 
 ### Set up Github Pages
 
-Github Pages is a very great place to host static sites. But we need to push and configure deployment changes every time we add content to the website. This is where we utilize Github Actions which automates deployment actions according to the configuration file we provide. But first, create a repository in Github to store our code files and push source code to this repository on the **main** branch. We use the **gh-pages** branch to which Github Actions deploy static files for hosting. 
+Github Pages is a very great place to host static sites. But we need to push and configure deployment changes every time we add content to the website. This is where we utilize Github Actions which automates deployment actions according to the configuration file we provide. But first, create a repository in Github to store our code files and push source code to this repository on the **main** branch. We use the **gh-pages** branch to which Github Actions deploy static files for hosting.
 
-To do this we must provide access for Github Actions to this repository to access source files. To provide access, go to [Github Settings -> tokens](https://github.com/settings/tokens) and create a new **personal access token** by checking **repo** scopes and others if you need and save as **GITHUB_TOKEN** (or any other name). Copy this **access code** and in the repository, move to the **secretes** tab in the **Settings** section and create a new secrete and copy this code. Remember the name of the secrete token you created in this repo for future purposes. 
+To do this we must provide access for Github Actions to this repository to access source files. To provide access, go to [Github Settings -> tokens](https://github.com/settings/tokens) and create a new **personal access token** by checking **repo** scopes and others if you need and save as **GITHUB_TOKEN** (or any other name). Copy this **access code** and in the repository, move to the **secretes** tab in the **Settings** section and create a new secrete and copy this code. Remember the name of the secrete token you created in this repo for future purposes.
 
 ![Github Repository Secretes Token:=:80](blog-nextjs-mdx/github-repo-secretes-token.jpg)
 
@@ -542,7 +548,7 @@ It's time to configure GitHub Actions. Create a directory called _.github/workfl
 
 ```yaml:.github/workflows/integrate.yml
 name: Build and Deploy
-on: 
+on:
   push:
     branches:
       - master
@@ -575,16 +581,17 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages 
+          BRANCH: gh-pages
           FOLDER: out
           CLEAN: true
 ```
+
 You may have to replace **ACCESS_TOKEN** with your custom name. This is what we configured
 
 1. Execute workflow action on every push to the **master** branch.
-2. Run commands *npm install && npm run build && npm run export* to build and export static version of our website.
+2. Run commands _npm install && npm run build && npm run export_ to build and export static version of our website.
 3. Deploy contents inside **out** folder to the **gh-pages** branch.
-4. Added *touch out/.nojekyll* to **gh-pages** because Github pages **Jekyll** to render static sites. **Jekyll** ignores files in the directory starting with **_** and it is an issue for us because all our static assets are created in **\_next** folder. **.nojekyll** tells Github Pages not to run published files through **Jekyll**.
+4. Added _touch out/.nojekyll_ to **gh-pages** because Github pages **Jekyll** to render static sites. **Jekyll** ignores files in the directory starting with **\_** and it is an issue for us because all our static assets are created in **\_next** folder. **.nojekyll** tells Github Pages not to run published files through **Jekyll**.
 
 Push all changes to Github repo
 
@@ -600,13 +607,13 @@ You can monitor the status of the Github Actions workflow after every push to th
 
 Enable Github Pages in the **Settings** section of the repo and for source select the **gh-pages** branch.
 
-If everything worked properly you can have your website hosted at *https://<username\>.github.io/<repo\>*. Here **<repo\>** name is **blog**. 
+If everything worked properly you can have your website hosted at _https://<username\>.github.io/<repo\>_. Here **<repo\>** name is **blog**.
 
 ---
 
 ## Manage CSS, assets, and page links to work properly
 
-If you host the website at *https://<username\>.github.io/<repo\>* you can observe CSS or other static assets and routing not working properly. This is because Next.js assumes **out** directory hosted at root level as *https://<username\>.github.io/* and directs all routing, replaces assets and everything to this basepath. But we have hosted the **out** folder in **blog/out**, so we must add **subpath** **blog** to the **basepath** to manage assets linking and routing. We can do this by changing the configuration in **next.config.js**
+If you host the website at _https://<username\>.github.io/<repo\>_ you can observe CSS or other static assets and routing not working properly. This is because Next.js assumes **out** directory hosted at root level as _https://<username\>.github.io/_ and directs all routing, replaces assets and everything to this basepath. But we have hosted the **out** folder in **blog/out**, so we must add **subpath** **blog** to the **basepath** to manage assets linking and routing. We can do this by changing the configuration in **next.config.js**
 
 ```js:next.config.js
 const ghPages = process.env.DEPLOY_TARGET === 'gh-pages';
@@ -635,7 +642,7 @@ module.exports = withNextOptimizedImages(
 )
 ```
 
-While developing it works fine everything, so we check the environment phase we are processing with **process.env** and **process.env.DEPLOY_TARGET** tells the current hosted environment. In local development, we run on the **node** server hosted on our machine so we don't need to manage any **basepath** or **subpath**. 
+While developing it works fine everything, so we check the environment phase we are processing with **process.env** and **process.env.DEPLOY_TARGET** tells the current hosted environment. In local development, we run on the **node** server hosted on our machine so we don't need to manage any **basepath** or **subpath**.
 
 **basePath** specifies the base path of the application to manage linking pages. If we are on the **gh-pages**, the base path **/blog/** resolves to **username.github.io/blog/** where **/** is the home path.
 

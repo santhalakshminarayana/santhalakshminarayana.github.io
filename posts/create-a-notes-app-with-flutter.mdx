@@ -3,8 +3,9 @@ title: "Create a Notes App with Flutter"
 description: "Create a color-rich Note-taking app with Flutter."
 imgName: "note-app-flutter/note-app-in-flutter.jpg"
 date: "Jun 15, 2021"
-tags: ['flutter']
-keywords: ['flutter', 'dart', 'android', 'note-app', 'note-taking', 'sqflite', 'sqlite']
+tags: ["flutter"]
+keywords:
+  ["flutter", "dart", "android", "note-app", "note-taking", "sqflite", "sqlite"]
 ---
 
 ![Create a Notes App with flutter](note-app-flutter/note-app-in-flutter.jpg)
@@ -19,9 +20,10 @@ Flutter is a declarative framework that requires programming in Dart. Flutter is
 
 With basic concepts like Widgets and Material design we can create simple apps very fast and easily in Flutter as in Flutter we can use tons of pre-designed widgets to create almost every popular design using in the modern design world.
 
-In this tutorial, we discuss creating a simple note-taking app. The note-taking app we are going to create provides options like create, save, update and delete notes. 
+In this tutorial, we discuss creating a simple note-taking app. The note-taking app we are going to create provides options like create, save, update and delete notes.
 
-Our note-taking app contains two screens 
+Our note-taking app contains two screens
+
 - Home screen to display all saved notes
 - Notes edit screen to create new notes or edit saved notes
 
@@ -50,9 +52,9 @@ For the initial run, it takes some time to install the app on the device, and la
 
 ## What a Note should like and contain?
 
-A simple note must have a title and the content which can be edited as many times as possible. We can also add color to note for look and feel. 
+A simple note must have a title and the content which can be edited as many times as possible. We can also add color to note for look and feel.
 
-To store notes we use [Sqflite](https://pub.dev/packages/sqflite) (a plugin to mimic SQL database in Flutter). Each note can be stored as a single row in the database with fields id, title, content, color. 
+To store notes we use [Sqflite](https://pub.dev/packages/sqflite) (a plugin to mimic SQL database in Flutter). Each note can be stored as a single row in the database with fields id, title, content, color.
 
 Create a file **note.dart** inside **lib/models**. Add a class **Note** to store note as an object which can be converted later as a Map object to store in the database.
 
@@ -64,9 +66,9 @@ class Note {
 	String noteColor;
 
 	Note({
-		this.id = null, 
-		this.title = "Note", 
-		this.content = "Text", 
+		this.id = null,
+		this.title = "Note",
+		this.content = "Text",
 		this.noteColor = 'red'
 	});
 
@@ -93,6 +95,7 @@ class Note {
 ```
 
 This Note class has attributes
+
 - id (primary key) - an identifier to store unique note objects in the database
 - title - the title of the note
 - content - content of the note
@@ -101,6 +104,7 @@ This Note class has attributes
 **toMap()** returns note as an object to store in the database.
 
 For note colors, add another file called **theme/note_colors.dart** inside **lib/theme**.
+
 ```dart:theme/note_colors.dart
 const NoteColors = {
 	'red': {'l': 0xFFFFCDD2,'b': 0xFFE57373},
@@ -130,7 +134,7 @@ Each color name ('k') is a key and each key ('k') has two colors 'l' and 'b', wh
 
 ## Store notes in the database
 
-Now to store notes on the database we use **sqflite** plugin. Install **sqflite** by adding dependency in *pubspec.yaml*.
+Now to store notes on the database we use **sqflite** plugin. Install **sqflite** by adding dependency in _pubspec.yaml_.
 
 ```bash
 dependencies:
@@ -139,7 +143,7 @@ dependencies:
   sqflite: ^1.3.0
 ```
 
-Now in terminal run *flutter pub get* to install or update dependencies in *pubspec.yaml*.
+Now in terminal run _flutter pub get_ to install or update dependencies in _pubspec.yaml_.
 
 To handle database operations we write different functions for different operations like read, write, update and delete. Create **notes_database.dart** inside **models** and add a class to handle different operations
 
@@ -173,15 +177,15 @@ class NotesDatabase {
 	}
 
 	Future<int> insertNote(Note note) async {
-		return await database.insert(tableName, 
-			note.toMap(), 
+		return await database.insert(tableName,
+			note.toMap(),
 			conflictAlgorithm: ConflictAlgorithm.replace
 		);
 	}
 
 	Future<int> updateNote(Note note) async {
 		return await database.update(tableName, note.toMap(),
-			where: 'id = ?', 
+			where: 'id = ?',
 			whereArgs: [note.id],
 			conflictAlgorithm: ConflictAlgorithm.replace
 		);
@@ -217,9 +221,9 @@ class NotesDatabase {
 }
 ```
 
-First, we need to create a table in the database with some schema. Inside **initDatabase()**, we are calling **openDatabase()** to create database and table or open existing database and table by passing parameters **_name** (name of the database) and **_version** where **_name = NotesDatabse.db** is the name of the database and we can maintain different versions of the database through **_version**. 
+First, we need to create a table in the database with some schema. Inside **initDatabase()**, we are calling **openDatabase()** to create database and table or open existing database and table by passing parameters **\_name** (name of the database) and **\_version** where **\_name = NotesDatabse.db** is the name of the database and we can maintain different versions of the database through **\_version**.
 
-If there is no database with a specified **name**, **onCreate** callback is called to create a database with table and schema. Above we create a table with **tableName = notes** and initial schema with required fields like id, title, content, and noteColor to store a note object. 
+If there is no database with a specified **name**, **onCreate** callback is called to create a database with table and schema. Above we create a table with **tableName = notes** and initial schema with required fields like id, title, content, and noteColor to store a note object.
 
 **openDatabase()** is an async operation and returns **Database** object reference which points to the created/existed database. We store this reference as **database** of type class **Database**.
 
@@ -227,7 +231,7 @@ Other functions **insertNote**, **updateNote**, **getNotes** and **deleteNotes**
 
 As we cannot store Note as a class object we convert Note object members to a Map object by calling Note.toMap() which returns a Map object which sqflite map fields and values to store in the database. And Sqflite returns data as Map objects the way we pass it to insert rows in the database.
 
-We have added logic to maintain notes in the database. But we have not done anything in UI to interact for maintaining notes. 
+We have added logic to maintain notes in the database. But we have not done anything in UI to interact for maintaining notes.
 
 ## Add Home Screen
 
@@ -283,7 +287,7 @@ class _Home extends State<Home> {
 
 There are some color constants defined at the top which will be used across the app. The color format in Flutter is different from normal Hex. In normal Hex format, we provide opacity at last but in Flutter we have to provide opacity at first.
 
-Here we are creating a Home widget as **StatefulWidget** keeping in mind that we need to maintain the state. Every custom widget must override **build** method and return a widget. **MaterialApp** widget gives child widgets material look and we must declare required attributes. **Scaffold** widget is a common material design concept that provides appbar, floating button, drawer, body, etc.  
+Here we are creating a Home widget as **StatefulWidget** keeping in mind that we need to maintain the state. Every custom widget must override **build** method and return a widget. **MaterialApp** widget gives child widgets material look and we must declare required attributes. **Scaffold** widget is a common material design concept that provides appbar, floating button, drawer, body, etc.
 
 The Home screen displays all notes stored in the database. We discuss later displaying notes in the Home screen after creating notes in the Edit screen.
 
@@ -357,7 +361,7 @@ floatingActionButton: FloatingActionButton(
 	// Go to Edit screen
 	onPressed: () {
 	  Navigator.push(
-	  	context,     
+	  	context,
 	    MaterialPageRoute(builder: (context) => NotesEdit()),
 	  );
 	}
@@ -443,9 +447,9 @@ class _NotesEdit extends State<NotesEdit> {
 }
 ```
 
-In the above **NotesEdit** widget, the state variables **noteTitle**, **noteContent** and **noteColor** are initialized to default values for now. **noteTitel** is to store title of the note, **noteContent** is to store note content and**noteColor** is color of the color, light and bright colors of the **noteColor** are used as **backgroundColor** for **appBar** and **Scaffold** respectively. 
+In the above **NotesEdit** widget, the state variables **noteTitle**, **noteContent** and **noteColor** are initialized to default values for now. **noteTitel** is to store title of the note, **noteContent** is to store note content and**noteColor** is color of the color, light and bright colors of the **noteColor** are used as **backgroundColor** for **appBar** and **Scaffold** respectively.
 
-Also there are two **TextEditingController** defined which are used to controll **TextField** values for **noteTitle** and **noteContent**. These two text controller are attached with listeners in **iniitState()**. These listeneres listen to changes and updates text values in state. **_titleTextController** handles and updates text value for **noteTitle** and **_contentTextController** handles **noteContent**.
+Also there are two **TextEditingController** defined which are used to controll **TextField** values for **noteTitle** and **noteContent**. These two text controller are attached with listeners in **iniitState()**. These listeneres listen to changes and updates text values in state. **\_titleTextController** handles and updates text value for **noteTitle** and **\_contentTextController** handles **noteContent**.
 
 The **title** of the **appBar** is set to a widget **NoteTitleEntry** which handles displaying and editing of the title.
 
@@ -485,11 +489,11 @@ class NoteTitleEntry extends StatelessWidget {
 			),
 			textCapitalization: TextCapitalization.words,
 		);
-	}	
+	}
 }
 ```
 
-In the **TextField**, the controller is set to **_textFieldController** which is passed from parent widget ** as **_titleTextController**. 
+In the **TextField**, the controller is set to **\_textFieldController** which is passed from parent widget ** as **\_titleTextController\*\*.
 
 Similarly, content of the notes is handled by another widget **NoteEntry**.
 
@@ -519,7 +523,7 @@ class NoteEntry extends StatelessWidget {
 }
 ```
 
-Here also controller of **TextField** is set to **_textFieldController** which is passed from parent wdiget as **_contentTextController**.
+Here also controller of **TextField** is set to **\_textFieldController** which is passed from parent wdiget as **\_contentTextController**.
 
 After adding all these widgets, the Edit screen would look like
 
@@ -544,7 +548,7 @@ actions: [
 ],
 ```
 
-For this button, **onPressed** event calls **handleColor()** function which shows a color palette and store selected value in **noteColor** variable. Define **handleColor()** inside **_NotesEdit**
+For this button, **onPressed** event calls **handleColor()** function which shows a color palette and store selected value in **noteColor** variable. Define **handleColor()** inside **\_NotesEdit**
 
 ```dart
 void handleColor(currentContext) {
@@ -569,7 +573,7 @@ This **handleColor()** calls widget **ColorPalette** which is a **Dialog** box a
 class ColorPalette extends StatelessWidget {
 	final parentContext;
 
-	const ColorPalette({ 
+	const ColorPalette({
 		@required this.parentContext,
 	});
 
@@ -606,7 +610,7 @@ class ColorPalette extends StatelessWidget {
 		);
 	}
 }
-``` 
+```
 
 As we already stored different colors in **NoteColors** Map object, we iterate this object and fill the color palette with bright colors.
 
@@ -637,8 +641,8 @@ void handleBackButton() async {
 
 	// Save New note
 	Note noteObj = Note(
-		title: noteTitle, 
-		content: noteContent, 
+		title: noteTitle,
+		content: noteContent,
 		noteColor: noteColor
 	);
 	try {
@@ -652,7 +656,7 @@ void handleBackButton() async {
 }
 ```
 
-This function calls **_insertNote()** which saves the note object in the database.
+This function calls **\_insertNote()** which saves the note object in the database.
 
 ```dart
 Future<void> _insertNote(Note note) async {
@@ -661,7 +665,7 @@ Future<void> _insertNote(Note note) async {
   int result = await notesDb.insertNote(note);
   await notesDb.closeDatabase();
 }
-``` 
+```
 
 We have saved notes in the database, now in the Home screen, display the saved notes in list view.
 
@@ -697,6 +701,7 @@ import '../models/note.dart';
 import '../models/notes_database.dart';
 import '../theme/note_colors.dart';
 ```
+
 Store read notes from database in state and define other state variables
 
 ```dart
@@ -739,7 +744,7 @@ body: FutureBuilder(
 
 Here before building the widget we read the data from the database and builds a list of note widgets to display on the Home screen by calling **AllNoteLists** widget. We also pass different callback functions to **AllNoteLists** to handles cases like the long selection of note, deselect a note, etc.
 
-Define all these functions inside **_Home**
+Define all these functions inside **\_Home**
 
 ```dart
 // Render the screen and update changes
@@ -796,7 +801,7 @@ class AllNoteLists extends StatelessWidget {
 	final handleNoteListTapAfterSelect;
 
 	AllNoteLists(
-		this.data, 
+		this.data,
 		this.selectedNoteIds,
 		this.afterNavigatorPop,
 		this.handleNoteListLongPress,
@@ -813,7 +818,7 @@ class AllNoteLists extends StatelessWidget {
 					item,
 					selectedNoteIds,
 					(selectedNoteIds.contains(item['id']) == false? false: true),
-					afterNavigatorPop, 
+					afterNavigatorPop,
 					handleNoteListLongPress,
 					handleNoteListTapAfterSelect,
 				);
@@ -859,7 +864,7 @@ class DisplayNotes extends StatelessWidget {
 							else {
 								handleNoteListLongPress(notesData['id']);
 							}
-						} 
+						}
 						else {
 							handleNoteListTapAfterSelect(notesData['id']);
 						}
@@ -883,7 +888,7 @@ class DisplayNotes extends StatelessWidget {
 											Container(
 												alignment: Alignment.center,
 												decoration: BoxDecoration(
-													color: (selectedNote == false? 
+													color: (selectedNote == false?
 														Color(NoteColors[notesData['noteColor']]['b']):
 														Color(c9)
 													),
@@ -953,7 +958,7 @@ class DisplayNotes extends StatelessWidget {
 }
 ```
 
-**AllNoteLists** builds a list of notes from the Map of a list of notes. In **ListView** builder it passes each note extracted data to another widget **DisplayNotes** which represents each note. 
+**AllNoteLists** builds a list of notes from the Map of a list of notes. In **ListView** builder it passes each note extracted data to another widget **DisplayNotes** which represents each note.
 
 Now Home screen displays all notes stored as
 
@@ -1016,7 +1021,7 @@ class NotesEdit extends StatefulWidget {
 
 **args** stores parameters passed from parent widget.
 
-Change navigation arguments for **NotesEdit** in the floating-action-button in **_Home**.
+Change navigation arguments for **NotesEdit** in the floating-action-button in **\_Home**.
 
 ```dart
 //Floating Button
@@ -1029,7 +1034,7 @@ floatingActionButton: FloatingActionButton(
 	backgroundColor: const Color(c4),
 	onPressed: () {
 	  Navigator.push(
-	  	context,     
+	  	context,
 	    MaterialPageRoute(builder: (context) => NotesEdit(['new', {}])),
 	  );
 	}
@@ -1046,7 +1051,7 @@ onTap: () {
 	if (selectedNote == false) {
 		if (selectedNoteIds.length == 0) {
 			Navigator.push(
-				context, 
+				context,
         MaterialPageRoute(
           builder: (context) => NotesEdit(['update', notesData]),
         ),
@@ -1054,12 +1059,12 @@ onTap: () {
 					callAfterNavigatorPop();
 				}
 			);
-			return;		
+			return;
 		}
 		else {
 			handleNoteListLongPress(notesData['id']);
 		}
-	} 
+	}
 	else {
 		handleNoteListTapAfterSelect(notesData['id']);
 	}
@@ -1105,8 +1110,8 @@ void handleBackButton() async {
 	// Save New note
 	if (widget.args[0] == 'new') {
 		Note noteObj = Note(
-			title: noteTitle, 
-			content: noteContent, 
+			title: noteTitle,
+			content: noteContent,
 			noteColor: noteColor
 		);
 		try {
@@ -1118,13 +1123,13 @@ void handleBackButton() async {
 			return;
 		}
 	}
-	
+
 	// Update Note
 	else if (widget.args[0] == 'update') {
 		Note noteObj = Note(
 			id: widget.args[1]['id'],
-			title: noteTitle, 
-			content: noteContent, 
+			title: noteTitle,
+			content: noteContent,
 			noteColor: noteColor
 		);
 		try {
