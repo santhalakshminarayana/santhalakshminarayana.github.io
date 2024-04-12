@@ -78,7 +78,7 @@ export default function CardLayout({ postsMetaData }) {
       <style jsx>{`
         .card-layout {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(24vw, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
           margin: 1vh 11vw 1vh 11vw;
         }
 
@@ -105,7 +105,7 @@ export default function CardLayout({ postsMetaData }) {
         img {
           width: 100%;
           max-width: 100%;
-          height: 12vw;
+          aspect-ratio: 2/1;
           object-fit: cover;
           border-radius: 5px;
         }
@@ -191,40 +191,33 @@ export default function CardLayout({ postsMetaData }) {
           background: ${tag_link_active_background};
         }
 
+        @media screen and (max-width: 1800px) {
+          .card-layout {
+            grid-template-columns: repeat(3, 1fr);
+            margin: 1vh 7vw 1vh 7vw;
+          }
+        }
+
         @media screen and (max-width: 1280px) {
           .card-layout {
-            grid-template-columns: repeat(2, minmax(43vw, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             margin: 1vh 5vw 1vh 5vw;
           }
 
           .card-container {
             margin: 1vh 1vw 1vh 1vw;
           }
-
-          img {
-            width: 100%;
-            max-width: 100%;
-            height: 23vw;
-            object-fit: cover;
-          }
         }
 
         @media screen and (max-width: 560px) {
           .card-layout {
-            grid-template-columns: repeat(1, minmax(90vw, 1fr));
+            grid-template-columns: repeat(1, 1fr);
             margin: 1vh 5vw 1vh 5vw;
           }
 
           .card-container {
             margin: 1vh 0 1vh 0;
             border-bottom: 3px solid ${card_container_hover_border};
-          }
-
-          img {
-            width: 100%;
-            max-width: 100%;
-            height: 45vw;
-            object-fit: cover;
           }
         }
       `}</style>
