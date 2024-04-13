@@ -1,5 +1,5 @@
 name: Build and Deploy
-on: 
+on:
   push:
     branches:
       - master
@@ -25,7 +25,7 @@ jobs:
       - run: npm run build
       - run: npm run export
         env:
-            CI: true
+          CI: true
       - run: touch out/.nojekyll
 
       - name: Deploy

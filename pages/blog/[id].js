@@ -343,8 +343,7 @@ export default function Blog({ postMetadata, postContent }) {
         github={true}
         linkedin={true}
         medium={true}
-        kaggle={true}
-        quora={true}
+        kaggle={false}
         need_copy_right={true}
       />
 

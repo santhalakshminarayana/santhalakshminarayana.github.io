@@ -109,8 +109,7 @@ export default function Home({ postsMetaData }) {
           github={true}
           linkedin={true}
           medium={true}
-          kaggle={true}
-          quora={true}
+          kaggle={false}
           need_copy_right={true}
         />
       </div>

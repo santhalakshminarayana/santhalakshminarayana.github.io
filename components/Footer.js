@@ -1,12 +1,6 @@
 import { Component } from "react";
 
-import {
-  SiGithub,
-  SiLinkedin,
-  SiMedium,
-  SiKaggle,
-  SiQuora,
-} from "react-icons/si";
+import { SiGithub, SiLinkedin, SiMedium, SiKaggle } from "react-icons/si";
 
 const c1 = "#071013",
   c2 = "#fffecb",
@@ -150,7 +144,7 @@ export default function Footer(props) {
             </div>
           ) : null}
 
-          {props.medium == false ? (
+          {props.medium == true ? (
             <div className="link-item">
               <a
                 href="https://medium.com/@santhalakshminarayana/"
@@ -167,7 +161,7 @@ export default function Footer(props) {
             </div>
           ) : null}
 
-          {props.kaggle == false ? (
+          {props.kaggle == true ? (
             <div className="link-item">
               <a
                 href="https://www.kaggle.com/santhalnr/"
@@ -188,7 +182,7 @@ export default function Footer(props) {
 
       {props.need_copy_right == true ? (
         <div className="copy-right-container">
-          <p className="copy-right-text">Santha Lakshmi Narayana &#169; 2023</p>
+          <p className="copy-right-text">Santha Lakshmi Narayana &#169; 2024</p>
         </div>
       ) : null}
 
