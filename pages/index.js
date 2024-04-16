@@ -1,8 +1,6 @@
 import Head from "next/head";
-import Link from "next/link";
 
 import Header from "../components/Header.js";
-import Tags from "../components/Tags.js";
 import Footer from "../components/Footer.js";
 import CardLayout from "../components/CardLayout.js";
 
