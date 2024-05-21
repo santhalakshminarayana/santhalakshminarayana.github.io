@@ -5,9 +5,9 @@ import Footer from "../components/Footer.js";
 
 import {
   SiGo,
-  SiCplusplus,
   SiPython,
   SiJavascript,
+  SiTypescript,
   SiKeras,
   SiTensorflow,
   SiPytorch,
@@ -24,7 +24,6 @@ import {
   SiDart,
   SiMdx,
 } from "react-icons/si";
-import { DiJava } from "react-icons/di";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 
 const c1 = "#071013",
@@ -518,7 +517,7 @@ export default function About_Page(props) {
           <div className="portfolio-section-container">
             <p className="portfolio-section-heading">Tech Stack</p>
 
-            <p className="tech-stack-group-heading">Active Skills</p>
+            <p className="tech-stack-group-heading">Tools & Skills</p>
             <div className="tech-stack-group">
               <div className="tech-stack-division">
                 <SiPython className="tech-stack-icon" />
@@ -528,6 +527,26 @@ export default function About_Page(props) {
               <div className="tech-stack-division">
                 <SiGo className="tech-stack-icon" />
                 <p className="tech-stack-name">Go</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiJavascript className="tech-stack-icon" />
+                <p className="tech-stack-name">Javascript</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiTypescript className="tech-stack-icon" />
+                <p className="tech-stack-name">Typescript</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiReact className="tech-stack-icon" />
+                <p className="tech-stack-name">React & Reat Native</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiNextdotjs className="tech-stack-icon" />
+                <p className="tech-stack-name">Next</p>
               </div>
 
               <div className="tech-stack-division">
@@ -578,34 +597,6 @@ export default function About_Page(props) {
               <div className="tech-stack-division">
                 <SiKubernetes className="tech-stack-icon" />
                 <p className="tech-stack-name">Kubernetes</p>
-              </div>
-            </div>
-
-            <p className="tech-stack-group-heading">Also Worked With</p>
-            <div className="tech-stack-group">
-              <div className="tech-stack-division">
-                <SiJavascript className="tech-stack-icon" />
-                <p className="tech-stack-name">Javascript</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiReact className="tech-stack-icon" />
-                <p className="tech-stack-name">React & Reat Native</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiNextdotjs className="tech-stack-icon" />
-                <p className="tech-stack-name">Next</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiCplusplus className="tech-stack-icon" />
-                <p className="tech-stack-name">C++</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <DiJava className="tech-stack-icon" />
-                <p className="tech-stack-name">Java</p>
               </div>
 
               <div className="tech-stack-division">
