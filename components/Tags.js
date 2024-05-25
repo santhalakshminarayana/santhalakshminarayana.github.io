@@ -17,6 +17,7 @@ const tag_hover = c2,
   tag_active_background = c5;
 
 const tags = [
+  "ai",
   "python",
   "go",
   "image-processing",

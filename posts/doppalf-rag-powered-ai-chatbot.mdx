@@ -1,0 +1,411 @@
+---
+title: "Doppalf: RAG powered full-stack AI chatbot like ChatGPT"
+description: "Build a full-stack RAG-powered AI chatbot like ChatGPT to give LLM your personality with Python, FastAPI, Llamaindex, Cohere, Qdrant, Next.js (Typescript), and Tailwind CSS."
+imgName: "doppalf-rag-powered-ai-chatbot/doppalf-rag-powered-ai-chatbot.jpg"
+date: "May 24, 2024"
+tags: ["python", "ai", "next-js", "react"]
+keywords:
+  [
+    "python",
+    "llm",
+    "next-js",
+    "llamaindex",
+    "tailwind-css",
+    "typescript",
+    "fastapi",
+    "rag",
+    "cohere",
+    "qdrant",
+    "cohere-ai",
+    "ai-chatbot",
+    "llm",
+    "chatbot",
+    "chatgpt",
+  ]
+---
+
+![Doppalf: RAG powered fullstack AI chatbot like ChatGPT](doppalf-rag-powered-ai-chatbot/doppalf-rag-powered-ai-chatbot.jpg)
+
+###### Published on: **May 24, 2024**
+
+# Doppalf: RAG-powered fullstack AI chatbot like ChatGPT
+
+I have built an end-to-end full-stack AI chatbot web application like ChatGPT. It's powered with RAG (Retrieval Augmentation Generation) to give LLM my personality. Meaning, that LLM will behave like me and assume the character of **Lakshmi Narayana**. I have built this application with LLamaindex, Cohere AI, and the Qdrant database. The full tech stack is:
+- **Docker**
+- **Nginx**
+- **UI**:
+  - Next.js (v14)
+  - Typescript
+  - Tailwind CSS
+- **Backend**:
+  - Python (v3.12)
+  - FastAPI
+  - Llamaindex
+  - Cohere AI
+  - Qdrant Cloud
+
+![Doppalf AI:=:100:=:Doppalf AI streaming response](doppalf-rag-powered-ai-chatbot/doppalf-response.gif)
+
+## Architecture
+
+![Doppalf Architecture:=:100:=:Doppalf High level Architecture](doppalf-rag-powered-ai-chatbot/doppalf-arch.png)
+
+> The whole project code can be found on GitHub for [Doppalf](https://github.com/santhalakshminarayana/doppalf).
+
+For Doppalf, Docker has been used for container orchestration and Nginx as a reverse proxy. This application has a total three services (repos):
+- doppalf-rp (Nginx)
+- doppalf-ui (Next.js)
+- doppalf-ai (Python)
+
+Each of the above repos has an individual **Dockerfile** with optimized configuration. The following are the Dockerfiles for individual services:
+
+### doppalf-ui (Next.js)
+
+```yaml:Dockerfile
+FROM node:21-bullseye-slim AS deps
+WORKDIR /app
+COPY package*.json ./
+EXPOSE 3001
+ENV PORT 3001
+ENV HOSTNAME "0.0.0.0"
+RUN npm ci
+
+# Development
+From deps as dev
+ENV NODE_ENV=development
+COPY . .
+CMD ["npm", "run", "dev"]
+
+FROM node:21-bullseye-slim AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+RUN npm prune --production
+
+# Production
+FROM node:21-bullseye-slim AS prod
+WORKDIR /app
+ENV NODE_ENV production
+# Add nextjs user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+# Set the permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+USER nextjs
+# Automatically leverage output traces to reduce image size
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+EXPOSE 3001
+ENV PORT 3001
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["npm", "start"]
+```
+
+The above **Dockerfile** has a multi-stage build config for both *dev* and *prod* environments. The exact build stage to be used will be determined by configuration from *docker-compose.yaml*. By default, the *dev* stage is used. The above configuration for *prod* is very optimal and reduces the final running docker image size due to Next.js optimizations.
+
+### doppalf-ai (Python)
+
+```yaml:Dockerfile
+# Why bookworm? https://pythonspeed.com/articles/base-image-python-docker-images/
+FROM python:3.12-slim-bookworm as base
+WORKDIR /app
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+
+FROM python:3.12-slim-bookworm as build
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
+COPY --from=base /app/wheels /app/wheels
+COPY --from=base /app/requirements.txt .
+RUN pip install --no-cache /app/wheels/*
+COPY . /app
+EXPOSE 4001
+CMD ["python", "main.py"]
+```
+
+The above **Dockerfile** pulls Python 3.12 *slim-bookworm* docker image as opposed to the common *alpine* image. You can refer to the linked article for why. Here instead of normally installing requirements through *pip*, we install dependencies through *wheels* which optimizes the docker image build speed.
+
+The Next.js service will be running on PORT *3001* and the Python service will run on *4001*.
+
+### doppalf-rp (Nginx)
+
+And finally, Nginx configuration for forwarding the traffic to individual services are done as 
+
+```:includes/proxy.conf
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Forwarded-Host $server_name;
+proxy_buffering off;
+proxy_request_buffering off;
+proxy_http_version 1.1;
+proxy_intercept_errors on;
+```
+
+```yaml:Dockerfile
+From nginx:stable-alpine
+RUN mkdir -p /run/nginx
+WORKDIR /run/nginx
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./includes /etc/nginx/includes/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+``` 
+
+Nginx configruation for forwarding rules for different services
+
+```:nginx.conf
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+
+    index index.html;
+
+    location / {
+        proxy_pass http://doppalf-ui-service:3001;
+    }
+
+    location /doppalf-ai/v1 {
+        proxy_pass http://doppalf-ai-service:4001;
+
+        proxy_redirect off;
+        # SSE connection config
+        proxy_set_header Connection '';
+        proxy_cache off;
+    }
+}
+```
+
+So, the root */* request (127.0.0.1) will be forwarded to the Next.js UI service for the UI page, and any request with the prefix */doppalf-ai/v1* will be forwarded to the Python AI service.
+
+## Doppalf UI
+ 
+The UI has been built with Next.js (Typescript) and Tailwind CSS. It's a single-page application that mainly contains an input box for providing Query and the response will be generated like ChatGPT where the UI will show the user and system messages. The AI-generated answer will be streamed like ChatGPT and rendered as Markdown. This has been done by Streaming the text from the Backend as **SSE (Server Sent Events)** and reading those messages in Next.js using using Microsoft's [Fetch Event Source package](https://www.npmjs.com/package/@microsoft/fetch-event-source) because normal browser SSE doesn't support *POST* request.
+
+![Doppalf UI Landing Page:=:100:=:Showing User and System Message](doppalf-rag-powered-ai-chatbot/doppalf-ui-query-response.png)
+
+#### UI Features include:
+- Dark mode
+- Streaming responses like ChatGPT
+- Auto-scroll to the bottom while generating the answer
+- New chat session
+
+
+## Doppalf AI
+
+The main part of this application is building the RAG pipeline and giving LLM a personal character that answers like me. For this, I have used Llamaindex for building the RAG pipeline, Cohere AI as LLM, and Qdrant Cloud for storing vector embeddings.
+
+This costs me nothing as they both offer free APIs, you can get free [Cohere API trail Key](https://dashboard.cohere.com/api-keys) and 1 GB cluster for storing vectors in [Qdrant Cloud API Key and URL](https://cloud.qdrant.io).
+
+The web framework for providing APIs used was FastAPI and its support for streaming the response like SSE without using any extra configuration was a huge thumbs up for this kind of AI Chatbot application.
+
+For building the RAG pipeline, I have followed the following pipeline process:
+- Load Documents
+- Parse text into Sentences (as nodes) with Window size as 1
+- Get vector embeddings for each node (sentences) with Cohere Embeddings
+- Index the nodes and store the vector embeddings in the Qdrant cloud
+- Persist the index for re-use further runtimes
+- Build a Chat engine from the index with a retrieval strategy as "Small-to-Big" and with some buffered chat memory history
+- Provide the retrieved context and use Cohere Rerank for reranking the retrieved nodes
+- Synthesis the response using Cohere
+
+![RAG Pipeline:=:100:=:RAG pipeline](doppalf-rag-powered-ai-chatbot/rag-pipeline.jpg)
+
+The complete code for the RAG pipeline using Llamaindex is 
+
+```python:rag.py
+from llama_index.core import load_index_from_storage
+from llama_index.core.memory import ChatMemoryBuffer
+from llama_index.core.node_parser import SentenceWindowNodeParser
+from llama_index.core.postprocessor import MetadataReplacementPostProcessor
+from llama_index.embeddings.cohere import CohereEmbedding
+from llama_index.llms.cohere import Cohere
+from llama_index.postprocessor.cohere_rerank import CohereRerank
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+from qdrant_client import QdrantClient
+
+from src.config.env import ENV, env_keys
+from src.config.logger import get_logger
+
+from .constants import CHAT_PROMPT
+
+envk = ENV()
+logger = get_logger()
+
+index = None
+chat_engine = None
+
+def load_rag() -> None:
+    global index
+    global chat_engine
+
+    cdir = os.getcwd()
+    docs_dir = envk.get(env_keys.get("DOCS_DIR"))
+    docs_path = os.path.join(cdir, docs_dir)
+
+    # check if any documents are provided for index
+    if not os.path.exists(docs_path):
+        raise FileNotFoundError(f"Documents dir at path: {docs_path} not exists.")
+    if not os.listdir(docs_dir):
+        raise FileNotFoundError(f"Provide documents inside directory: {docs_path} for indexing.")
+    
+    storage_dir = envk.get(env_keys.get("INDEX_STORAGE_DIR"))
+    storage_path = os.path.join(cdir, storage_dir)
+    
+    cohere_api_key = envk.get(env_keys.get("COHERE_API_KEY"))
+    qdrant_api_key = envk.get(env_keys.get("QDRANT_API_KEY"))
+
+    Settings.llm = Cohere(
+        api_key=cohere_api_key,
+        model="command-r-plus", 
+    )
+    Settings.embed_model = CohereEmbedding(
+        cohere_api_key=cohere_api_key,
+        model_name="embed-english-v3.0",
+        input_type="search_document",
+    )
+    
+    qd_client = QdrantClient(
+        envk.get(env_keys.get("QDRANT_CLOUD_URL")),
+        api_key=qdrant_api_key,
+    )
+
+    sentence_node_parser = SentenceWindowNodeParser.from_defaults(
+        window_size=1,
+        window_metadata_key="window",
+        original_text_metadata_key="original_text", 
+    )
+
+    vector_store = QdrantVectorStore(
+        client=qd_client, 
+        collection_name=envk.get(env_keys.get("COLLECTION_NAME")),
+    )
+
+    # index was previously persisted
+    if os.path.exists(storage_path) and os.listdir(storage_path):
+        logger.debug("Using existing index.")
+        storage_context = StorageContext.from_defaults(
+            vector_store=vector_store, persist_dir=storage_path
+        )
+        
+        index = load_index_from_storage(storage_context)
+
+    else:
+        logger.debug("Creating new index for documents.")
+        reader = SimpleDirectoryReader(input_dir=docs_path)
+        
+        all_docs = []
+        for docs in reader.iter_data():
+            all_docs.extend(docs)
+        
+        for doc in all_docs:
+            logger.debug(f"id: {doc.doc_id}\nmetada: {doc.metadata}")
+
+        nodes = sentence_node_parser.get_nodes_from_documents(all_docs)
+        
+        storage_context = StorageContext.from_defaults(vector_store=vector_store)
+        
+        index = VectorStoreIndex(nodes, storage_context=storage_context)
+
+        index.storage_context.persist(persist_dir=storage_path)
+
+
+    chat_engine = index.as_chat_engine(
+        chat_mode="condense_plus_context",
+        memory=ChatMemoryBuffer.from_defaults(token_limit=int(envk.get(env_keys.get("MAX_BUFFER_MEMORY_TOKENS")))),
+        context_prompt=CHAT_PROMPT,
+        similarity_top_k=3, 
+        node_postprocessors=[
+            MetadataReplacementPostProcessor(target_metadata_key="window"),
+            CohereRerank(api_key=cohere_api_key, top_n=3),
+        ],
+        verbose=False,
+    )
+
+
+def chat(query: str):
+    global chat_engine
+    
+    response = chat_engine.stream_chat(query)
+    for res in response.response_gen:
+        yield f"data: {json.dumps({"message":res})}\n\n"
+```
+
+The above *load_rag()* function will first check if any previously stored index exists for re-using else it will build one. If no index is stored in the given *storage_path* directory, it will build the index by loading the documents from the *docs_dir* directory. *SentenceWindowNodeParser* is used for parsing the sentences into nodes with a window size of 1. This window size makes the post-retrieval context have surrounding sentences also part of it for better answer synthesis. 
+
+For created nodes, get the vector embeddings from the Cohere embeddings and store them in the Qdrant Cloud. And finally store the index for skipping this whole process again when the application restarts.
+
+From the index, build the chat engine with some memory (4096 tokens here) for memorizing past conversations with the user and provide Cohere Re-ranker as post node retrieval processer for reranking the nodes based on the query relevancy. This chat engine retrieves the surrounding context for each retrieved node for more information and finally sends the whole retrieved-context and the query to the LLM for answer generation as a prompt. I have used a custom prompt for making LLM answer as me.
+
+```python:/src/generate/constants.py
+CHAT_PROMPT=(
+    "You are impersonating the human 'Lakshmi Narayana' and so your name."
+    "So you are Lakshmi Narayana and answers in first person.When asked any question about you, you will answer as if Lakshmi Narayana is answering."
+    "You will answer politely and take the help of the following context for more relevant answers."
+    "If you don't have any sufficient information from the context, use your knowledge to answer."
+    "Or don't hallucinate if you are sure you cannot answer."
+    "Here are the relevant documents for the context:\n{context_str}\n"
+    "Instruction: Use the previous chat history, or the context above, to interact and help the user and answer as if you are Lakshmi Narayana."
+    "Don't add any additional data if the answer can be derived from context."
+    "Generate the response in markdown format."
+)
+```
+
+LLamaindex uses this prompt for context ingestion and sends this to LLM for answer generation.
+
+Finally, the chat generation API is exposed for streaming the response using FastAPI as follows
+
+```python:api.py
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+from starlette.responses import StreamingResponse
+
+from .rag import chat
+
+
+class GenerateModel(BaseModel):
+    message: str
+    message_id: str
+    role: str
+    timestamp: str
+
+
+grouter = APIRouter(tags=["generate"])
+
+
+@grouter.post("")
+async def generate(data: GenerateModel):
+    try:
+        return StreamingResponse(
+            chat(data.message), 
+            media_type='text/event-stream',
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e)
+```
+
+And final interactivity with LLM that answers about me like I am talking as 
+
+![LLM answering as me:=:100:=:LLM answering like me with history](doppalf-rag-powered-ai-chatbot/query-response-history.png)
+
+**New Chat session**
+
+![New Chat Session:=:100:=:New Chat Session](doppalf-rag-powered-ai-chatbot/new-chat.gif)
+
+---
+
+I will some more features in the future like:
+- Adding or removing the documents dynamically from the UI
+- Voice cloning for speaking out the answer as a character
+- Enhance the LLM answering with more RAG strategies
+
+Please check out the complete project code in my Github repository for [Doppalf](https://github.com/santhalakshminarayana/doppalf).
