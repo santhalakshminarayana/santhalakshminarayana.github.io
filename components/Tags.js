@@ -18,6 +18,7 @@ const tag_hover = c2,
 
 const tags = [
   "ai",
+  "system-design",
   "python",
   "go",
   "image-processing",

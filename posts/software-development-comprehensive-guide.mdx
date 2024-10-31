@@ -1,0 +1,1004 @@
+---
+title: "Software Development Comprehensive Guide"
+description: "SDLC, System Design & Architecture, Distributed Systems, Microservices, Database Replication & Partition."
+imgName: "software-development-comprehensive-guide/software-development-comprehensive-guide.jpg"
+date: "Oct 31, 2024"
+tags: ["system-design"]
+keywords:
+  [
+    "sdlc",
+    "system-design",
+    "design-patterns",
+    "system-architecture",
+    "system-design-and-architecture",
+    "software-design-and-architecture",
+    "distributed-systems",
+    "microservices",
+    "data-replication",
+    "data-partition",
+  ]
+---
+
+![Software Development Comprehensive Guide](software-development-comprehensive-guide/software-development-comprehensive-guide.jpg)
+
+###### Published on: **Oct 31, 2024**
+
+# Software Development Comprehensive Guide
+
+## Software Development Life Cycle (SDLC)
+
+### Phases
+- Planning
+- Requirements
+  - Software Requirement Specification (SRS)
+- Design
+  - Design Document Specification (DDS)
+- Development
+  - Greenfield development
+  - Brownfield development
+- Testing/Integration
+- Deployment/Release
+- Maintenance
+
+### SDLC Models
+- Waterfall
+- Spiral
+- Iterative/Incremental
+- V-shaped
+- Agile (Scrum)
+- Big Bang
+
+### Software Requirements
+- Functional: What the software should provide
+  - ex: User registration, video download
+- Non-functional: How the software should perform, its behavior, quality, and other constraints
+  - ex: Performance (<100ms latency), security, 99.9999% availability
+- Domain: How the software should fit for the domain (rules, terminology, expectations)
+
+**Types of requirements**
+- User
+- Business
+- Domain
+- System
+- Design
+
+**Ref:**
+- https://www.geeksforgeeks.org/software-development-life-cycle-sdlc/
+
+
+---
+
+## Software Testing
+
+### Functional testing
+- Unit testing
+  - Gorilla testing (random input and regressive testing)
+- Interface testing
+- Integration testing
+- Smoke testing (un-stable build)
+- Regression testing
+  - Sanity testing (stable build)
+- System testing
+  - End-to-end testing
+  - Monkey testing (random input and order testing)
+- Acceptance testing
+  - Alpha testing
+  - Beta testing
+  - User acceptance testing
+
+### Non-functional testing
+- Performance
+  - Load testing
+  - Stress testing
+- Security
+- Reliability
+- Usability
+- Compatibility
+
+**Testign Techniques**
+- Black box
+- White box
+- Gray box
+
+**Ref:**
+- https://www.browserstack.com/guide/types-of-testing
+- https://testsigma.com/blog/the-different-software-testing-types-explained/
+- https://www.softwaretestinghelp.com/
+
+
+---
+
+## Software Quality
+
+### Characteristics
+- Functionality
+- Usability
+  - Portability
+  - Interoperability
+  - Flexibility
+  - 5 9s availability
+- Efficiency
+  - Modularity
+  - Scalability
+  - Performance
+  - Security
+- Reliability
+  - Recoverability
+  - Fault Tolerance
+- Maintainability
+  - Testability
+  - Stability
+  - Reusability
+  - Adaptability
+
+### Code smells
+- **Rigidity**: The more modules get affected by a single change the more rigidity is
+- **Fragility**: Introduction of changes cause code to break in multiple places
+- **Immobility**: It is hard to reuse the same type of software for other projects as the software in question is too dependent on many things so it is hard to separate
+- **Viscosity**: Low viscosity when the new changes preserve the design. If it is not possible to preserve the design without employing the hacks then the code is highly viscous
+- **Complexity**: Unncessary code at that time making the code complex like adding unnecessary methods to a module anticipating future 
+- **Repetition**: Writing the same type of code in multiple places instead of writing it as a separate function of the module
+- **Opacity**: Over the age, code becomes tough to understand
+- **Coupling**: High coupling means two or more modules are tightly dependent on each other resulting in rigidness and immobility
+- **Cohesion**: Cohesion is the degree to which components in a module work together for a single functionality. Low cohesion means it is difficult to understand and maintain the module as it serves multiple purposes leading to complexity and opacity
+
+**Ref:**
+- https://www.linkedin.com/pulse/symptoms-rotten-software-design-why-engineer-should-know-milan-ashara
+- https://refactoring.guru/refactoring/smells
+- https://medium.com/globant/characteristics-of-a-poor-software-design-de71e7b7a73c
+
+
+---
+
+## System Design vs Software Design
+
+**System design**: Focuses on the overall architecture of the system involving multiple components (hardware and software) and their interaction and interface. And also emphasizing efficiency, scalability, performance, integration, etc.
+  - Ex: High-Level Architecture, Microservices, Message Communication between services, Integration (Payment, Authentication), CDN, HA, Deployment, Scalability, Security, Performance, Maintainability
+
+**Software design**: Focuses on the individual components within software like classes, modules, structures, algorithm implementation, and their interactions. Also creates detailed coding implementation designs to meet functional and non-functional requirements. It encompasses both HLD and LLD.
+  - Ex: Class and Sequence diagrams, UX, APIs, Algorithms and Structures, Failure handling
+
+
+---
+
+## System Design vs System Architecture Design
+
+System design is a broad aspect of preparing a blueprint of the system that translates the requirements and the scope of the software into implementation. It involves high-level architecture designs, interfaces, and interaction with both internal and external components/systems, maintainability, performance, scalability, etc. It also includes both HLD and LLD.
+
+Whereas System Architecture is a subset of system design that mainly focuses on high-level system structure, organization, relationship, coordination, principles, and guidelines for various components and how they relate to each other.
+
+System design is more detailed and specific about all components and behavior of the system. Architecture defines the boundaries and overall structure of the system. If system architecture is about defining the major components of an app, then system design states how to display the data, how many users to server and load, how to communicate with external systems for getting data, and what will happen when any component fails.
+
+
+---
+
+### High-level Design (HLD) vs Low-level Design (LLD)
+
+High-level design (HLD) provides an overall architecture and organization of the system involving major components and their interactions. Low-level design (LLD) focuses on the detailed implementation of each component or sub-system like how to define modules and classes, what are data structures and algorithms needed, and how all of these components interact with each other and other external systems. LLD is the realization of HLD.
+
+HLD includes defining components like services, databases, types of interfaces, and architectural patterns. LLD includes design patterns including classes and modules, API design, and error handling.
+
+
+---
+
+## Design principles
+
+### SOLID
+- **Single Responsibility Principle (SRP)**: A component must serve one functionality to reduce coupling and increase cohesion.
+- **Open-Closed Principle**: Closed for modification but open for extension. Modifying the code makes other parts change. Code should not be altered for new changes and design should be preserved.
+- **Liskov Substitution Principle**: Componenets interacts through contract.
+- **Integration Segregation Principle**: A set of small pieces contribute to a much larger component. Break down the large interfaces into small ones if they are used by multiple classes. This means clients do not need to use unnecessary methods that they don't have. 
+- **Dependency Inversion Principle**: Dependency between low and high-level modules should be based on abstraction. If Class A depends on Class B, then create an interface I that Class B should satisfy and make Class A depend on the interface rather than the concrete class.
+
+### Guidelines
+- Don't Repeat Yourself (DRY): Don't repeat code and avoid duplication.
+- Separation of Concerns: Separate common code into modules/layers or a unit code piece.
+- Persistence Ignorance: Persistent code logic shouldn't be affected by the choice of persistence hardware/technology.
+- Do One Thing: Any component should mean one thing in any given context and must do only one thing/
+- Keep It Stupid Simple (KISS): Keep the design and code simple which results in fewer bugs, easier to modify, and less complexity.
+- Don't make think: Code should be easier to understand.
+- You Aren't Gonna Need It (YAGNI): Design/implement things when you absolutely need them, don't anticipate the future, and over-design.
+- Don't optimize pre-maturely: First concentrate on the software completion and delivery instead of being struck with optimization guilt.
+- Refactoring Hell: Don't struck in the refactoring loop as the code never becomes optimized.
+- Don't Re-invent the Wheel: Don't waste time designing that already exists.
+
+**Ref**:
+- https://dave.cheney.net/2016/08/20/solid-go-design
+
+
+---
+
+## Design Patterns
+
+Design patterns are common solutions for typical problems in software development that can be reusable in situations like flexible components creation (**Creational**), composition of different components (**Structural**), and interaction and communaction between multiple components (**Behavioral**).
+
+### Creational 
+- Singleton
+- Factory
+- Factory Method
+- Abstract Factory
+- Builder
+- Prototype
+- Object Pool
+- Lazy Initialization
+- Dependency Injection
+
+### Structural Patterns
+- Adapter
+- Bridge
+- Composite
+- Decorator
+- Facade
+- Flyweight
+- Proxy
+
+### Behavioral
+- Chain of Responsibility
+- Command
+- Interpreter
+- Iterator
+- Mediator
+- Memento
+- Observer
+- State
+- Strategy
+- Template Method
+- Visitor
+- Null Object
+- Blackboard
+- Fluent Interface
+
+**Ref**:
+- https://en.wikipedia.org/wiki/Software_design_pattern
+- https://www.oodesign.com
+- https://sourcemaking.com/design_patterns
+- https://refactoring.guru/design-patterns
+
+
+---
+
+## Clean Architecture
+
+**Principles**:
+- Separation of Concerns
+- Modularity
+- Dependency Rule
+- Testability
+
+**Benefits**
+- Independence of frameworks
+- Independent Testing
+- Platform Independence
+- Swap dependencies easily
+- Decouple
+
+### Architecture Styles Evolution
+- N-layer
+  - Presentation (UI), Business Logic, Data Access
+- Domain-driven design
+  - Presentation, Application (Controller), Domain (Service), Infrastructure (Data)
+- Hexagon
+  - Core connected by Ports (Interface) and Adapters (implementation)
+  - Core implements business rules and functionalities independently of external services
+  - External services are kinda plugins attached through ports, and without which the core still functions as usual.
+- Onion
+  - Domain, Application Service, Infrastructure Service, Presentation
+- Clean
+  - Entities, Application Use cases, Interface Adapters, Frameworks & Drivers
+
+**Ref**
+- https://sd.blackball.lv/en/articles/read/19191-exploring-the-evolution-of-backend-software-architecture-n-layered
+- https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/
+- https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749
+- https://betterprogramming.pub/the-clean-architecture-beginners-guide-e4b7058c1165
+- https://programmingpulse.vercel.app/blog/hexagonal-vs-clean-vs-onion-architectures
+
+
+---
+
+## Software Architecture Patterns
+Architectural patterns are high-level reusable solutions for common software design cases like structure and behavior. Architectural styles are the principles and guidelines for system development activities like implementation, organization, technologies, architecture, communication, structure, infrastructure, etc. Both constitute for better system design and implementation that solves the current business problem.
+
+- N-layered architecture
+- Client-server
+- Master-slave
+- Peer-to-Peer (P2P)
+- MVC, MVP, MVVM, MVVM-C, VIPER
+- Domain-driven Design (DDD)
+- Test-driven Design (TDD)
+- Component-based Architecture (CBA)
+- Service-oriented Architecture (SOA)
+- Event-driven Architecture
+- Stream-based Architecture
+- Event-bus Architecture
+- Monolith
+- Microservices
+- Reactive
+- Serverless Architecture
+- Space-based Architecture (SBA)
+- Pipes and filters
+- Blackboard
+- Hybrid
+
+**Ref**:
+- https://www.freecodecamp.org/news/an-introduction-to-software-architecture-patterns
+- https://medium.com/@amitvsolutions/the-software-architect-deep-dive-into-17-essential-design-patterns-a0fb5a4726ab
+- https://medium.com/@mahmoudIbrahimAbbas/software-architecture-patterns-558486f4c3aa
+- https://romanglushach.medium.com/building-high-performing-software-systems-a-guide-to-architectural-styles-and-techniques-00dc89e08147
+
+
+---
+
+## Distributed systems
+Distributed systems are multiple systems running independently that aim to solve a common business problem.
+
+#### Characteristics and Advantages
+- Easy Scalability
+- Separation of functionality
+- Fault-tolerant by minimizing the failures
+- Cross-platform, infrastructure, polyglot
+- Different communication protocols
+
+### Principles and Metrics
+- Availability:
+  - 5 9's availability
+- Scalability
+  - Static and Dynamic
+- Latency
+  - Response Time
+- Throughput
+- Modularity
+- Decoupling
+- Consistency
+- Fault-tolerant
+- Partition tolerant
+- Caching
+- Extensibility
+- Maintainability
+- Testability
+- Reliability: 
+  - MTBF (Mean Time Between Failures)
+  - MTTR (Mean Time To Repair)
+  - FMEA (Failure Modes and Effects Analysis)
+  - Fault Tolerance
+- Security: 
+  - Authentication and Authorization
+  - Secure Communication
+
+### Challenges
+- **Network Management**
+  - Stateful vs Stateless
+  - TCP, UDP, QUICK
+  - Sync, Async, Stream communication
+  - DNS scalability
+- **Data Management**
+  - Database scalability
+  - Consistent data
+  - Data segregation and isolation
+  - Data compatibility
+  - Platform dependency (SQL, NoSQL)
+  - Partitions, Sharding, Replication
+- **Caching**
+  - Distributed Caching
+  - CDN Scalability and management
+  - Content service and distribution
+  - Replication and Invalidation
+  - Content consistency
+  - Read/write strategies
+- **Service Communication**
+  - REST, gRPC, Async Queues, GraphQL
+  - Pull/Push, Stream, Pub/Sub
+  - Latency
+  - Data Interoperability
+- **Event processing**
+  - Async/Sync processing
+  - Event decentralized processing
+  - Cross-service transactions commit/rollback
+- **Scalability**
+  - Static vs dynamic
+  - Load-balancing strategies
+  - High availability
+  - Fault-tolerant
+- **Testing**
+  - Service isolation (Unit) testing 
+  - Integration testing
+  - Load testing
+  - Scalability and Elasticity testing
+  - A/B testing
+- **Managing builds and integration**
+  - Latest version adoption across services
+  - Backward compatibility 
+  - Service upgrades with no downtime
+- **Deployment**
+  - A/B, Blue-green deployment
+  - Dynamic Scalability and Elasticity
+  - Cloud (Hybrid)
+  - Serverless
+  - Containerization and orchestration
+- **Monitoring**
+  - Distributed IDs
+  - Debugging
+  - Metrics
+  - Log Aggregation
+- **Security**
+  - Authentication and Authorization
+  - Cross-service Authentication
+  - Data encryption
+  - Throttle, DDoS, and Requests limit
+- **Maintainance**
+  - High Availability
+  - Fault-tolerant
+  - Reliability
+  - Scalability
+  - Error Handling
+  - Backups and Recovery
+  - Single point-of-failure
+  - Cascading System failures
+
+#### Trade-offs
+- Stateless vs Stateful
+- Server vs Serverless
+- Scalability vs Elasticity
+- API-gateway vs Load-balancer
+- Forward-proxy vs Reverse-proxy
+- Strong vs Eventual Consistency
+- Sync vs Async Communication
+- Latency vs Throughput
+- Read vs Write Through Cache
+- Read vs Write Heavy
+- SQL vs NoSQL
+- Replication vs Partition
+
+### Theorems
+- ACID
+- BASE
+- CAP
+- PACELC
+
+### Protocols and Algorithms
+- **Master election**: Protocol to select a leader/primary node to coordinate syncing, failure handling, monitoring, etc.
+- **Split Brain**: A situation where there will be multiple nodes acting as leaders or independent nodes leading to inconsistencies.
+- **Raft, Paxos**: Consensus algorithms to coordinate agreement among distributed nodes. 
+- **Consistent Hashing**: Technique to distribute data with minimal effect on data re-organization when nodes are added or removed.
+- **Vector Clocks**: Resolve shared data conflicts with versioning among distributed nodes.
+- **Gossip**: Protocol to effectively spread the information across distributed nodes, especially liveness and availability.
+- **Quorum**: Minimum number of votes required to perform an operation.
+- **Sloppy Quorum**: Under temporary node failures, other available nodes participate in quorum with eventual consistency.
+- **Hinted Handoff**: Temporary storage of data by available nodes later to be synced by original nodes.
+- **Read Repair**: Fix data inconsistency during reads in a distributed storage. 
+- **Anti-entropy Repair**: Background job to ensure data consistency across distributed nodes and storage.
+- **Merkle trees**: Fast data structure to check the file/data integrity using tree-level hashes.
+- **Write-ahead log**: Record the change before applying to replay them after node failures.
+- **Segmented log**: Segment memory logically for better log storage and rotation.  
+- **Log-rotation**: Store and remove temporal logs for effective log management.
+- **High-water Mark**: Mark the highest data entity syncing to ensure data integrity in partition failures.
+- **Leases & Fencing**: Automatic lock expiry based on time for resources across distributed systems.
+- **Heartbeat**: Periodic signal received among nodes to indicate availability.
+- **Phi Accrual Failure Detection**: Probabilistic failure detection algorithm to check node availability based on heartbeats.
+- **Bloom Filter**: Probabilistic data structure to check the existence of a key that definitely gives true for the non-existent key.
+- **Cuckoo Filter**: Probabilistic data structure same as bloom filter but with key deletion support and also better performance.
+- **Count-Min Sketch**: Probabilistic data structure to get the counts of an entity in a stream.
+- **Hashed and Hierarchical Timing Wheel**: Efficient data structure for scheduling events based on time.
+
+**Ref**:
+- https://levelup.gitconnected.com/system-design-master-template-how-to-answer-any-system-design-interview-question-ee5dc332acd5
+- https://medium.com/@abhirup.acharya009/chit-chat-tech-unveiling-the-gossip-protocol-magic-f5148e9d125d
+- https://sookocheff.com/post/time/vector-clocks/
+- https://medium.com/@adityashete009/sloppy-quorum-hinted-handoff-amazon-dynamodb-part-3-fe97bd058fcb
+- https://pawan-bhadauria.medium.com/distributed-systems-part-3-managing-anti-entropy-using-merkle-trees-443ea3fc6213
+- https://2minutestreaming.beehiiv.com/p/kafka-log-segment-files-explained
+- https://www.linkedin.com/pulse/high-watermark-distributed-design-patterns-pratik-pandey/
+- https://medium.com/codex/kafka-what-is-2-generals-problem-and-can-it-affect-my-kafka-producer-2a621d4e1fbd
+- https://medium.com/@arpitbhayani/phi-%CF%86-accrual-failure-detection-79c21ce53a7a
+- https://www.synnada.ai/blog/probabilistic-data-structures-in-streaming-count-min-sketch
+- https://www.confluent.io/blog/apache-kafka-purgatory-hierarchical-timing-wheels/
+
+
+---
+
+## Microservices
+Microservices are full cohesive small autonomous components that provide independent development, scaling, testing, optimization, deployment, fault tolerance, etc. These small components are modularized means they provide single functionality within a bounded context and these are integrated through various communication methods. The big challenge in micro-services is not building the services themselves but communication between the services.
+
+
+### Styles
+- Bounded Context
+- Back-end For Front-end (BFF)
+- Service Registry and Discovery
+- Event-sourcing
+- Data Replication and Partitioning
+- Service-mesh
+- Micro-frontend
+- Shadow Deployment
+- Polyglot Persistence
+
+### Patterns
+- API Gateway
+- Saga
+  - 2 Phase Commit (2PC), 3 Phase Commit (3PC)
+  - Choreography & Orchestration
+- Command Query Responsibility Segregation (CQRS)
+- Aggregator, Chained, and Branch
+- Circuit Breaker (Threshold)
+- Bulkhead
+- Database-per-service
+- Anti-corruption layer
+- Configuration Externalization
+- Strangler
+- Microkernel
+- Broker
+- Sidecar
+- Smart endpoints, dumb pipes
+- Blackboard
+
+### Methods & Techniques
+- API Composition
+- Backpressure
+- Throttle & Debounce
+- Outbox
+- Retry
+- Timeout
+- Fallback
+- Fail-silent, Fail-fast, Fail-safe
+- Health Check
+- Object pool
+
+### Best practices
+- A micro-service should be a bounded context single-purpose service with a scope to share as little as possible and be less dependent on other services. Separate services with well-defined functionality and scope for less coupling and more cohesion. 
+- Data should be split based on the functionality rather than the services themselves. 2 or more services can share the same DB when their collective functionality is the same.
+- Service contracts through interfaces make the services loosely coupled and can be tested independently.
+- If possible, data changes should be monitored with a change-data-capture or event-push model where the services that rely on this data get notified asynchronously and will have the latest data.
+- Avoid distributed monoliths, multiple monoliths, and fragile systems.
+- Build for failure as all system failures can't be anticipated and prevented and it's better to build the micro-services for handling the situations when any service fails. 
+- Prevent cascading failures and whole system downtime when any service fails.
+- For inter-service communication, use asynchronous communication if possible to reduce the service waiting time or send the data through Message Queues if the data needs to be received by multiple components.
+- Use service registry for service communication instead of hard-coded service addresses. This allows the services to scale and is still possible for communication without any changes.
+- API gateways provide service coordination, security, and implementation of any customer service rule.
+- As each service should own its data to itself, the other services that require this data should get it through interfaces only and not directly as this will make the system more coupled. Implement gPRC for fast access or CQRS for read-only data.
+- Service connectivity should be monitored, and re-connect should be done when any other service/component goes up/down. Instead of the connectivity managed at the service level, something like service discovery can be helpful. 
+- The service communication mediator component can check and maintain the active services either through periodic heartbeat notifications or retry for connection when any other service fails with exponential backoff. This way the services can make decisions based on the other services activities.
+- Higher latency and service blockage for communication are some of the most common problems in microservices. Utilize async communication and reduce the system bottlenecks like DB calls, heavy sync compute operations, etc, to reduce the latency.
+- Implement service logic with idempotency in the view as in microservice with async messages it may be possible that the same type of operations need to be performed multiple times. Due to some issues, the same message can be processed by multiple instances, and all these service handling of the request should produce the same result and maintain the same state.
+- Use rate limiter at the API gateway layer itself.
+- Handle transient (short time) errors like service unavailable due to load, system restarts, service down, etc, gracefully with circuit breaker or by adopting rules like fail-fast/safe.
+- Monitor service heartbeats periodically to check the liveness. If any service is not responding, block the requests to that service with a Circuit breaker or bring up a new service.
+- Centralized monitoring and logging are essential for checking system failures, debugging, etc. 
+- Monitor the services and implement an alerting mechanism to prevent system overload and failures.
+- Chaos/stress testing will give the big picture about system resilience, and performance under load, and may produce several transient errors to look for. Periodically doing these tests will result in better development of the product.
+- A single change in one of the services should be contained to that service only. The ability to deploy services independently makes the system more cohesive and leads to quick development, build, and deployment.
+- Support backward compatibility and maintain versioning to serve different customers at different times and configurations.
+
+**Ref**:
+- https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns
+- https://medium.com/microservices-in-practice/service-mesh-for-microservices-2953109a3c9a
+- https://medium.com/@joudwawad/microservices-pattern-distributed-transactions-saga-92b5e933cea1
+- https://diptendud.medium.com/sidecar-pattern-and-its-benefits-in-microservices-architecture-8a4c7ba78525
+- https://blog.bitsrc.io/understanding-throttling-and-debouncing-973131c1ba07
+- https://medium.com/inspiredbrilliance/patterns-for-microservices-e57a2d71ff9e
+- https://talktotheduck.dev/fail-fast-reliable-software-strategy-debug-failures-effectively
+- https://www.oreilly.com/content/microservices-antipatterns-and-pitfalls/
+- https://www.simform.com/blog/microservice-best-practices/
+- https://github.com/katopz/best-practices/blob/master/best-practices-for-building-a-microservice-architecture.md
+- https://medium.com/@kmdkhadeer/microservices-best-practices-5fe3e28394b3
+- https://blog.risingstack.com/designing-microservices-architecture-for-failure/
+
+
+---
+
+## Message Communication
+
+### Communication Protocols
+- HTTP, QUIC, DASH
+- gRPC
+- WebSocket
+- SSE (Server Sent Events)
+- WebRTC
+- WebTransport
+- MQTT (MQ Telemetry Transport)
+- AMQP (Advanced Message Queuing Protocol)
+- CoAP (Constrained Application Protocol)
+
+### Data Exchange Protocols
+- REST
+- SOAP
+- XML
+- XMPP
+
+### Messaging Patterns
+- Sync vs Async
+- Pub/Sub
+- Push vs Pull
+- Polling (Short, Long)
+- WebHook
+- WebSub
+- Message Queue
+- Message Stream
+
+### Message-oriented Middleware
+- Event Bus
+- Message Queue
+- Dead Letter Queue
+- Event Broker
+- Message Broker
+
+### Pub/sub Patterns
+- Fan-in
+- Fan-out
+- Multicast
+- Broadcast
+- Message Filtering
+  - Content-based routing
+  - Topic-based routing
+
+**Ref**:
+- https://getstream.io/blog/communication-protocols/
+- https://www.svix.com/resources/faq/message-broker-vs-message-queue/
+- https://medium.com/riskified-technology/message-broker-vs-event-broker-when-to-use-each-one-of-them-15597320a8ba
+
+
+---
+
+## Database Optimizations
+
+### Performance Improvements
+- Connection pool
+- Query cache
+- Join de-normalization
+- Query re-write
+- Index and views
+- Open Table Cache
+- Load balance operations
+
+### Operations-Based Scaling
+- Read-heavy: Horizontal scaling with multiple read-replicas.
+- Write-heavy: Horizontal scaling with data partition/sharded replicas that can be vertically scaled.
+
+### High Availability
+- Replication: Reduces the latency and improves service availability with data replication across DBs.
+- Partition: Improves availability by partitioning the data across multiple regions, or based on use cases like celebrity data, frequent update data, etc.
+
+
+---
+
+## Data Replication
+
+**Advantages**
+- High Availability
+- Data Redundancy
+- Data Consistency & Integration
+- Improved Performance
+- Load balance & Scalability
+- Disaster Recovery
+
+**Challenges**
+- Data inconsistency
+- Latency
+- Conflict Resolution
+- Network bandwidth
+- Dynamic Scalability
+- Performance Monitoring
+
+### Syncing Types:
+- **Synchronous**: Primary DB waits and acknowledges write only if all other replicas are synced.
+  - Strong consistency
+  - Low write throughput
+  - High latency
+  - Use cases: Financial systems, environments where data integrity is critical
+- **Asynchronous**: Primary DB returns as soon as its own write is committed and makes async data change push to other replicas.
+  - Eventual consistency
+  - High write throughput
+  - Low latency
+  - Use cases: Gaming, Social media app features like post likes
+- **Semi-synchronous**: Write synchronously to a subset of replicas and return to the client. Asynchronously update the others.
+  - Not-so-strong consistency
+  - Write throughput trades-off with consistency
+  - Latency trades-off with consistency
+  - Use cases: Streaming applications, Gaming
+
+### Replication strategies:
+- **Single-leader multi replicas**: 
+  - Only single leader and other replicas act as data backups. When the leader fails, one of the replicas is promoted as a leader. 
+  - For huge write traffic, there will be latency as the single leader has to take all the loads. 
+  - Also, the leader can fail before updating the replicas leading to data loss and the newly elected leader points to old data.
+  - Write throughput is reduced as a single node has to handle all writes.
+  - Durable data as all write operations are serialized in read replicas and there are no write conflicts.
+  - As a leader is the bottleneck, fault tolerance is difficult.
+- **Multi-leader multi replicas**: 
+  - Multiple leaders distribute writes and update other leaders who in turn update their own set of replicas. This provides smooth failover as other leaders already have up-to-date data. 
+  - If any leader fails before updating others then there will be data loss or data inconsistency. 
+  - Conflict resolution is hard as multiple leaders have to merge the write operation incoming from multiple other leaders.
+  - Improved write throughput as write operations are distributed.
+- **Leaderless/peer-to-peer replicas**: 
+  - No leader and all nodes are responsible for write/read operations and updating others. 
+  - Same write operations are passed to a subset of nodes for handling failover. 
+  - Only asynchronous syncing is possible as there is no hierarchy present and that leads to eventual consistency. 
+  - Failover handling is easy as there is no leader and data consistent at every db. 
+  - Increased read/write throughput and durable data.
+  - Conflict resolution is hard as each db is a leader and may have different snapshots of data. Fully scalable and fault tolerant.
+
+### Replication methods:
+- **Full-table**:
+  - Copies the whole table irrespective of changes and replicates everything providing full data sync but needs huge network bandwidth leading to slow replication.
+- **Snapshot**:
+  - Replicate data in snapshots at pre-defined or specific intervals.
+  - All data is consistent and simple to implement.
+  - Will have old data and not suitable for real-time reads.
+- **Incremental**:
+  - Replicate the data that has only changed since the last cycle with reduced network bandwidth and latency. Data may not be the latest compared to the source.
+- **Key-based**:
+  - Incremently replicate data based on the changes that happened to unique keys that may be any columns, or data change type (like timestamps).
+  - Replication takes less bandwidth and is efficient compared to the above methods but requires the definition of keys.
+  - Not effective when the replication keys don't uniquely produce change.
+- **Transaction**:
+  Data replication happens whenever a transaction occurs, and the replicas are updated in the same order as the transactions.
+  - Real-time updates and data are synchronized in the same order which is suitable for real-time analytics.
+  - Requires huge network traffic for high writes.
+  - Also it is complex to coordinate the replication process as the co-ordinator has to track the state and replication status.
+- **Log-based**:
+  - Replicate data by processing the transactional logs committed to the DB.
+  - Real-time data consistency with minimal delay and requires less network bandwidth and resources.
+  - Entirely depends on the source database type (MySQL, PgSQL) for generating logs and format which is not suitable for polyglot databases (SQL to NoSQL syncing) or requires special processing.
+  - Compared to *Transactional* syncing, the syncing steps and complexity are less with low latency.
+- **Multi Merge**:
+  - Merge data updates from multiple sources to each replica by effectively resolving merge conflicts.
+  - Multi-leader environments need this type of replication as multiple nodes handle parallel updates.
+  - Good for high scalable replication as the load is distributed and each node has the latest data that ensures resilience.
+  - Requires complex conflict resolution setup and logic. Also demands efficient communication for passing updates to each other node.
+- **Application trigger**:
+  - Data replication logic is transformed to the application where the system tracks the changes and triggers the syncing based on certain rules.
+
+### Replication techniques:
+- **Storage Array-based**: Track and replicate the changes to data blocks or volumes. Ex: Full-table, Snapshot, log-based replication.
+- **Host-based**: Replicate the changes that happened at the file level or application level where the software agent captures the changes. Ex: Transaction, key-based, log-based replication.
+- **Hypervisor-based**: Hypervisor manages, monitors, and replicates the VMs where data changes may be array-based or host-based. Ex: Snapshot, Application-trigger replication. 
+- **Network-based**: Capture the network layer updates and replicate those at each target source. Ex: Mult-merge replication.
+
+### Replication steps:
+- Identify primary data source and destination replication sources (SQL, NoSQL, Warehouse, Data Lakes).
+- Set up the distributed replication system by choosing a single-leader or multi-leader replication system that aligns with business requirements.
+- Set data replication scope like full data replication every time or incremental.
+- Configure data frequency like real-time or eventual consistency and data syncing type like synchronous or asynchronous.
+- Choose replication methods like log-based, transactional, or custom-triggered.
+- Adopt replication tools and libraries for syncing, conflict resolution, monitoring, and salinity. 
+
+**Ref**:
+- https://medium.com/@anil.goyal0057/strategies-for-scaling-databases-a-comprehensive-guide-b69cda7df1d3
+- https://estuary.dev/data-replication-strategies/
+- https://rivery.io/data-learning-center/data-replication/
+- https://stonefly.com/blog/array-vs-host-vs-hypervisor-vs-network-based-replication/
+
+
+---
+
+## Data Partitioning
+
+**Advantages**
+- High Availability
+- Use case-based scaling
+- Reduced load and latency
+- Write/read efficiency
+- Increased concurrency
+- Improved query processing time
+- Parallel processing operations
+
+**Challenges**
+- Coordination complexity
+- Node failure and re-hashing
+- Schema changes overhead
+- Joins across partitions
+- Data reconciliation
+- Dynamic partition
+- Uneven data distribution
+
+### Partitioning Types:
+- **Vertical Partitioning**: Partition one or more columns in separate nodes based on high reads/writes that improve high throughput and reduced latency. Store frequently updated/read columns in a high-performing system and less required information in slow or low system resources.
+- **Horizontal Partitioning (Sharding)**: Split the table rows into small ranges called shards and scale the database for increased concurrency. This is very advantageous in cases like celebrity data problems. Also helps in localizing the data geographically.
+- **Functionality Partitioning (Federation)**: Functionality-based partition like storing all users, billing, inventory, etc, information in separate databases. This makes load distribution based on functionality and db type resulting in fewer reads/writes for a particular db. For specific cases where data accumulation is required, the operations are costly and complex making.
+ 
+### Partitioning Criteria:
+- **Range-based Partition**: Divide the data based on the range values like event dates. Challenges arise when the data accumulation is more for specific ranges of values like festivals, holidays, etc. and if these are not considered while partitioning then the distribution is not event. 
+- **Hash-based Partition**: Based on one or more unique identifiers like user-ids, take the hash that maps to the partition node where this data will be stored. A poorly selected hash can lead to improper data distribution that leads to scaling challenges. Re-hashing is complex when a node fails or data migration the data across nodes.
+- **List-based Partition**: Data is split based on the list of values that a particular data entity falls like the country name. If a particular list value maps to a huge chunk of data than others then this requires a further partition of data to ease the load. Data integration becomes non-manageable across partitions due to isolated data.
+- **Composite Partition**: A composition of the above partition criteria like list-hash, hash-range, and etc. This is too complex to coordinate and requires special rules for every type of partition. Improves the availability, scalability, and load balancing when carefully implemented.
+
+### Effective Partitioning:
+- **Partition Key**: A Partition key is a partition selection key that can be based on criteria, use-case, query operations, etc., that divides the data and distributes it across partitioning nodes. The selection of a good partition key is important for proper data distribution, load balancing, and effective query processing.
+- **Data Re-balancing**: Re-balancing distributes the data across partitions properly when any partition has accumulated huge data. Dynamic re-balancing should be incorporated to reduce the load on nodes. Data re-balancing also improves query processing by performing operations only on a subset of data every time.
+- **Data distribution**: Data distribution can be based on different scenarios like frequency, location, read/write operations, etc. A correctly distributed data partition improves concurrency, proper scaling, and low latency. 
+
+**Ref**:
+- https://thinhdanggroup.github.io/database-partition/#choosing-the-right-partitioning-technique
+- https://learn.microsoft.com/en-us/azure/architecture/best-practices/data-partitioning
+- https://airbyte.com/data-engineering-resources/what-is-data-partitioning
+
+
+---
+
+## Leader in Distributed System and Leader Election
+- In a distributed system, the role of a leader is determined based on the coordination it does like
+  - All nodes are the same and any node can become a leader to handle particular coordination like writes-only db, A/B testing, etc.
+  - One node processes the complex task and distributes the sub-jobs to other needs and later aggregates the results like distributed processing of huge data.
+- All the follower nodes keep track of the leader's liveness and kicks-off the election process when they find the leader has not responded for a fixed amount of time
+- Leader election can happen in any of the following situation
+  - The Distributed System is starting up and needs to elect a single node as the leader
+  - When the elected leader is failed and detected by follower nodes, the election process triggers
+  - As part of scaling up/down the services, a new leader is needed based on selective configuration
+- Leader election algorithm should satisfy both the following conditions
+  - Only the leader should be elected after the election process
+  - All worthy candidates should participate in the process
+
+### Leader election algorithms
+- Bully
+- LCR
+- Floodmax
+- Ring
+- Next-in line Failover
+- Consensus algorithms
+  - Paxos
+  - RAFT
+  - Zab (ZooKeeper Atomic Broadcast)
+
+**Ref**:
+- https://aws.amazon.com/builders-library/leader-election-in-distributed-systems/
+- https://igotanoffer.com/blogs/tech/leader-election-system-design-interview
+- https://medium.com/@mani.saksham12/raft-and-paxos-consensus-algorithms-for-distributed-systems-138cd7c2d35a
+
+
+---
+
+## MySQL Internals, Configurations & Optimizations
+
+#### Locks
+- Shared
+- Exclusive
+- Gap (*where* lock)
+- Control (*for share*, *for update*)
+
+### Isolation Levels
+When multiple connections try to change the same data, how can transaction isolation be maintained so that the following problems can be avoided?
+- **Dirty Reads**: A query in a transaction may return inconsistent data due to uncommitted changes in other transactions.
+- **Non-repeatable Reads**: The same query in a transaction reads different data rows if executed multiple times. This may happen due to other transactions committed to the changes.
+- **Phantom Reads**: The data rows returned by the select statements differ within the same transaction as another transaction might have inserted new rows.
+
+The following isolation levels can be set in MySQL for transaction isolation:
+- **Read Uncommitted**: Transactions see other transactions' un-committed changes that may cause data inconsistencies. Suitable for highly frequent updates where accuracy/consistency is not critical. Ex: Dashboards, Analytics. Solves: None
+- **Read Committed**: Transactions see other transactions changes only if they are committed. Consistent data but anything can happen between transactions. Suitable for both highly frequent and data-consistent scenarios. Ex: Banking, reservations. Solves: Dirty Reads.
+- **Repeatable Read**: A transaction sees the same snapshot of data throughout the life cycle and is unaffected by other transactions. Default in MySQL with InnoDB's MVCC(Multi-Version Concurrency Control). Suitable for data-consistent systems where performance can be compromised. Ex: General Web services. Solves Dirty Reads, Non-Repeatable Reads
+- **Serialization**: Transactions lock the rows restricting other transactions to wait until completion. Suitable for high data consistent systems. Ex: Financial services. Solves: Dirty Reads, Non-repeatable Reads, Phantom Reads
+
+### Connection pool
+- A DB connection comprises opening tcp socket, acknowledgement, authentication, authorization, network session creation, etc. So, it takes time to open a new connection every time. So maintain a pool of connections to re-use.
+- By default, the *max_open_connections* a MySQL server can handle is 150, but can be set up to 2^32 (but up to 100,000 should be the limit generally).
+- Types of connection pooling:
+  - Session: Maintain connection until the session completes. The client can make any number of transactions until connection timeout is reached.
+  - Transaction: Connection is returned to the pool when the transaction completes.
+  - Statement: A connection is used only for a single SQL statement.
+- Generally, *max_pool_size* (*max_active_connections*) is set to (2 or 4 * no.of cores), but it varies depending on the type of application and the traffic.
+- For normal setup, *max_idle_connections* (ex: 80) will be less than *max_pool_size* (ex: 100, and 20 connections will be closed after use as the max idle connections are 80).
+- For high concurrent systems, set the *max_idle_connections* the same as the *max_pool_size*, idle connections take some memory but it's a trade-off compared to the overhead of opening connections for highly frequent requests. 
+
+### Scaling challenges
+- Max open connections, idle connections, and pool size should be limited considering the system resources limit.
+- System resources like memory, CPU cache, and data storage are required if there are more connections opened at a time. If the system can't handle more connections, all operations will be rejected and that leads to data inconsistency.
+- In Linux servers, the *ulimit* restricts the max open file descriptors.
+- MySQL is multi-threaded and allocates one thread per connection which requires thread management overhead along with system resources.
+- Configuration variables like *thread_cache_size* ({8 + (max_connections/100)} defaults to 8-100, and multiplexed to cores) which defines how many threads can be cached for re-use when the client disconnects. This also requires additional memory but improves performance.
+- MySQL creates a THD (Thread Handle Descriptor) for each connection with a minimum memory of ~10KB and can grow to ~10MB for average connection when executing queries. So, handling huge no.of parallel connections requires huge memory requirements and also high thrashing.
+- As more no.of connections increases but the max_connections are set in limit which are nothing but user threads, there has to be a balance between the user thread-per-core ratio (max ratio recommended is ~4) and the latency. So, based on this, the transactions-per-second (TPS) the server can handle can be determined and has to scale the DB for the expected load.
+- Another important challenge is the underlying disk storage. If there is huge data stored, the user threads spend most of the time for data to arrive from disk. So, better disk storage mechanism has to be considered like SSDs, cache, read/write heavy disks, etc.
+- In MySQL thread pool, correctly tuning the *thread_pool_size* and *max_transaction_limit* for high concurrency is very difficult but it's better than the default thread handling mechanism.
+
+**Ref**:
+- https://dev.mysql.com/blog-archive/mysql-connection-handling-and-scaling/
+- https://dev.mysql.com/blog-archive/the-new-mysql-thread-pool/
+- https://planetscale.com/blog/mysql-isolation-levels-and-how-they-work
+- https://dev.to/dbvismarketing/a-guide-to-multithreading-in-sql-3hh1
+
+
+---
+
+## MySQL Monitoring and Optimizations
+- MySQL can handle high concurrent traffic with a single instance if it is deployed with high CPU cores, fast access storage (SSD), and high RAM.
+- Some of the variables to look out for monitoring are 
+  - max_connections
+  - table_open_cache
+  - threads_connected
+  - threads_running
+  - thread_cache_size
+  - innodb_buffer_pool_size
+- Also monitor the status variables like
+  - Com_select, Com_insert, Com_update, Com_delete
+  - status_queries
+  - max_used_connections
+- Check the reads and writes for a table with index used or not. Read count increases even without any operations also due to various reasons like background processes, cache eviction, etc., So these are not very accurate but give the proportion of operations that MySQL performs.
+```text
+select object_schema, object_name, count_read, count_write, index_name 
+from performance_schema.table_io_waits_summary_by_index_usage 
+order by count_read+count_write desc limit 5;
+```
+- Check the max percentage of concurrent connections at a time relative to max connections. If the value touches >95%, then increase the max_connections value.
+```text
+100 * threads_connected / max_connections
+```
+- Reduce the no.of queries and use caching for not frequently changing data.
+- Increase the max_connections and thread_cache_size for handling high concurrent connections with reuse.
+- Increase the innodb_buffer_pool_size for more cached data and less time for the server to read from the disk.
+- Monitor the p99 which measures the latency of 99% of all transactions and check if that latency is within the defined limits.
+
+
+---
+
+## System Monitoring and Optimizations
+- Monitor HTTP requests that are going and coming to the server.
+- Monitor the CPU load and Memory when in peak load and make decisions to scale or not.
+- Check whether the average request latency is in the expected threshold or not.
+- Periodically check heartbeats or health checks of a system to detect liveliness.
+- If the latency is higher, it could be for any of the following reasons
+  - CPU is loaded high and can't take new requests
+  - More threads are created and the system can't handle them with increased memory
+  - OS spends huge time in thrashing of storage
+  - System frequently switches between threads and wastes resources
+- Increase the concurrent requests handling capacity by
+  - Setting more number of file descriptor count for more requests handling at a time
+  - Increase the CPU cores for handling parallel requests with threads
+  - Choosing faster reads/writes hardware for disk storage
+
+
+---
+
+## Deployment
+
+### Deployment types
+- **Bigbang**: Deploy software with all business requirements developed at once.
+- **Continous/incremental/phased**: Deploy changes as a version with each version including new features, improvements, or fixes.
+
+### Deployment strategies
+- **Recreate deployment**:
+  - Bring down the old version and spin up the new one.
+  - Pros: Easy, only one version running at a time
+  - Cons: Takes time to upgrade and rollback, so much downtime window
+- **Ramped/Rolling update**:
+  - As the new version is spinning up, keep the old one running without downtime. Load balancers often do this like Kubernetes pods.
+  - Pros: Zero/minimal downtime
+  - Cons: Rollback has to be handled carefully
+- **Blue-green deployment**:
+  - At a time two instances will run blue and green where only one of them handles the load and the other one is idle. Switch deploy between them.
+  - Pros: No downtime, easy rollback
+  - Cons: One instance is always idle
+- **canary deployment**:
+  - A new version will brought up but only a fraction of the load (like 5%-15%) at starting will be handled. If no problems arise, switch the whole load to the new one slowly and the current running service is brought down.
+  - Pros: Servers as test setup, easy rollback
+  - Cons: Load switching complexity, downtimes when there are any issues
+- **A/B Testing deployment**:
+  - Deploy a new version with the new version and divert the traffic with a selected subset of users to this new version to test the system with new features, performance, and under load.
+  - Pros: Can easily test new versions of system
+  - Cons: Complex identification of sub-set of users
+- **Shadow deployment**:
+  - Deploy the new version and mirror the traffic but don't serve customers. Test the new version and later switch it for user load serving.
+  - Pros: Testable setup under load
+  - Cons: Complex deployment and handling, duplicate data storage/creation
+
+**Ref**:
+- https://earthly.dev/blog/deployment-strategies/
+
+
+---
+
+## Scaling
+- Vertical (Scale-up/down)
+- Horizontal (Scale-out/in)
+- Diagonal
+
+**Ref**
+- https://sookocheff.com/post/architecture/scaling-with-workload-separation/
+
+
+---
+
+Will be added later:
+- Event-driven Architecture
+- 12 factor app
+- Api design, patterns, life-cycle, management
+- Caching strategies, invalidation
+- Concurrency patterns
+- Distributed tracing
+- Refactoring
