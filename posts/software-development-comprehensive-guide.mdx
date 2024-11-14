@@ -186,7 +186,7 @@ HLD includes defining components like services, databases, types of interfaces, 
 ### SOLID
 - **Single Responsibility Principle (SRP)**: A component must serve one functionality to reduce coupling and increase cohesion.
 - **Open-Closed Principle**: Closed for modification but open for extension. Modifying the code makes other parts change. Code should not be altered for new changes and design should be preserved.
-- **Liskov Substitution Principle**: Componenets interacts through contract.
+- **Liskov Substitution Principle**: Components interacts through contract.
 - **Interface Segregation Principle**: A set of small pieces contribute to a much larger component. Break down the large interfaces into small ones if they are used by multiple classes. This means clients do not need to use unnecessary methods that they don't have. 
 - **Dependency Inversion Principle**: Dependency between low and high-level modules should be based on abstraction. If Class A depends on Class B, then create an interface I that Class B should satisfy and make Class A depend on the interface rather than the concrete class.
 
@@ -332,7 +332,7 @@ Architectural patterns are high-level reusable solutions for common software des
 ## Distributed systems
 Distributed systems are multiple systems running independently that aim to solve a common business problem.
 
-#### Characteristics and Advantages
+**Characteristics and Advantages**
 - Easy Scalability
 - Separation of functionality
 - Fault-tolerant by minimizing the failures
@@ -728,7 +728,7 @@ Microservices are full cohesive small autonomous components that provide indepen
   - Replicate data by processing the transactional logs committed to the DB.
   - Real-time data consistency with minimal delay and requires less network bandwidth and resources.
   - Entirely depends on the source database type (MySQL, PgSQL) for generating logs and format which is not suitable for polyglot databases (SQL to NoSQL syncing) or requires special processing.
-  - Compared to *Transactional* syncing, the syncing steps and complexity are less with low latency.
+  - Compared to **Transactional** syncing, the syncing steps and complexity are less with low latency.
 - **Multi Merge**:
   - Merge data updates from multiple sources to each replica by effectively resolving merge conflicts.
   - Multi-leader environments need this type of replication as multiple nodes handle parallel updates.
