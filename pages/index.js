@@ -106,7 +106,7 @@ export default function Home({ postsMetaData }) {
           vertical_padding={"1vw"}
           github={true}
           linkedin={true}
-          medium={true}
+          medium={false}
           kaggle={false}
           need_copy_right={true}
         />

@@ -423,7 +423,7 @@ export default function About_Page(props) {
               vertical_padding={"5px"}
               github={true}
               linkedin={true}
-              medium={true}
+              medium={false}
               kaggle={false}
               need_copy_right={false}
             />
