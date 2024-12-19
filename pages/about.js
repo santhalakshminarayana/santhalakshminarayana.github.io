@@ -156,7 +156,6 @@ const styles = `
     color: ${portfolio_section_heading};
     text-decoration: underline;
     text-decoration-color: ${portfolio_section_heading_decoraion};
-    text-align: center;
     padding-bottom: 1vh;
   }
 
@@ -174,10 +173,10 @@ const styles = `
   }
 
   .organization-logo {
-    width: 10%;
+    width: 6%;
     height: auto;
     max-width: 10%;
-    padding: 0 2% 0 2%;
+    padding: 0 0% 0 0%;
   }
 
   .organization-name {
@@ -297,6 +296,7 @@ const styles = `
     }
 
     .organization-logo {
+      width: 10%;
       padding: 0;
     }
 
