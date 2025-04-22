@@ -22,6 +22,7 @@ const tags = [
   "python",
   "python-performance",
   "go",
+  'linux',
   "mysql",
   "image-processing",
   "opencv",

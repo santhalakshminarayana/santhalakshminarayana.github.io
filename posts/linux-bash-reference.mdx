@@ -1,0 +1,520 @@
+---
+title: "Linux Bash reference"
+description: "Linux Bash reference for bash scripting with comprehensive list of helpful features."
+imgName: "linux-bash-reference/linux-bash-reference.jpg"
+date: "Apr 22, 2025"
+tags: ["linux"]
+keywords:
+  [
+    "linux", 
+    "linux-bash", 
+    "bash", 
+    "bash-scripting",
+  ]
+---
+
+![Linux Bash reference for bash scripting](linux-bash-reference/linux-bash-reference.jpg)
+ 
+###### Published on: **Apr 22, 2025**
+
+# Linux Bash Scripting
+
+Bash scripting is like general programming language and is basically writing Linux commands in a file and executing them in one go. This is very helpful in executing a series of commands in a single file where each step depends on the previous operation. Bash supports almost all features that normal programming language supports. Bash scripting is widely used in system admin tasks, system configuration, server automation, etc. 
+
+The following sections describe the bash features and they are more like a reference than an actual tutorial or something.
+
+### Running bash script
+Save the file with .sh extension and give necessary permissions to execute like *chmod +x script.sh*. And execute the shell script as *bash script.sh* or *./script.sh*.
+
+The bash script runs in a new subshell. So, the custom system configuration won't be applied in the script execution.
+
+Use *set -ueo pipefail* at the start of the script to exit when an error occurs in the pipeline, and also if there are any unset variables.
+
+```shell
+#!/bin/bash
+
+set -ueo pipeline
+
+...
+```
+
+### Subshell
+A subshell is another shell/process spawned within the current shell that inherits all environment, variables, and current config from its parent process. The subshell runs in an isolated environment compared to the parent. A subshell is created when the following syntax is used
+  - Parenthesis: *()*
+  - Command substitution: *$()*
+
+### I/O Redirection
+Redirection controls where to get input and where to send output.
+
+**Standard File Descriptors (FD)**
+  - 0: Standard Input (stdin)
+  - 1: Standard Output (stdout)
+  - 2: Standard Error (stderr)
+
+**Input Redirection**
+  - Send stdin to a command from a file as: *command < input.txt*
+  - | (Pipe): Pipe connects the stdout of the command on the left to the stdin of the command on the right.
+  - Process substitution: Process substitution passes outputs of multiple passes to stdin for another command. Ex: *cat <(ls -l) <(ls -la)*
+  - **herestring**: Here-string (<<<) passes string directly to standard input for a command. Instead of *echo "abc def" | wc -w*, use *wc -w <<< "abc def*
+  - **heredocs**: Here documents pass multi-line input/strings to a command. The command should be anything that accepts the standard input. 
+```shell
+# Syntax
+<command> <<'DELIMETER' 
+multi-line input/text
+DELIMETER
+
+# example, send the heredoc input to sys.conf
+cat <<'CONF' > sys.conf
+PORT=$port
+ENV=$env
+CONF
+```
+
+**Output Redirection**
+  - For saving output to a file from a command, using the *>* operator will create a new file and write to it. If the file doesn't exist it will create a new file. 
+  - *>>* will append to the existing file.
+  - Redirect stderr to a file: *command 2> error.log*
+  - Redirect stdout and stderr: *commmand > res.txt 2> err.txt*
+  - Redirect both stdout and stderr to the same file: *command &> log.txt* or *command > log.txt 2>&1*
+
+**Special Files**
+Special files expose hardware devices as files in the system. Character special files (listed below) are helpful in redirecting the I/O.
+  - /dev/stdin: Symlink to file descriptor 0 (standard input)
+  - /dev/stdout: Symlink to file descriptor 1 (standard output)
+  - /dev/stderr: Symlink to file descriptor 2 (standard error)
+  - /dev/tty: Represents the terminal connected to the current process
+  - /dev/null: Discards all data written to it
+
+### Command-line arguments & Pre-pending variables
+```shell
+#!/bin/bash
+
+: <<'MCOMMENT'
+Assume for this script, command line arguments are passed as:
+> ./script.sh "a" "b" "c"
+
+Command line arguments follow the same rules as bash variables. So, passing 
+arguments as "a b" or '$var' will be expanded just like as bash variables.
+MCOMMENT
+
+# Access command line argument as
+echo "$1", "$2" # a b
+# For argument greater than '9', enclose the number with {}
+echo "${13}"
+
+# '$#' is for no.of arguments, '$@' is for all arguments
+echo "$#" # 3
+echo "$@" # a b c
+
+# Read all arguments to array
+arr=()
+for arg in "$@"; do
+    arr[i]=$arg
+    i=$((i + 1))
+done
+
+echo "$arr"
+
+: <<'MCOMMENT'
+Pre-pending variables as
+> ENV_MODE="DEV" DEPLOY_MODE="STAGING" ./script.sh "arg1" "arg2"
+
+These variables are only scoped to the current script context.
+MCOMMENT
+
+echo "$ENV_MODE"    # DEV
+echo "$DEPLOY_MODE" # STAGING
+```
+
+### Variables inside strings
+```shell
+#!/bin/bash
+
+name_msg="Hi Nomina"
+echo $name_msg. Welcome. # Hi Nomina. Welcome.
+
+# Single quotes
+echo '$name_msg' # $name_msg
+
+# Backquotes or Command Substitution
+usr_name="uname"
+echo `$usr_name` # Linux
+echo $($usr_name) # Linux
+
+# Without curly brackets
+dir_name="/usr/bin"
+echo "$dir_name_prod/env" # /env
+
+# With curly brackets
+echo ${dir_name}_prod/env # /usr/bin_prod/env
+```
+
+### Expressions
+
+For expressions: 
+  - Use *$((x + y))*
+  - Or *$((\$x + \$y))*
+  - Or *(( x += 1))*
+  > Note: This will concat the numbers: *z=\$x+\$y*
+
+Command substitution: capture output of a command to another command
+  - *x=\`echo "Hi "$name\`*
+  - *x=$(echo "Hi "\$name)*
+
+For arithmetic operations natural results use *bc -l <<< "\$x/\$y"*
+
+### Conditional statements
+- The *test* command takes an expression and evaluates it. Successful test returns with status code 0.
+- *[]* is an alternative for the test command. It requires at least a single space after opening and before closing.
+- Use *[[]]* instead of *[]* in conditions for better and advanced behaviour.
+
+**Equality and Pattern Matching**
+- Use *= or ==* to compare match globs like *if [[ "$file" = \*.txt ]]*
+- *=~* is a condition to match the pattern like *if [[ "$x" =~ "\<pattern\>" ]]* 
+- For substring check, *if [[ "$x" == \*substring\* ]]*
+- Capture regex group matches with *\${BASH_REMATCH[n]}*
+
+**Word based operators with *[]* and Symbols with *[[]]***:
+```text
+-a &&
+-o ||
+-eq = or ==
+-ne !=
+-gt >
+-ge >=
+-lt <
+-le <=
+-z (true if string is empty or null)
+-n (true if string is not null)
+=~ (to use regex like [[ ... =~ ... ]])
+```
+
+Some file operators
+```text
+-e (true if file exists)
+-f (true if the variable is file)
+-d (true if the variable is directory)
+-t (true if file associates with terminal device)
+-r (true if file has read permissions for effective user id (EUID))
+-w (true if file has write permissions)
+-x (true if file has execute permissions)
+```
+
+---
+
+### Control flow
+
+**Conditionals** 
+```shell
+#!/bin/bash
+
+# if
+if [[ : ]]; then
+    :
+fi
+
+# if-else
+if [[ : ]]; then
+    :
+else
+    :
+fi
+
+# if-elif-else
+if [[ : ]]; then
+    :
+elif [[ : ]]; then
+    :
+else
+    :
+fi
+
+# nested-if
+if [[ : ]]; then
+    :
+    if [[ : ]]; then
+        :
+    fi
+fi
+```
+
+**Case Pattern Matching**
+```shell
+#!/bin/bash
+
+# case
+x="1"
+case $x in
+0) echo "0" ;;
+1) echo "1" ;;
+*) echo "none" ;; # default case
+esac
+
+
+# case, match multiple patterns
+x="3"
+case $x in
+0|1|2) echo "<= 2" ;;
+3|4|5) echo "<=5" ;;
+*) echo "none" ;; # default case
+esac
+
+# case with ";&" to go to the next statement even if it doesn't match
+x="3"
+case $x in
+3) echo "matched" ;&
+5) echo "this will also print" ;;
+esac
+
+# case with ";;&" to go to next only if matches
+x="3"
+case $x in
+3) echo "matched" ;;&
+5) echo "this will not print" ;;&
+[0-9]) echo "but this will" ;;
+esac
+```
+
+**Loops**
+```shell
+#!/bin/bash
+
+# c-style for loop
+for (( i=0; i<"$#"; i++ )); do
+  :
+done
+
+# loop over a range
+# where 100 is in the inclusive range
+for i in {1..100}; do
+  :
+done
+
+# loop for multiple elements
+# this will loop over all files with a pattern
+for file in *.txt; do
+  :
+done
+
+# example
+IFS=',' read -ra arr <<< "1,2,3"
+for i in "${arr[@]}"; do
+  echo "$i"
+done
+
+# while loop
+i=0
+while [[ $i <= 3 ]]; do
+  (( i++ ))
+done
+
+# while until loop
+while read -r line; do
+  echo "read: $line"
+done < file.txt
+
+# unitl: loop over condition becomes true (differ to while)
+i=0
+until [[ $i >= 3 ]]; do
+  (( i++ ))
+done
+```
+---
+
+### Arrays
+```shell
+#!/bin/bash
+# IFS is mostly " \t\n" i.e., space, tab, or new line
+arr=()
+x="abc def"
+# If variables are not quoted, the value split into multiple based on IFS
+arr+=($x)
+echo ${#arr[@]} # 2
+
+# If quoted
+arr=()
+arr+=("$x")
+echo ${#arr[@]} # 1
+
+# Without "", array values split for each element based on IFS
+arr=("abc" "abc def" "def")
+arr2=()
+for i in ${arr[@]}; do
+  arr2+=("$i")
+done
+echo ${#arr2[@]} # 4
+pIFS=$IFS
+IFS=','
+echo "${arr2[*]}" # abc,abc,def,def
+IFS=$pIFS
+
+# With ""
+arr2=()
+for i in "${arr[@]}"; do
+  arr2+=("$i")
+done
+echo ${#arr2[@]} # 3
+pIFS=$IFS
+IFS=','
+echo "${arr2[*]}" # abc,abc def,def
+IFS=$pIFS
+```
+> Use Associative Arrays for more advanced array behavior.
+
+---
+
+### Strings
+```shell
+#!/usr/bin/env bash
+
+# Concatenation
+x=""
+x+="1"
+x+="2 3"
+echo "$x" # 12 3
+
+x="1"
+y="2 3"
+z="$x $y" # 1 2 3
+echo "$z"
+
+# Length
+echo ${#z} # 5
+
+# Slicing
+x="1 2 3 4 5"
+# ${str:pos} from starting position to end
+echo ${x:2} # 2 3 4 5
+# ${str:pos:len} sub-string from that position with length
+echo ${x:2:5} # 2 3 4
+# ${str:(-n)} from last 'n' character
+echo "${x:(-3)}" # 4 5
+# ${str:pos:${#str}-n} sub-string from position to last 'n'th position
+echo "${x:2:${#x}-4}" # 2 3 4
+
+```
+
+---
+
+### Functions
+```shell
+#!/bin/bash
+
+# A function can be defined as
+function f1 {
+    :
+}
+
+# or
+
+f2() {
+    :
+}
+
+# there is no explicit declaration for function parameters, as the
+# arguments are passed to function just like script command line arguments
+# function is invoked with its name and any arguments
+f1 "a" "b"
+
+# function can access the arguments the same as the script with $1, $2, ... or $@
+f3() {
+    echo "received arguments for func ${FUNCNAME[0]}:" "$@"
+}
+
+f3 "a" "b" # received arguments for func f3: a b
+
+# function can return values or exit status (only numerics)
+f4() {
+    if [[ $# == 2 ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+f4 1 2
+echo $? # 2
+
+# if the functions called in the same shell,
+# outside function scope, those variables can be assessed
+f5() {
+    x=10
+}
+
+f5
+echo $x # 10
+```
+
+To return/access other types, store the standard output of the function with command substitution/sub-shell
+```shell
+#!/bin/bash
+
+# capture stdout by calling a function inside sub-shell
+f() {
+    echo $(($1 + $2))
+}
+
+echo "Sum is $(f 1 2)" # Sum is 3
+
+# as the function is called inside the sub-shell,
+# the variables declared inside the function can't be accessed outside
+f() {
+    x=10
+    echo "Value is $x"
+}
+
+echo $(f)                   # Value is 10
+echo "function value is $x" # function value is
+```
+
+If functions are called inside command substitution like `$(func1 par1 par2)` and the stdout is captured, then every function statements stdout will be returned like
+```shell
+#!/bin/bash
+
+f() {
+    printf "received %s, %s" $1 $2
+    echo $(($1 + $2))
+}
+
+res=$(f 1 2)
+echo "Sum is $res" # Output: Sum is received 1, 23
+```
+
+To avoid this, redirect the stdout and stderr of each statement (if any) to the terminal output
+```shell
+#!/bin/bash
+
+f() {
+    printf "received %s, %s\n" $1 $2 >/dev/tty
+    echo $(($1 + $2))
+}
+
+res=$(f 1 2)
+echo "Sum is $res" # Output: Sum is 3
+```
+
+---
+
+### *:* null command
+- *:* command does nothing and returns status 0
+- Use the *:* (null or no-op) command to avoid syntax errors when the block is empty like
+```shell
+if [[ <condition> ]]; then
+  :
+else
+  echo "Condition failed"
+fi
+
+# or
+
+for :; do
+  echo "Continuous loop"
+done
+
+# or, for parameter expansion if unset like below instead of x=${x:="default"}
+: "${x:="default"}"
+```
+
+---
+
+These are all building blocks for writing bash scripts, combine these with other linux commands to build advanced scripts.
