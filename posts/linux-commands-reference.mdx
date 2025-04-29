@@ -1,0 +1,352 @@
+---
+title: "Essential Linux Commands reference"
+description: "A practical list of Linux commands to streamline software development and management."
+imgName: "linux-commands-reference/linux-commands-reference.jpg"
+date: "Apr 29, 2025"
+tags: ["linux"]
+keywords:
+  [
+    "linux", 
+    "linux-commands", 
+    "commands", 
+    "bash-commands",
+  ]
+---
+
+![Linux Commands](linux-commands-reference/linux-commands-reference.jpg)
+ 
+###### Published on: **Apr 29, 2025**
+
+# Linux Commands Reference
+
+This is a comprehensive list of linux commands that are most useful for developers in terms of system configuration, management, monitoring, and etc. We are not going to discuss about common commands that most people know about. Commands are categorized based on thier usage type like Networking, Memory, Text processing, and etc.
+
+---
+
+### Input
+
+- **read <variable\>** or **readarray <array\>**: to read input into a single variable or an array
+
+- **xargs**: pass standard output/input as a list of command variables for another command
+  - *ls | xargs -n 3 echo*: pass up to 3 names to echo
+  - *find . -type f -name '*.txt' | xargs -n 1 -P 4 -t ./sc.sh*: pass each filename as input to a bash script and also spawn 4 processes
+
+- **|** pipe: pass standard output from another command as standard input stream to another
+  - *ls -l | wc*: pass the output of *ls -l* to *wc* as an input stream
+
+- **<**: pass stddin to a command from a file
+  - *grep <pattern\> < input.txt*
+
+---
+
+### Display
+
+- **echo**: print information in terminal
+  - *echo -n*: don't move to new line
+  - *echo -e*: interpret escape sequences
+
+- **head**: display first 'n' (10) lines of a file
+  - *head -n 5 file.txt*: displays the first 5 lines of a file
+  - *head -c 20 file.txt*: displays the first 20 bytes of a file
+
+- **tail**: display last 'n' (10) lines of a file
+  - *tail -n 15 file.txt*: display the last 15 lines of a file
+  - *tail -f log.txt*: continuously display new lines as they're added to the file
+
+- **more**: display large file content one screen at a time
+  - *more file.txt*: navigate through file. Use options below.
+  - *Enter*: move one line at time
+  - *Spacebar or Down-Arrow*: move one screen
+  - *=*: display line number
+  - *b*: move backward
+  - */pattern*: search forward for a pattern
+
+- **less**: display large file content in page mode with backward and forward scrolling. More flexible than *more* command. Loads files in buffer and non-blockin navigation
+  - *less -N file.txt*: navigate through file with line numbers. Use options below
+  - *Up/Down Arrow*: Scroll up/down
+  - *Enter*: Scroll down
+  - *spacebar*: Scroll one screen at a time
+  - *:n*: go to line number
+  - */pattern*: highligh the matched pattern text, and search forward to that line
+
+- **diff**: show line-by-line differences between two files
+  - *diff file1.txt file2.txt*: compare two files and show differences
+  - *diff -u file1.txt file2.txt*: unified format, useful for patches
+  - *diff -y file1.txt file2.txt*: side-by-side comparison
+  - *diff -rq dir1/ dir2/*: recursively compare two directories, showing only differing files
+
+---
+
+### Files & Directories
+
+- **chmod**: (Change Mode) modifies the permission for a file/directory
+  - *chmod 755 ex.txt*: give *rwx* permissions to user, *r-x* to group and others
+  - *chmod u+x ex.txt*: gives *x* permission to user (owner)
+  - *chmod +x ex.txt*: gives *x* permission to all (user, group, others)
+
+- **chown**: change ownership of a file/directory for user or groups (optional). Only root (superuser) or the owner of a file can change its ownership.
+  - *chown -v lnr:dev script.sh*: change ownership of file scripts.sh to user "lnr" and group "dev". (-v) is for verbose output.
+  - *chown -R :dev scripts*: change only group ownership for scripts folder and also recursively change ownership for sub-directories 
+  - *chown -from=slnr lnr script.sh*: change only user ownership if the file currently owned by user "slnr"
+
+- **find**: search files and directories with different criteria like name, type, size, etc.
+  - *find scripts -type f -name "*.txt"*: search all files with name matching *.txt*
+  - *find . -type d -empty*: find empty directories recursively in the current directory
+
+- **tee**: write to both std output and a file
+  - *echo "hello" | tee hello.txt*: write to file
+
+- **paste**: merged multiple files/inputs side by side
+  - *paste file1.txt file2.txt*: merge lines from two files with tabs between them
+  - *paste -d, file1.txt file2.txt*: merge using comma as a delimiter
+
+- **stat**: display detailed information about file, directory, or filesystem. Information includes size, permissions, ownership, creation and modification times, and etc.
+  - *stat -c "File: %n, Size: %s bytes" file.txt*: custom display format
+
+---
+
+### Text Processing
+
+- **sort**: sort line by alpha or numeric
+  - *sort -n file.txt*: sort numerically
+  - *sort -r file.txt*: sort in reverse order
+  - *sort -k2 file.txt*: sort by the second field
+  - *sort -h file.txt*: sort by human numeric numbers (1k, 1.4G...)
+
+- **cut**: extract specific fields/columns from each line
+  - *cut -d "," -f 1,3 file.csv*: extract the 1st and 3rd columns from a CSV file using comma as a delimiter
+  - *cut -c 1-10 file.txt*: extract the first 10 characters from each line
+
+- **grep**: extract matched lines for a pattern
+  - *grep -i "pattern" file.txt*: case-insensitive search
+  - *grep -r "pattern" directory/*: recursively search in all files in a directory
+  - *grep -v "pattern" file.txt*: show lines that don't match the pattern
+
+- **sed**: extract and replace/delete lines for a pattern
+  - *sed 's/old/new/g' file.txt*: replace all occurrences of "old" with "new"
+  - *sed '5d' file.txt*: delete the 5th line
+  - *sed -n '10,20p' file.txt*: print only lines 10 through 20
+
+- **awk**: text processing for each line
+  - *awk '{print $1, $3}' file.txt*: print the 1st and 3rd fields of each line
+  - *awk -F: '{print $1}' /etc/passwd*: using colon as field separator, print the first field
+  - *awk '$3 > 100 {print $0}' data.txt*: print lines where the 3rd field is greater than 100
+  - list file sizes in current directory: *ls -lh | awk 'substr($1, 1, 1) != "d" { printf "%s\t", $5 } {for (i=9; i<=NF; i++) printf "%s ", $i} {print ""}'*
+
+- **tr**: translates, deletes, or squeezes characters
+  - *tr 'a-z' 'A-Z' < file.txt*: convert lowercase to uppercase
+  - *tr -d ' '*: delete all spaces from input
+
+- **wc**: count no.of lines, and words in a file
+  - *ls | wc -l*: print no.of files
+  - *wc -w hello.txt*: print no.of words in a file
+
+- **uniq**: unique lines that are not repeated consecutively
+  - *uniq -c file.txt*: prefix lines with the number of occurrences
+  - *uniq -d file.txt*: only print duplicate lines
+
+---
+
+### Process & System
+
+- **ps**: (process status) shows processes running in the current shell for the current user
+  - *ps aux*: shows all processes running on the system including background
+      - `a`: for all users
+      - `u`: add additional user-oriented information
+      - `x`: shows background running processes also (not attached to terminal/foreground)
+
+- **top**, **htop**: monitor system performance, especially CPU, memory, and process activity, in real-time
+  - *htop -d 10*: delay between updates, in tenths of seconds (tenth of a second is 1 second)
+
+- **kill**: send termination signal to a process with pid (process id)
+  - *kill -9 <pid\>*: force kill a process
+
+- **killall**: kill all processes with a name
+  - *kill -9v <process-name\>*: force kill all processes with a name and show what's being killed
+
+### Network
+
+- **netstat**: shows network connections, routing tables, interface stats, etc. Options:
+  - `-i`: show network interfaces
+  - `-t`: show tcp connections
+  - `-u`: show udp connections
+  - `-l`: show listening ports
+  - `-a`: show all connections (listening + non-listening) 
+  - `-r`: show routing tables
+  - `-pl`: show process-id/program name using the socket
+  - `-n`: show addresses and ports in numeric form. Use with other options like (-tn)
+
+- **ss**: displays network socket information, including TCP, UDP, UNIX domain sockets, etc. Advanced command than `netstat`. Options:
+  - `-t`: show tcp connections
+  - `-u`: show udp connections
+  - `-l`: show listening ports
+  - `-a`: show all sockets (listening + non-listening)
+  - `-s`: summar statistics of socket usage
+  - `-4/-6`: show only IPv4 / IPv6 sockets
+  - `-n`: show numeric IPs and ports (skip DNS)
+  - `-p`: show processes using the sockets
+
+- **nslookup**: retrieve the detailed information like the IP address or DNS record for a hostname/address
+  - *nslookup example.com*: dns lookup for the given domain. Lists "A record" and "CNAME" record (if any)
+  - *nslookup <ip-address\>*: reverse dns lookup
+  - *nslookup -type=soa example.com*: state of authority details for a domain
+
+- **tracepath**, **traceroute**: trace the IP packet flow over the network
+  - *traceroute google.com*: trace the IP packet at each hop till it reaches the destination 
+
+- **tcpdump**: network packet analyzer tool
+  - *tcpdump -D*: list all network interfaces
+  - *tcpdump -i any -c 5*: capture 5 packets (-c) from any interface (-i)
+  - *tcpdump -i any -c 5 -nn*: disable (-nn) dns lookup and port resolution into names. Show IP and port in numeric
+  - *tcpdump -i any -c 5 -nn src 192.18.0.3 and port 80*: capture packets from source IP and port
+  - *tcpdump -i any -c 10 -nn -w dump.pcap*: capture and save (-w) to a file with .pcap (packet capture) extension
+  - *tcpdump -r dump.pcap*: read saved packet capture
+
+- **tshark**: command-line version of Wireshark to analyze network traffic
+  - *tshark -D*: list all network interfaces
+  - *tshark -i eth0 -f "tcp"*: capture packets from "eth0" interface (-i) and filter tcp (-f)
+  - *tshark -i eth0 -Y "http"*: Wireshark style display filter (-Y)
+
+- **lsof**: list open files and associated processes
+  - *lsof -i :80*: list processes using port 80
+  - *lsof -t*: show only process IDs
+  - *lsof -i tcp:80 -t*: show process listening on TCP port 80
+  - *lsof -u username*: list open files for a specific user
+  - *lsof -p PID*: list files opened by a specific process
+  - *lsof -n*: show network addresses numerically (skip hostname resolution)
+
+- **ufw**, **iptables**: create firewall rules
+
+- **hostname**, **hostnamectl**: view or set the system’s hostname
+
+- **wget**: download files from the server
+  - *wget -b https://server.com/file.txt -O filename.txt*: download in background and save as "filename.txt"
+  - *wget -c <url\>*: resume partial download
+  - *wget -i urls.txt*: read URLs from a file and download them
+  - *wget --no-check-certificate https://example.com/file.txt*: ignore SSL certification errors
+
+---
+
+### SSH (Secure Shell)
+
+- **ssh**: secure (encrypt) connection with a remote hosts over an unsecured network to execute the commands remotely
+
+- **scp**: (Secure Copy Protocol) securely copy files between hosts using SSH
+
+- **rsync**: (Remote Synchronization) sync files and directories between two hosts.
+
+---
+
+### Disk & Memory
+
+- **free**: show system memory information
+  - *free -h*: system memory in human readable format
+  - display inforamtion regarding total, used, free, shared, buff/cache, and available
+  - available memory tells how much free memory apps can use without swapping
+  - if swapped used memory is high, there is signficant system memory performance issue
+
+- **df**: (disk free) disk space the filesystem is using
+  - *df -h --total*: print disk usage by each filesystem type in human readable (-h) format along with total disk usage by whole system
+
+- **du**: (disk usage) disk space usage of specific file or directory
+  - *df -h -all -d 1*:disk space usage of current directory with depth as 1 (-d 1) and including files also (only directories shown by default) in human readable format (-h)
+  - *df -h | sort -h*: show disk space usage of current directory and its sub-directories in sorted list (order by human readable numbers like 2k, 4M, 8G)
+
+---
+
+### Environment & Settings
+
+- **source**: execute commands from a file in the current shell without starting a new shell process. Execute the file line-by-line as they are invoked in the current shell
+  - *source ~/.bashrc*: load bashrc in the current shell without restarting. Shorthand (*. ~/.bashrc*)
+
+- **env**: list current env variables, set/unset variables, or run a program with custom environment without modifying current env. Config variables in ~/.bashrc for permanent changes
+  - *env*: list all current variables
+  - *env -i /bin/bash*: create a new program with clear (-i) environment
+  - *env VARNAME=value command*: execute command with env VARNAME set
+  - *env VARNAME=value*: set new variable
+  - *env -u VARNAME*: unset variable
+
+- **export**: set environment variables that are available to child processes of the current shell. For permanent changes, config them in ~/.bashrc
+  - *export VARNAME=value*: create environment value
+  - *unset VARNAME*: remove variable
+  - *export PATH="$PATH:/path/to/bin"*: chain value to existing variable
+
+- **printenv**: print env variables and specific ones
+  - *printenv VARNAME*: print variable value
+
+- **set**: list all shell variables including env, shell internals, local variables, functions, etc.
+
+---
+
+### Compression/Extraction
+
+- **tar**: archive and extract files (with or without compression)
+  - *tar -cvf archive.tar file1 dir/*: create a tar archive from files/directories
+  - *tar -xvf archive.tar*: extract files from a tar archive
+  - *tar -czvf archive.tar.gz file1 dir/*: create a compressed tar.gz archive
+  - *tar -xzf archive.tar.gz*: extract a tar.gz archive
+  - *tar -C /path/to/target/dir -xzf archive.tar*: extract (tar.gz) to specific directory
+
+- **gzip**, **gunzip**: compress or decompress single files using `.gz`
+  - *gzip file.txt*: compress a file (removes original, creates file.txt.gz)
+  - *gunzip file.txt.gz*: decompress a `.gz` file
+  - *gzip -k file.txt*: compress file but keep the original
+  - *gzip -r dir/*: recursively compress all files in a directory
+  - *zcat file.txt.gz*: view compressed file without decompressing
+
+- **zip**, **unzip**: create or extract `.zip` archives
+  - *zip archive.zip file1 dir/*: compress files or directories into a zip archive
+  - *unzip archive.zip*: extract contents of a zip file
+  - *unzip -l archive.zip*: list contents of a zip file
+  - *zip -r archive.zip dir/*: recursively zip a directory
+  - *unzip archive.zip -d /target/dir*: extract to a specific directory
+
+---
+
+### Utilities/Shortcuts
+
+- **date**: show current date and time. Allows custom format with "+FORMAT" syntax
+  - *date "+%d-%m-%Y %H:%M:%S"*: 22-04-2025 12:18:42
+  - *date "+%A, %d %B %Y"*: Tuesday, 22 April 2025
+  - *date +%s*: display current timestamp
+  - *date -d @<timestamp/>*: convert timestamp to human-readable date-time
+
+- **time**: measure how long a command or process takes to run. 
+  - Will give time in three measurements
+    - real: total clock time
+    - user: time spent in user mode
+    - sys: time spent in kernel mode
+  - *time ./script.sh*: measures the time for executing script.sh
+  - */usr/bin/time -v ./script.sh*: display more information
+
+- **sleep**: sleep/pause for a certain amount of time
+  - *sleep 2*: sleep for 2 seconds
+  - *sleep 2h 30m 5s*: sleep for 2 hours 30 minutes 5 seconds
+  - *sleep 2d*: sleep for 2 days
+  - *sleep 1.5*: sleep for 1.5 seconds
+
+- **watch**: repeat a command at regular intervals (default 2 seconds)
+  - *watch -n 5 -d "df -h"*: monitor disk usage every 5 seconds (-n 5) and highlight the changes (-d)
+
+- **alias**: create shortcut for command. Aliases created are not permanent, config them in ~/.bashrc
+  - *alias ll='ls -al'*: create alias as "ll"
+  - *alias*: show current aliases
+
+- **unalias**: remove alias. For permanent changes, config them in ~/.bashrc
+  - *unalias ll*: remove alias associated with "ll"
+
+- **history**: show all executed commands previously. By default, it shows all stored commands in the persistent history file 
+  - *history 100*: list the last 100 commands
+
+- **which**: determine the current location of executable for a command
+  - *which python3*: show the python 3 executable location
+
+- **whereis**: list the command's source code path
+  - *whereis python3*: shows all locations of python3 executable
+
+- **whatis**: short description of that command from the "man" (manual) page
+  - *whatis python3*
+
+---
+
+Happy Commanding!
