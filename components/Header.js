@@ -41,7 +41,7 @@ export default function Header(props) {
 	          */}
             <img src={"/images/santha-lakshmi-narayana-logo.png"} alt="Logo" />
           </Link>
-          <Link href="/">
+          <Link href="/" id="name" legacyBehavior>
             <a id="name">
               <b>Santha Lakshmi Narayana</b>
             </a>
@@ -49,13 +49,13 @@ export default function Header(props) {
         </div>
 
         <div className="header-right">
-          <Link href="/about">
+          <Link href="/about" legacyBehavior>
             <a>About</a>
           </Link>
           <a href="#" onClick={handleTagsClick}>
             Tags
           </a>
-          <Link href="/">
+          <Link href="/" legacyBehavior>
             <a>Home</a>
           </Link>
         </div>

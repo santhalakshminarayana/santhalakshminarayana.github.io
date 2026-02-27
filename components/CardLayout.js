@@ -26,8 +26,8 @@ export default function CardLayout({ postsMetaData }) {
       {postsMetaData.map((metadata, index) => {
         //const imgSrc = require(`../images/${metadata.metadata.imgName}?resize`);
         //const imgSrcWebp = require(`../images/${metadata.metadata.imgName}?resize&format=webp`);
+        // const imgType = "image/" + metadata.metadata.imgName.split(".").pop();
 
-        const imgType = "image/" + metadata.metadata.imgName.split(".").pop();
         return (
           <div className="card-container" key={metadata.metadata.title}>
             <div>
@@ -50,6 +50,7 @@ export default function CardLayout({ postsMetaData }) {
                   <Link
                     href={`/blog/${metadata.metadata.id}`}
                     key={metadata.metadata.title}
+                    legacyBehavior
                   >
                     <a className="info-container-link">
                       {metadata.metadata.title}
@@ -62,7 +63,7 @@ export default function CardLayout({ postsMetaData }) {
                   <div className="tags-container-tag">
                     {metadata.metadata.tags.map((tag_name, index) => {
                       return (
-                        <Link href={`/tags/${tag_name}`} key={tag_name}>
+                        <Link href={`/tags/${tag_name}`} key={tag_name} legacyBehavior>
                           <a className="tag-link">{"#" + tag_name}</a>
                         </Link>
                       );

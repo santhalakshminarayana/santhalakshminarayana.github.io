@@ -37,7 +37,7 @@ export default function Tags(props) {
   return (
     <div className="tags">
       {tags.map((tag) => (
-        <Link href={`/tags/${tag}`}>
+        <Link href={`/tags/${tag}`} legacyBehavior>
           <a>{`#${tag}`}</a>
         </Link>
       ))}

@@ -1,0 +1,334 @@
+---
+title: "ZSH Configuration"
+description: "Custom ZSH config with auto-suggestions, substring search, syntax-highlight, git, and prompt (p10k) without oh-my-zsh."
+imgName: "zsh-configuration/zsh-configuration.jpg"
+date: "Feb 21, 2026"
+tags: ["linux", ]
+keywords:
+  [
+    "zsh",
+    "zsh-auto-suggestions",
+    "zsh-auto-complete",
+    "zsh-sub-string-string",
+    "zsh-syntax-highlight",
+    "zsh-git-config",
+    "zsh-powerlevel10k",
+    "zsh-p10k",
+    "zsh-prompt",
+    "bash-customisation",
+    "zsh-customisation",
+  ]
+---
+
+![ZSH Configuration with Auto-suggestions, Sub-string Search/auto-completion, Syntax-highlight, and Git with Powerlevel10k (P10k)](zsh-configuration/zsh-configuration.jpg)
+
+###### Published on: **Feb 21, 2026**
+
+# ZSH Configuration
+
+Makover Linux terminal with ZSH. Configure ZSH with Auto-suggestions, substring history search or auto-completion, command syntax-highlight, and Git helpers with Powerlevel10k (p10k). Without using oh-my-zsh, manually install everything and customise.
+
+### Install ZSH
+
+First, install ZSH and make it the default shell.
+
+```shell
+$ sudo apt install zsh -y
+```
+
+After it is installed, you can try switching from bash to zsh by simply using the command *zsh*
+
+```shell
+$ zsh
+```
+
+To make ZSH the default shell, 
+
+```shell
+$ sudo chsh -s $(which zsh)
+```
+
+Now, ZSH is the default shell. Verify this by exiting the terminal and opening it again.
+
+Check the **~/.zshrc** file if it exists, and open the configuration. This is the ZSH configuration file that we will customise later. This is the same as **~/.bashrc** and should include all the ENV, Path, and other exports.
+
+--- 
+
+### ZSH Auto-suggestions
+
+[ZSH Auto-suggestions](https://github.com/zsh-users/zsh-autosuggestions) suggests the full commands while typing based on the previous history. It's useful for quickly typing full complex commands that you used previously, like 
+git, system, and other commonly used commands.
+
+```shell
+$ git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+```
+
+This will clone the repo to the destination folder under the **~/.zsh** folder. All ZSH-related plugins and installations can be placed here for future reference and easy management.
+
+Open the **~/.zshrc** file and add ZSH Auto-suggestions source for the ZSH to load this plugin while the terminal boots.
+
+```text:~/.zshrc
+# Add ZSH Auto-suggestion plugin
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+```
+
+Now save the file. To see the changes, either close and open the ZSH terminal or hit *source ~/.zshrc*.
+
+If you type any command, the terminal will suggest the full command based on the history.
+
+![ZSH-Auto Suggestions:=:40](zsh-configuration/zsh-auto-suggestions.png)
+
+For some terminals, the suggested text may not be visible due to different color settings. Set the text color for auto-suggestions text in **~/.zshrc** file after the above source as
+
+```text:~/.zshrc
+# Autosuggestion highlight color
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=100"
+```
+
+In the above setting, value *fg=100* is for setting the foreground color to value 100. ZSH color codes range from 0 to 255, and each value denotes a different color. To compare and set which color looks good for your terminal color settings, use this command that lists all colors in your terminal and how they look.
+
+```shell
+$ for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done
+```
+
+---
+
+### ZSH Auto-completion or Sub-string search
+
+Let's say you have a ton of commands and want to search through history for all matched commands given the current command. Like when you type a command like *apt install* and hit all the matches starting with *apt install*.
+
+Type any command, navigate through all matched commands with UP/DOWN arrow with [ZSH Sub-string Search](https://github.com/zsh-users/zsh-history-substring-search).
+
+![ZSH Sub-string search or Auto-completion:=:50](zsh-configuration/zsh-sub-string-search.png)
+
+In the above example, I can search all the previous commands that I used that start with *sudo apt*.
+
+Install the source and add it to **~/.zshrc**
+
+```shell
+$ git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-search ~/.zsh/zsh-substring-search
+```
+
+```text:~/.zshrc
+# ZSH Sub-string search
+source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+```
+
+You may not observe the substring search yet with UP/DOWN arrows, because we need to bind UP/DOWN arrows as keyboard shortcuts for up/down search and forward/backward movement.
+[Refer this](https://github.com/zsh-users/zsh-history-substring-search/tree/master?tab=readme-ov-file#usage) auto-completion section to know which character combination to use as shortcuts for your system.
+
+These are the bind keys for my system that I should use for searching and left/right cursor movements.
+
+```text:~/.zshrc
+# autocompletion using arrow keys (based on history)
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey "$terminfo[kLFT5]" backward-word
+bindkey "$terminfo[kRIT5]" forward-word
+```
+
+These settings should be placed after the source listing of the substring search plugin in **~/.zshrc**.
+
+---
+
+### ZSH Syntax-highlight
+
+Highlight the command syntax with different colors. This helps in identifying unknown commands, options, sub-commands...
+
+Install [ZSH Syntax highlight](https://github.com/zsh-users/zsh-syntax-highlighting) and add it to **~/.zshrc**
+
+```shell
+$ git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+```
+
+```text:~/.zshrc
+# ZSH Syntax-highlighting
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
+
+---
+
+### Powerlevel10k (p10k)
+
+[Powerlevel10k(p10k)](https://github.com/romkatv/powerlevel10k) is a ZSH prompt plugin that changes how the terminal looks. It gives flexibility to change color theme, prompt style, and also adds git support to the terminal like showing current branch, status info and others.
+
+Install the plugin and add it to **~/.zshrc**
+
+```shell
+$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
+```
+
+```text:~/.zshrc
+source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+```
+
+Once you load the ZSH terminal for the first time, p10k prompts you for configuration for terminal look, prompt style, icon support, and others. Set the style of your choice. After you set the config, p10k edits the **~/.zshrc** for new settings.
+
+You can edit the p10k manually by modifying the **~/.p10k.zsh** file.
+
+I have selected *pure* prompt style, and this is how it will [look like at first](https://github.com/romkatv/powerlevel10k/blob/master/config/p10k-pure.zsh).
+
+If you set any other style, **~/.p10k.zsh** file will look different.
+
+**Add Git Plugin**
+
+One of the best features of p10k is its git support. In the prompt, we can see the git info like current branch, files modified, commits ahead/behind, stash, etc. And, we can change the look and feel of these icons also, like below
+
+![p10k git plugin:=:50](zsh-configuration/p10k-git.png)
+
+Pure style doesn't come with a proper git status prompt. We can take the git function from [classic config](https://github.com/romkatv/powerlevel10k/blob/master/config/p10k-classic.zsh#L352) and add this to the pure p10k config.
+
+```text
+  function my_git_formatter() {
+    emulate -L zsh
+
+    if [[ -n $P9K_CONTENT ]]; then
+      # If P9K_CONTENT is not empty, use it. It's either "loading" or from vcs_info (not from
+      # gitstatus plugin). VCS_STATUS_* parameters are not available in this case.
+      typeset -g my_git_format=$P9K_CONTENT
+      return
+    fi
+
+    if (( $1 )); then
+      # Styling for up-to-date Git status.
+      local       meta='%248F'
+      local      clean='%253F' 
+      local   modified='%50F'
+      local  untracked='%226F'
+      local conflicted='%196F'
+      local commits_ahead='%4F'
+      local commits_behind='%4F'
+      local stash='%125F'
+    else
+      # Styling for incomplete and stale Git status.
+      local       meta='%244F'
+      local      clean='%244F'
+      local   modified='%244F'
+      local  untracked='%244F'
+      local conflicted='%244F'  
+      local commits_ahead='%244F'
+      local commits_behind='%244F'
+      local stash='%244F'
+    fi
+
+    local res
+
+    if [[ -n $VCS_STATUS_LOCAL_BRANCH ]]; then
+      local branch=${(V)VCS_STATUS_LOCAL_BRANCH}
+      # If local branch name is at most 32 characters long, show it in full.
+      # Otherwise show the first 12 … the last 12.
+      # Tip: To always show local branch name in full without truncation, delete the next line.
+      (( $#branch > 32 )) && branch[13,-13]="…"  # <-- this line
+      res+="${clean}${(g::)POWERLEVEL9K_VCS_BRANCH_ICON}${branch//\%/%%}"
+    fi
+
+    if [[ -n $VCS_STATUS_TAG
+          # Show tag only if not on a branch.
+          # Tip: To always show tag, delete the next line.
+          && -z $VCS_STATUS_LOCAL_BRANCH  # <-- this line
+        ]]; then
+      local tag=${(V)VCS_STATUS_TAG}
+      # If tag name is at most 32 characters long, show it in full.
+      # Otherwise show the first 12 … the last 12.
+      # Tip: To always show tag name in full without truncation, delete the next line.
+      (( $#tag > 32 )) && tag[13,-13]="…"  # <-- this line
+      res+="${meta}#${clean}${tag//\%/%%}"
+    fi
+
+    # Display the current Git commit if there is no branch and no tag.
+    # Tip: To always display the current Git commit, delete the next line.
+    [[ -z $VCS_STATUS_LOCAL_BRANCH && -z $VCS_STATUS_TAG ]] &&  # <-- this line
+      res+="${meta}@${clean}${VCS_STATUS_COMMIT[1,8]}"
+
+    # Show tracking branch name if it differs from local branch.
+    if [[ -n ${VCS_STATUS_REMOTE_BRANCH:#$VCS_STATUS_LOCAL_BRANCH} ]]; then
+      res+="${meta}:${clean}${(V)VCS_STATUS_REMOTE_BRANCH//\%/%%}"
+    fi
+
+    # Display "wip" if the latest commit's summary contains "wip" or "WIP".
+    if [[ $VCS_STATUS_COMMIT_SUMMARY == (|*[^[:alnum:]])(wip|WIP)(|[^[:alnum:]]*) ]]; then
+      res+=" ${modified}wip"
+    fi
+
+    if (( VCS_STATUS_COMMITS_AHEAD || VCS_STATUS_COMMITS_BEHIND )); then
+      # ⇣42 if behind the remote.
+      (( VCS_STATUS_COMMITS_BEHIND )) && res+=" ${commits_behind}⇣${VCS_STATUS_COMMITS_BEHIND}"
+      # ⇡42 if ahead of the remote; no leading space if also behind the remote: ⇣42⇡42.
+      (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )) && res+=" "
+      (( VCS_STATUS_COMMITS_AHEAD  )) && res+="${commits_ahead}⇡${VCS_STATUS_COMMITS_AHEAD}"
+    elif [[ -n $VCS_STATUS_REMOTE_BRANCH ]]; then
+      # Tip: Uncomment the next line to display '=' if up to date with the remote.
+      # res+=" ${clean}="
+    fi
+
+    # ⇠42 if behind the push remote.
+    (( VCS_STATUS_PUSH_COMMITS_BEHIND )) && res+=" ${commits_behind}⇠${VCS_STATUS_PUSH_COMMITS_BEHIND}"
+    (( VCS_STATUS_PUSH_COMMITS_AHEAD && !VCS_STATUS_PUSH_COMMITS_BEHIND )) && res+=" "
+    # ⇢42 if ahead of the push remote; no leading space if also behind: ⇠42⇢42.
+    (( VCS_STATUS_PUSH_COMMITS_AHEAD  )) && res+="${commits_ahead}⇢${VCS_STATUS_PUSH_COMMITS_AHEAD}"
+    # *42 if have stashes.
+    (( VCS_STATUS_STASHES        )) && res+=" ${stash}*${VCS_STATUS_STASHES}"
+    # 'merge' if the repo is in an unusual state.
+    [[ -n $VCS_STATUS_ACTION     ]] && res+=" ${conflicted}${VCS_STATUS_ACTION}"
+    # ~42 if have merge conflicts.
+    (( VCS_STATUS_NUM_CONFLICTED )) && res+=" ${conflicted}~${VCS_STATUS_NUM_CONFLICTED}"
+    # +42 if have staged changes.
+    (( VCS_STATUS_NUM_STAGED     )) && res+=" ${modified}+${VCS_STATUS_NUM_STAGED}"
+    # !42 if have unstaged changes.
+    (( VCS_STATUS_NUM_UNSTAGED   )) && res+=" ${modified}!${VCS_STATUS_NUM_UNSTAGED}"
+    # ?42 if have untracked files. It's really a question mark, your font isn't broken.
+    # See POWERLEVEL9K_VCS_UNTRACKED_ICON above if you want to use a different icon.
+    # Remove the next line if you don't want to see untracked files at all.
+    (( VCS_STATUS_NUM_UNTRACKED  )) && res+=" ${untracked}${(g::)POWERLEVEL9K_VCS_UNTRACKED_ICON}${VCS_STATUS_NUM_UNTRACKED}"
+    # "─" if the number of unstaged files is unknown. This can happen due to
+    # POWERLEVEL9K_VCS_MAX_INDEX_SIZE_DIRTY (see below) being set to a non-negative number lower
+    # than the number of files in the Git index, or due to bash.showDirtyState being set to false
+    # in the repository config. The number of staged and untracked files may also be unknown
+    # in this case.
+    (( VCS_STATUS_HAS_UNSTAGED == -1 )) && res+=" ${modified}─"
+
+    typeset -g my_git_format=$res
+  }
+  functions -M my_git_formatter 2>/dev/null
+
+  # Don't count the number of unstaged, untracked and conflicted files in Git repositories with
+  # more than this many files in the index. Negative value means infinity.
+  #
+  # If you are working in Git repositories with tens of millions of files and seeing performance
+  # sagging, try setting POWERLEVEL9K_VCS_MAX_INDEX_SIZE_DIRTY to a number lower than the output
+  # of `git ls-files | wc -l`. Alternatively, add `bash.showDirtyState = false` to the repository's
+  # config: `git config bash.showDirtyState false`.
+  typeset -g POWERLEVEL9K_VCS_MAX_INDEX_SIZE_DIRTY=-1
+
+  # Don't show Git status in prompt for repositories whose workdir matches this pattern.
+  # For example, if set to '~', the Git repository at $HOME/.git will be ignored.
+  # Multiple patterns can be combined with '|': '~(|/foo)|/bar/baz/*'.
+  typeset -g POWERLEVEL9K_VCS_DISABLED_WORKDIR_PATTERN='~'
+
+  # Disable the default Git status formatting.
+  typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
+  # Install our own Git status formatter.
+  typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
+  typeset -g POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((my_git_formatter(0)))+${my_git_format}}'
+  # Enable counters for staged, unstaged, etc.
+  typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
+
+  # Untracked Icon
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
+
+  # Icon color.
+  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=76
+  typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=244
+```
+
+I have edited colors and changed config little. Add this block to you local **~/.p10k.zsh** file and check the git prompt style.
+
+---
+
+After configuring the plugins and zshrc, these are the final config files
+- [zshrc](https://gist.github.com/santhalakshminarayana/a1973dec0a0124a89fec6967e4a46399)
+- [p10k.zsh](https://gist.github.com/santhalakshminarayana/0e0fe22a24b03f949f20ff5b59b898bd)
+
+--- 
+
+ZSH supports tons of plugins that help users with day-to-day tasks. Instead of manually adding those plugins, use [oh-my-zsh](https://ohmyz.sh) for ZSH that natively comes with more themes, styles, and other configs.

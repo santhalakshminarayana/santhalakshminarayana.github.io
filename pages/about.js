@@ -530,6 +530,31 @@ export default function About_Page(props) {
               </div>
 
               <div className="tech-stack-division">
+                <SiMysql className="tech-stack-icon" />
+                <p className="tech-stack-name">MySQL</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiRedis className="tech-stack-icon" />
+                <p className="tech-stack-name">Redis</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiNginx className="tech-stack-icon" />
+                <p className="tech-stack-name">Nginx</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiDocker className="tech-stack-icon" />
+                <p className="tech-stack-name">Docker</p>
+              </div>
+
+              <div className="tech-stack-division">
+                <SiKubernetes className="tech-stack-icon" />
+                <p className="tech-stack-name">Kubernetes</p>
+              </div>
+
+              <div className="tech-stack-division">
                 <SiJavascript className="tech-stack-icon" />
                 <p className="tech-stack-name">Javascript</p>
               </div>
@@ -567,51 +592,6 @@ export default function About_Page(props) {
               <div className="tech-stack-division">
                 <SiOpencv className="tech-stack-icon" />
                 <p className="tech-stack-name">OpenCV</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiMysql className="tech-stack-icon" />
-                <p className="tech-stack-name">MySQL</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiRedis className="tech-stack-icon" />
-                <p className="tech-stack-name">Redis</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiGit className="tech-stack-icon" />
-                <p className="tech-stack-name">Git</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiNginx className="tech-stack-icon" />
-                <p className="tech-stack-name">Nginx</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiDocker className="tech-stack-icon" />
-                <p className="tech-stack-name">Docker</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiKubernetes className="tech-stack-icon" />
-                <p className="tech-stack-name">Kubernetes</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiFlutter className="tech-stack-icon" />
-                <p className="tech-stack-name">Flutter</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiDart className="tech-stack-icon" />
-                <p className="tech-stack-name">Dart</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiMdx className="tech-stack-icon" />
-                <p className="tech-stack-name">MDX</p>
               </div>
             </div>
           </div>

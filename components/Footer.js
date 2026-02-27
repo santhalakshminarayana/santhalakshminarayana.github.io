@@ -22,6 +22,7 @@ class Icon extends Component {
     };
     this.icon_font_size = this.props.icon_size;
     this.normal_color = this.props.normal_color;
+    this.common_color = c6 + "aa";
     this.github_color = "#24292e";
     this.linkedin_color = "#0e76a8";
     this.medium_color = "black";
@@ -39,7 +40,7 @@ class Icon extends Component {
             }}
             onMouseEnter={() => {
               this.setState(() => ({
-                github_current_color: this.github_color,
+                github_current_color: this.common_color,
               }));
             }}
             onMouseLeave={() => {
@@ -56,7 +57,7 @@ class Icon extends Component {
             }}
             onMouseEnter={() => {
               this.setState(() => ({
-                linkedin_current_color: this.linkedin_color,
+                linkedin_current_color: this.common_color,
               }));
             }}
             onMouseLeave={() => {
@@ -182,7 +183,7 @@ export default function Footer(props) {
 
       {props.need_copy_right == true ? (
         <div className="copy-right-container">
-          <p className="copy-right-text">Santha Lakshmi Narayana &#169; 2025</p>
+          <p className="copy-right-text">Santha Lakshmi Narayana &#169; 2026</p>
         </div>
       ) : null}
 
