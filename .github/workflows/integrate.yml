@@ -20,10 +20,9 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install and Build
-        uses: actions/setup-node@v1
-      - run: npm install
+        uses: actions/setup-node@v6
+      - run: npm install --legacy-peer-deps
       - run: npm run build
-      - run: npm run export
         env:
           CI: true
       - run: touch out/.nojekyll
