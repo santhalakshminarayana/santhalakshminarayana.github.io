@@ -254,7 +254,7 @@ const home_page_url = "https://santhalakshminarayana.github.io/";
 
 export default function Blog({ postMetadata, postContent }) {
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div id="blog-content" style={{ minHeight: "100vh" }}>
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

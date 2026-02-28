@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Head from "next/head";
 
 import "../styles/GlobalStyles.css";
+import BlogProgress from "../components/BlogProgress";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -13,6 +14,7 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
 
+      <BlogProgress />
       <Component {...pageProps} />
     </>
   );
