@@ -54,8 +54,8 @@ Redirection controls where to get input and where to send output.
 **Input Redirection**
   - Send stdin to a command from a file as: *command < input.txt*
   - | (Pipe): Pipe connects the stdout of the command on the left to the stdin of the command on the right.
-  - Process substitution: Process substitution passes outputs of multiple passes to stdin for another command. Ex: *cat <(ls -l) <(ls -la)*
-  - **herestring**: Here-string (<<<) passes string directly to standard input for a command. Instead of *echo "abc def" | wc -w*, use *wc -w <<< "abc def*
+  - Process substitution: Process substitution passes outputs of multiple passes to stdin for another command. Ex: *cat \<(ls -l) \<(ls -la)*
+  - **herestring**: Here-string \(\<\<\<\) passes string directly to standard input for a command. Instead of *echo "abc def" | wc -w*, use *wc -w \<\<\< "abc def"*
   - **heredocs**: Here documents pass multi-line input/strings to a command. The command should be anything that accepts the standard input. 
 ```shell
 # Syntax
@@ -72,7 +72,7 @@ CONF
 
 **Output Redirection**
   - For saving output to a file from a command, using the *>* operator will create a new file and write to it. If the file doesn't exist it will create a new file. 
-  - *>>* will append to the existing file.
+  - *\>>* will append to the existing file.
   - Redirect stderr to a file: *command 2> error.log*
   - Redirect stdout and stderr: *commmand > res.txt 2> err.txt*
   - Redirect both stdout and stderr to the same file: *command &> log.txt* or *command > log.txt 2>&1*
@@ -153,15 +153,15 @@ echo ${dir_name}_prod/env # /usr/bin_prod/env
 
 For expressions: 
   - Use *$((x + y))*
-  - Or *$((\$x + \$y))*
-  - Or *(( x += 1))*
+  - Or *\$((\$x + $y))*
+  - Or *(( x += 1 ))*
   > Note: This will concat the numbers: *z=\$x+\$y*
 
 Command substitution: capture output of a command to another command
   - *x=\`echo "Hi "$name\`*
-  - *x=$(echo "Hi "\$name)*
+  - *x=\$(echo "Hi "$name\)*
 
-For arithmetic operations natural results use *bc -l <<< "\$x/\$y"*
+For arithmetic operations natural results use *bc -l \<\<\< "\$x/\$y"*
 
 ### Conditional statements
 - The *test* command takes an expression and evaluates it. Successful test returns with status code 0.
@@ -467,7 +467,7 @@ echo $(f)                   # Value is 10
 echo "function value is $x" # function value is
 ```
 
-If functions are called inside command substitution like `$(func1 par1 par2)` and the stdout is captured, then every function statements stdout will be returned like
+If functions are called inside command substitution like *$(func1 par1 par2)* and the stdout is captured, then every function statements stdout will be returned like
 ```shell
 #!/bin/bash
 

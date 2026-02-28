@@ -3,25 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS=--openssl-legacy-provider next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy": "NODE_OPTIONS=--openssl-legacy-provider npm run build",
+    "deploy": "npm run build",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@next/mdx": "^10.2.3",
+    "@next/mdx": "^16.1.6",
     "gray-matter": "^4.0.3",
     "next": "^16.1.6",
-    "next-compose-plugins": "^2.2.1",
-    "next-mdx-remote": "3.0.0",
-    "next-sitemap": "^1.6.192",
-    "npm": "^8.1.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-icons": "^4.2.0",
-    "react-syntax-highlighter": "^15.4.4",
-    "rehype-katex": "3.0.0",
-    "remark-math": "3.0.0"
+    "next-mdx-remote": "^6.0.0",
+    "next-sitemap": "^4.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.9.0",
+    "react-syntax-highlighter": "^16.1.1",
+    "rehype-katex": "7.0.1",
+    "remark-math": "6.0.0"
   }
 }

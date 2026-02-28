@@ -1,43 +1,27 @@
-const path = require("path");
 const ghPages = process.env.DEPLOY_TARGET === "gh-pages";
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+});
 
-const withPlugins = require("next-compose-plugins");
-const MDX = require("@next/mdx");
-
-// next.js configuration
 const nextConfig = {
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.node = {
-        fs: "empty",
-      };
-    }
-    config.resolve.alias.images = path.join(__dirname, "images");
-    return config;
-  },
   pageExtensions: ["js", "jsx", "md", "mdx"],
-  exportPathMap: function () {
-    return {
-      "/": { page: "/" },
-      "/about": { page: "/about" },
-    };
-  },
-  basePath: ghPages ? "/santhalakshminarayana.github.io/" : "",
-  assetPrefix: ghPages ? "/santhalakshminarayana.github.io/" : "",
+
+  // Static export configuration
   output: "export",
+  exportPathMap: {
+    "/": { page: "/" },
+    "/about": { page: "/about" },
+  },
+
+  // GitHub Pages settings
+  basePath: ghPages ? "/santhalakshminarayana.github.io" : "",
+  assetPrefix: ghPages ? "/santhalakshminarayana.github.io/" : "",
+
+  // Turbopack support
+  turbopack: {},
 };
 
-module.exports = withPlugins(
-  [
-    [
-      MDX,
-      {
-        extension: /\.mdx?$/,
-      },
-    ],
-  ],
-  nextConfig
-);
+module.exports = withMDX(nextConfig);
 
 /* Next Optimized Images configuration
 

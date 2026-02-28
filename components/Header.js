@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
-
 import Tags from "./Tags.js";
+import styles from "../styles/Header.module.css";
 
 const c1 = "#071013",
   c2 = "#fffecb",
@@ -23,14 +23,14 @@ export default function Header(props) {
 
   function handleTagsClick(e) {
     e.preventDefault();
-    if (showTags == "none") setShowTags("block");
+    if (showTags === "none") setShowTags("block");
     else setShowTags("none");
   }
 
   return (
-    <div className="header">
-      <div className="header-container">
-        <div className="header-left">
+    <div style={{ background: header }}>
+      <div className={styles.headerContainer}>
+        <div className={styles.headerLeft}>
           <Link href="/">
             {/*
     			<picture>
@@ -39,24 +39,82 @@ export default function Header(props) {
 	            <img src={require('../images/santha-lakshmi-narayana-logo.png')} alt = 'Logo' />
 	          </picture>
 	          */}
-            <img src={"/images/santha-lakshmi-narayana-logo.png"} alt="Logo" />
+            <img
+              src={"/images/santha-lakshmi-narayana-logo.png"}
+              alt="Logo"
+              className={styles.logo}
+            />
           </Link>
-          <Link href="/" id="name" legacyBehavior>
-            <a id="name">
-              <b>Santha Lakshmi Narayana</b>
-            </a>
+
+          <Link
+            href="/"
+            className={`${styles.headerLeftLink} ${styles.name}`}
+            style={{ color: header_left_link }}
+            onMouseEnter={(e) =>
+              (e.target.style.color = header_left_link_hover)
+            }
+            onMouseLeave={(e) =>
+              (e.target.style.color = header_left_link)
+            }
+            onMouseDown={(e) =>
+              (e.target.style.color = header_left_link_active)
+            }
+          >
+            <b>Santha Lakshmi Narayana</b>
           </Link>
         </div>
 
-        <div className="header-right">
-          <Link href="/about" legacyBehavior>
-            <a>About</a>
+        <div className={styles.headerRight}>
+          <Link
+            href="/about"
+            className={styles.headerRightLink}
+            style={{ color: header_right_link }}
+            onMouseEnter={(e) =>
+              (e.target.style.color = header_right_link_hover)
+            }
+            onMouseLeave={(e) =>
+              (e.target.style.color = header_right_link)
+            }
+            onMouseDown={(e) =>
+              (e.target.style.color = header_right_link_active)
+            }
+          >
+            About
           </Link>
-          <a href="#" onClick={handleTagsClick}>
+
+          <a
+            href="#"
+            onClick={handleTagsClick}
+            className={styles.headerRightLink}
+            style={{ color: header_right_link }}
+            onMouseEnter={(e) =>
+              (e.target.style.color = header_right_link_hover)
+            }
+            onMouseLeave={(e) =>
+              (e.target.style.color = header_right_link)
+            }
+            onMouseDown={(e) =>
+              (e.target.style.color = header_right_link_active)
+            }
+          >
             Tags
           </a>
-          <Link href="/" legacyBehavior>
-            <a>Home</a>
+
+          <Link
+            href="/"
+            className={styles.headerRightLink}
+            style={{ color: header_right_link }}
+            onMouseEnter={(e) =>
+              (e.target.style.color = header_right_link_hover)
+            }
+            onMouseLeave={(e) =>
+              (e.target.style.color = header_right_link)
+            }
+            onMouseDown={(e) =>
+              (e.target.style.color = header_right_link_active)
+            }
+          >
+            Home
           </Link>
         </div>
       </div>
@@ -64,98 +122,6 @@ export default function Header(props) {
       <div style={{ display: showTags }}>
         <Tags />
       </div>
-
-      <style jsx>{`
-        .header-container {
-          display: flex;
-          flex: 1;
-          flex-direction: row;
-          padding: 10px 5vw 10px 5vw;
-          background: ${header};
-        }
-
-        .header-left {
-          display: flex;
-          flex: 1;
-          align-items: center;
-        }
-
-        .header-left a {
-          font-family: "Source Sans Pro", sans-serif;
-          text-decoration: none;
-          color: ${header_left_link};
-        }
-
-        img {
-          display: flex;
-          flex: 1;
-          width: calc(1.2rem + 1vw);
-          max-width: calc(1.2rem + 1vw);
-          height: auto;
-          margin: 0 5px 0 5px;
-        }
-
-        img:hover {
-          cursor: pointer;
-        }
-
-        .header-left a:hover {
-          color: ${header_left_link_hover};
-        }
-
-        .header-left a:active {
-          color: ${header_left_link_active};
-        }
-
-        .header-right {
-          display: flex;
-          flex: 3;
-          flex-direction: row-reverse;
-          align-items: center;
-        }
-
-        .header-right a {
-          padding: 0 1vw 0 1vw;
-          font-family: "Source Sans Pro", sans-serif;
-          text-decoration: none;
-          color: ${header_right_link};
-        }
-
-        .header-right a:hover {
-          color: ${header_right_link_hover};
-        }
-
-        .header-right a:active {
-          color: ${header_right_link_active};
-        }
-
-        @media screen and (max-width: 920px) {
-          .header-container {
-            padding: 10px 2vw 10px 2vw;
-          }
-
-          #name {
-            display: none;
-          }
-
-          img {
-            display: flex;
-          }
-        }
-
-        @media screen and (max-width: 480px) {
-          .header-container {
-            padding: 10px 2vw 10px 2vw;
-            overflow-x: scroll;
-          }
-        }
-
-        @media screen and (max-width: 300px) {
-          img {
-            display: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -7,22 +7,13 @@ import {
   SiGo,
   SiPython,
   SiJavascript,
-  SiTypescript,
-  SiKeras,
-  SiTensorflow,
-  SiPytorch,
-  SiOpencv,
   SiReact,
   SiNextdotjs,
   SiMysql,
   SiRedis,
-  SiGit,
-  SiNginx,
   SiDocker,
   SiKubernetes,
-  SiFlutter,
-  SiDart,
-  SiMdx,
+  SiAmazonaws,
 } from "react-icons/si";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 
@@ -51,6 +42,19 @@ const organization_name = c5,
 const tech_stack_group_heading = c5,
   tech_stack_icon = c4,
   tech_stack_name = c4;
+
+const skills = {
+  "Go": SiGo,
+  "Python": SiPython,
+  "AWS": SiAmazonaws,
+  "MySQL": SiMysql,
+  "Redis": SiRedis,
+  "Docker": SiDocker,
+  "Kubernetes": SiKubernetes,
+  "JS/TS": SiJavascript,
+  "React": SiReact,
+  "Next.js": SiNextdotjs,
+}
 
 const styles = `
   .about-contanier {
@@ -519,80 +523,12 @@ export default function About_Page(props) {
 
             <p className="tech-stack-group-heading">Tools & Skills</p>
             <div className="tech-stack-group">
-              <div className="tech-stack-division">
-                <SiPython className="tech-stack-icon" />
-                <p className="tech-stack-name">Python</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiGo className="tech-stack-icon" />
-                <p className="tech-stack-name">Go</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiMysql className="tech-stack-icon" />
-                <p className="tech-stack-name">MySQL</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiRedis className="tech-stack-icon" />
-                <p className="tech-stack-name">Redis</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiNginx className="tech-stack-icon" />
-                <p className="tech-stack-name">Nginx</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiDocker className="tech-stack-icon" />
-                <p className="tech-stack-name">Docker</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiKubernetes className="tech-stack-icon" />
-                <p className="tech-stack-name">Kubernetes</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiJavascript className="tech-stack-icon" />
-                <p className="tech-stack-name">Javascript</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiTypescript className="tech-stack-icon" />
-                <p className="tech-stack-name">Typescript</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiReact className="tech-stack-icon" />
-                <p className="tech-stack-name">React & Reat Native</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiNextdotjs className="tech-stack-icon" />
-                <p className="tech-stack-name">Next</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiKeras className="tech-stack-icon" />
-                <p className="tech-stack-name">Keras</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiTensorflow className="tech-stack-icon" />
-                <p className="tech-stack-name">Tensorflow</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiPytorch className="tech-stack-icon" />
-                <p className="tech-stack-name">Pytorch</p>
-              </div>
-
-              <div className="tech-stack-division">
-                <SiOpencv className="tech-stack-icon" />
-                <p className="tech-stack-name">OpenCV</p>
-              </div>
+              {Object.entries(skills).map(([skillName, IconComponent]) => (
+                <div key={skillName} className="tech-stack-division">
+                  <IconComponent className="tech-stack-icon" />
+                  <p className="tech-stack-name">{skillName}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

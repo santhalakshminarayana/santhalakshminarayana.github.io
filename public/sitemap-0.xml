@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://santhalakshminarayana.github.io</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/about</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/advanced-golang-memory-model-concurrency</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/chromatic-adaptation</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/color-science</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/color-theory</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/concurrency-patterns-python</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/create-a-notes-app-with-flutter</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/doppalf-rag-powered-ai-chatbot</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/go-gotchas-and-good-practices</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/linux-bash-reference</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/linux-commands-reference</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/mysql-performance-optimization-techniques</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/retinex-image-enhancement</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/retinex-theory-of-color-vision</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/software-development-comprehensive-guide</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/super-fast-python-cython</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/super-fast-python-good-practices</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/super-fast-python-multi-processing</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/super-fast-python-numba</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/super-fast-python-why-python-slow</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/whiteboard-image-enhancement-opencv-python</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://santhalakshminarayana.github.io/blog/zsh-configuration</loc><lastmod>2026-02-28T13:15:59.367Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+</urlset>

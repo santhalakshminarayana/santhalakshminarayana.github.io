@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v6.0.2
         with:
           persist-credentials: false
 
@@ -21,14 +21,14 @@ jobs:
 
       - name: Install and Build
         uses: actions/setup-node@v6
-      - run: npm install --legacy-peer-deps
+      - run: npm install
       - run: npm run build
         env:
           CI: true
       - run: touch out/.nojekyll
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.8.0
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages

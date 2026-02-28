@@ -1,0 +1,14 @@
+.tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1vw 5vw;
+}
+
+.tagLink {
+    font-family: "Share Tech Mono", monospace;
+    margin: 0 1em;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+}

@@ -25,7 +25,7 @@ This is a comprehensive list of linux commands that are most useful for develope
 
 ### Input
 
-- **read <variable\>** or **readarray <array\>**: to read input into a single variable or an array
+- **read \<variable\>** or **readarray \<array\>**: to read input into a single variable or an array
 
 - **xargs**: pass standard output/input as a list of command variables for another command
   - *ls | xargs -n 3 echo*: pass up to 3 names to echo
@@ -34,8 +34,8 @@ This is a comprehensive list of linux commands that are most useful for develope
 - **|** pipe: pass standard output from another command as standard input stream to another
   - *ls -l | wc*: pass the output of *ls -l* to *wc* as an input stream
 
-- **<**: pass stddin to a command from a file
-  - *grep <pattern\> < input.txt*
+- **\<**: pass stddin to a command from a file
+  - *grep \<pattern\> < input.txt*
 
 ---
 
@@ -128,10 +128,10 @@ This is a comprehensive list of linux commands that are most useful for develope
   - *sed -n '10,20p' file.txt*: print only lines 10 through 20
 
 - **awk**: text processing for each line
-  - *awk '{print $1, $3}' file.txt*: print the 1st and 3rd fields of each line
-  - *awk -F: '{print $1}' /etc/passwd*: using colon as field separator, print the first field
-  - *awk '$3 > 100 {print $0}' data.txt*: print lines where the 3rd field is greater than 100
-  - list file sizes in current directory: *ls -lh | awk 'substr($1, 1, 1) != "d" { printf "%s\t", $5 } {for (i=9; i<=NF; i++) printf "%s ", $i} {print ""}'*
+  - *awk '\{print \$1, \$3\}' file.txt*: print the 1st and 3rd fields of each line
+  - *awk -F: '\{print \$1\}' /etc/passwd*: using colon as field separator, print the first field
+  - *awk '\$3 > 100 \{print \$0\}' data.txt*: print lines where the 3rd field is greater than 100
+  - list file sizes in current directory: *ls -lh | awk 'substr\(\$1, 1, 1) != "d" \{ printf "%s\t", \$5 \} \{for \(i=9; i\<=NF; i++\) printf "%s ", \$i\} \{print ""\}'*
 
 - **tr**: translates, deletes, or squeezes characters
   - *tr 'a-z' 'A-Z' < file.txt*: convert lowercase to uppercase
@@ -151,44 +151,44 @@ This is a comprehensive list of linux commands that are most useful for develope
 
 - **ps**: (process status) shows processes running in the current shell for the current user
   - *ps aux*: shows all processes running on the system including background
-      - `a`: for all users
-      - `u`: add additional user-oriented information
-      - `x`: shows background running processes also (not attached to terminal/foreground)
+      - **a**: for all users
+      - **u**: add additional user-oriented information
+      - **x**: shows background running processes also (not attached to terminal/foreground)
 
 - **top**, **htop**: monitor system performance, especially CPU, memory, and process activity, in real-time
   - *htop -d 10*: delay between updates, in tenths of seconds (tenth of a second is 1 second)
 
 - **kill**: send termination signal to a process with pid (process id)
-  - *kill -9 <pid\>*: force kill a process
+  - *kill -9 \<pid\>*: force kill a process
 
 - **killall**: kill all processes with a name
-  - *kill -9v <process-name\>*: force kill all processes with a name and show what's being killed
+  - *kill -9v \<process-name\>*: force kill all processes with a name and show what's being killed
 
 ### Network
 
 - **netstat**: shows network connections, routing tables, interface stats, etc. Options:
-  - `-i`: show network interfaces
-  - `-t`: show tcp connections
-  - `-u`: show udp connections
-  - `-l`: show listening ports
-  - `-a`: show all connections (listening + non-listening) 
-  - `-r`: show routing tables
-  - `-pl`: show process-id/program name using the socket
-  - `-n`: show addresses and ports in numeric form. Use with other options like (-tn)
+  - *-i*: show network interfaces
+  - *-t*: show tcp connections
+  - *-u*: show udp connections
+  - *-l*: show listening ports
+  - *-a*: show all connections (listening + non-listening) 
+  - *-r*: show routing tables
+  - *-pl*: show process-id/program name using the socket
+  - *-n*: show addresses and ports in numeric form. Use with other options like (-tn)
 
-- **ss**: displays network socket information, including TCP, UDP, UNIX domain sockets, etc. Advanced command than `netstat`. Options:
-  - `-t`: show tcp connections
-  - `-u`: show udp connections
-  - `-l`: show listening ports
-  - `-a`: show all sockets (listening + non-listening)
-  - `-s`: summar statistics of socket usage
-  - `-4/-6`: show only IPv4 / IPv6 sockets
-  - `-n`: show numeric IPs and ports (skip DNS)
-  - `-p`: show processes using the sockets
+- **ss**: displays network socket information, including TCP, UDP, UNIX domain sockets, etc. Advanced command than **netstat**. Options:
+  - *-t*: show tcp connections
+  - *-u*: show udp connections
+  - *-l*: show listening ports
+  - *-a*: show all sockets (listening + non-listening)
+  - *-s*: summar statistics of socket usage
+  - *-4/-6*: show only IPv4 / IPv6 sockets
+  - *-n*: show numeric IPs and ports (skip DNS)
+  - *-p*: show processes using the sockets
 
 - **nslookup**: retrieve the detailed information like the IP address or DNS record for a hostname/address
   - *nslookup example.com*: dns lookup for the given domain. Lists "A record" and "CNAME" record (if any)
-  - *nslookup <ip-address\>*: reverse dns lookup
+  - *nslookup \<ip-address\>*: reverse dns lookup
   - *nslookup -type=soa example.com*: state of authority details for a domain
 
 - **tracepath**, **traceroute**: trace the IP packet flow over the network
@@ -221,7 +221,7 @@ This is a comprehensive list of linux commands that are most useful for develope
 
 - **wget**: download files from the server
   - *wget -b https://server.com/file.txt -O filename.txt*: download in background and save as "filename.txt"
-  - *wget -c <url\>*: resume partial download
+  - *wget -c \<url\>*: resume partial download
   - *wget -i urls.txt*: read URLs from a file and download them
   - *wget --no-check-certificate https://example.com/file.txt*: ignore SSL certification errors
 
@@ -287,14 +287,14 @@ This is a comprehensive list of linux commands that are most useful for develope
   - *tar -xzf archive.tar.gz*: extract a tar.gz archive
   - *tar -C /path/to/target/dir -xzf archive.tar*: extract (tar.gz) to specific directory
 
-- **gzip**, **gunzip**: compress or decompress single files using `.gz`
+- **gzip**, **gunzip**: compress or decompress single files using **.gz**
   - *gzip file.txt*: compress a file (removes original, creates file.txt.gz)
-  - *gunzip file.txt.gz*: decompress a `.gz` file
+  - *gunzip file.txt.gz*: decompress a **.gz** file
   - *gzip -k file.txt*: compress file but keep the original
   - *gzip -r dir/*: recursively compress all files in a directory
   - *zcat file.txt.gz*: view compressed file without decompressing
 
-- **zip**, **unzip**: create or extract `.zip` archives
+- **zip**, **unzip**: create or extract **.zip** archives
   - *zip archive.zip file1 dir/*: compress files or directories into a zip archive
   - *unzip archive.zip*: extract contents of a zip file
   - *unzip -l archive.zip*: list contents of a zip file

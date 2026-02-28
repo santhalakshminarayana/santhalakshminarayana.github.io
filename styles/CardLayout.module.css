@@ -1,0 +1,119 @@
+.cardLayout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    margin: 1vh 11vw;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 1vh 0.87vw;
+    border-bottom: 3px solid transparent;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    max-width: 450px;
+}
+
+.cardContainer:hover {
+    transform: scale(0.99);
+}
+
+.imgContainer {
+    width: 100%;
+    max-width: 100%;
+}
+
+.image {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 2/1;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.infoContainerLink {
+    font-family: "Maven Pro", sans-serif;
+    font-weight: bold;
+    font-size: calc(20px + (26 - 20) * ((100vw - 300px) / (1600 - 300)));
+    text-decoration: none;
+    overflow-wrap: break-word;
+    transition: color 0.2s ease;
+}
+
+.date {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: calc(15px + (18 - 15) * ((100vw - 300px) / (1600 - 300)));
+    font-weight: 600;
+    margin: 0.5vh 0;
+}
+
+.descriptionContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.description {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: calc(15px + (18 - 15) * ((100vw - 300px) / (1600 - 300)));
+    max-width: 100%;
+}
+
+.tagsContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 2vh 0;
+}
+
+.tagsContainerTag {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.tagLink {
+    font-family: "Share Tech Mono", monospace;
+    font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1600 - 300)));
+    text-decoration: none;
+    margin-right: 1em;
+    border-bottom: 1px dashed;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 1800px) {
+    .cardLayout {
+        grid-template-columns: repeat(3, 1fr);
+        margin: 1vh 7vw;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .cardLayout {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 1vh 5vw;
+    }
+
+    .cardContainer {
+        margin: 1vh 1vw;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .cardLayout {
+        grid-template-columns: repeat(1, 1fr);
+        margin: 1vh 5vw;
+    }
+
+    .cardContainer {
+        margin: 1vh 0;
+    }
+}

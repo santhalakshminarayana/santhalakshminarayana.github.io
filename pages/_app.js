@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Head from "next/head";
 
-import "../styles/global_styles.css";
+import "../styles/GlobalStyles.css";
 
 export default function App({ Component, pageProps }) {
   return (
