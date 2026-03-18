@@ -443,8 +443,8 @@ export default function About_Page(props) {
           <div className="about-info">
             <p className="about-heading">#Don't study but learn</p>
             <p className="about-info-description">
-              Hello, I'm <b>Santha Lakshmi Narayana</b>, Senior Software
-              Engineer at Nouveau Labs in Bengaluru, India.
+              Hello, I'm <b>Santha Lakshmi Narayana</b>, Application Development
+              Engineer at Arista Networks in Bengaluru, India.
             </p>
 
             <p className="about-info-description">
@@ -469,6 +469,27 @@ export default function About_Page(props) {
               <div className="organization-info-container">
                 <img
                   className="organization-logo"
+                  src="/images/about/arista-networks-logo.png"
+                  alt="Nouveau Labs"
+                />
+                <p className="organization-name">Arista Networks</p>
+              </div>
+
+              <div className="roles-container">
+                <div className="role-container">
+                  <div className="role-buffer">
+                    <div className="role-buffer-dot"></div>
+                  </div>
+                  <div className="role">
+                    <p className="role-name">Application Development Engineer</p>
+                    <p className="role-duration">Mar 2026 to present</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="organization-info-container">
+                <img
+                  className="organization-logo"
                   src="/images/about/nouveau-labs-logo.png"
                   alt="Nouveau Labs"
                 />
@@ -482,7 +503,7 @@ export default function About_Page(props) {
                   </div>
                   <div className="role">
                     <p className="role-name">Senior Software Engineer</p>
-                    <p className="role-duration">Oct 2022 to present</p>
+                    <p className="role-duration">Oct 2022 to Mar 2026</p>
                   </div>
                 </div>
               </div>
